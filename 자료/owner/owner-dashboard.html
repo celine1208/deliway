@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>점주 대시보드</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style/common.css">
-    <link rel="stylesheet" href="./style/dashboard-owner.css">
-    <script src="./js/common.js" defer></script>
+    <link rel="stylesheet" href="./css/owner-common.css">
+    <link rel="stylesheet" href="./css/owner-dashboard.css">
+    <script src="./js/owner-common.js" defer></script>
+    <script src="./js/owner-dashboard.js" defer></script>
 </head>
 <body>
+    <button class="sidebar-toggle" aria-label="메뉴 열기">
+        <i class="ri-menu-line"></i>
+    </button>
     <!-- Navigation -->
     <aside class="sidebar" role="navigation">
         <div class="sidebar-brand">
@@ -21,43 +25,37 @@
         <nav>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./dashboard-owner.html" class="active">
+                    <a href="./owner-dashboard.html" class="active">
                         <i class="ri-dashboard-line"></i>
                         대시보드
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./reservation-owner.html">
+                    <a href="./owner-reservation.html">
                         <i class="ri-calendar-line"></i>
                         예약 관리
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./store-owner.html">
+                    <a href="./owner-store.html">
                         <i class="ri-store-line"></i>
                         매장 정보
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./menu-owner.html">
+                    <a href="./owner-menu.html">
                         <i class="ri-restaurant-line"></i>
                         메뉴 관리
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./review-owner.html">
-                        <i class="ri-star-line"></i>
-                        리뷰 관리
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="./sales-owner.html">
+                    <a href="./owner-sales.html">
                         <i class="ri-bar-chart-line"></i>
                         매출 통계
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./setting-owner.html">
+                    <a href="./owner-setting.html">
                         <i class="ri-settings-line"></i>
                         설정
                     </a>
@@ -65,7 +63,6 @@
             </ul>
         </nav>
     </aside>
-
     <main class="main-content">
         <header class="header">
             <div class="store-info">
@@ -77,7 +74,7 @@
             </div>
             <div class="quick-actions">
                 <button class="btn btn-primary">예약 시간 관리</button>
-                <button class="btn btn-primary">영업 상태 변경</button>
+                <button class="btn btn-red">영업 상태 변경</button>
             </div>
         </header>
 
@@ -112,6 +109,7 @@
                 </div>
                 <div class="reservation-list">
                     <div class="reservation-item">
+                        <span class="status-badge status-pending">대기중</span>
                         <div class="reservation-info">
                             <h4>김손님 (4인)</h4>
                             <div class="reservation-meta">
@@ -119,18 +117,23 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <span class="status-badge status-pending">대기중</span>
                             <button class="btn btn-primary">승인</button>
+                            <button class="btn btn-red">거절</button>
                         </div>
                     </div>
                     <div class="reservation-item">
+                        <span class="status-badge status-pending">대기중</span>
                         <div class="reservation-info">
                             <h4>이손님 (2인)</h4>
                             <div class="reservation-meta">
                                 오늘 19:00 | 테이블 5
                             </div>
                         </div>
-                        <span class="status-badge status-confirmed">확정</span>
+                        <!-- 승인 시 여기에 상태 뱃지가 추가됨 -->
+                        <div class="action-buttons">
+                            <button class="btn btn-primary">승인</button>
+                            <button class="btn btn-red">거절</button>
+                        </div>
                     </div>
                 </div>
             </section>

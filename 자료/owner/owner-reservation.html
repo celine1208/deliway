@@ -6,12 +6,15 @@
     <meta name="description" content="맛집 파트너 예약 관리 시스템">
     <title>예약 관리 시스템</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style/common.css">
-    <link rel="stylesheet" href="./style/reservation-owner.css">
-    <script src="./js/common.js" defer></script>
-</head>
+    <link rel="stylesheet" href="./css/owner-common.css">
+    <link rel="stylesheet" href="./css/owner-reservation.css">
+    <script src="./js/owner-common.js" defer></script>
+    <script src="./js/owner-reservation.js" defer></script>
 <body>
-    <!-- 네비게이션 영역 -->
+    <button class="sidebar-toggle" aria-label="메뉴 열기">
+        <i class="ri-menu-line"></i>
+    </button>
+    <!-- Navigation -->
     <aside class="sidebar" role="navigation">
         <div class="sidebar-brand">
             <div class="brand-logo">
@@ -22,43 +25,37 @@
         <nav>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./dashboard-owner.html">
+                    <a href="./owner-dashboard.html">
                         <i class="ri-dashboard-line"></i>
                         대시보드
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./reservation-owner.html">
+                    <a href="./owner-reservation.html"  class="active">
                         <i class="ri-calendar-line"></i>
                         예약 관리
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./store-owner.html">
+                    <a href="./owner-store.html">
                         <i class="ri-store-line"></i>
                         매장 정보
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./menu-owner.html">
+                    <a href="./owner-menu.html">
                         <i class="ri-restaurant-line"></i>
                         메뉴 관리
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./review-owner.html">
-                        <i class="ri-star-line"></i>
-                        리뷰 관리
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="./sales-owner.html">
+                    <a href="./owner-sales.html">
                         <i class="ri-bar-chart-line"></i>
                         매출 통계
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./setting-owner.html">
+                    <a href="./owner-setting.html">
                         <i class="ri-settings-line"></i>
                         설정
                     </a>
@@ -66,7 +63,6 @@
             </ul>
         </nav>
     </aside>
-
     <!-- 메인 콘텐츠 영역 -->
     <main class="main-content" role="main">
         <!-- 헤더 영역 -->
