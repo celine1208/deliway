@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+html,body {
+    height: 100%;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 100px 25px;
+}
+
+header a{
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    text-decoration: none;
+    font-size: 22px;
+    color: var(--black);
+}
+main {
+    width: 100%;
+}
+h2 {
+    margin-bottom: 20px;
+}
+
+label{
+    display: flex;
+    padding: 20px 25px;
+}
+#agree{
+    border-radius: 10px;
+    background-color: var(--background-grey);
+}
+span{
+    padding-left: 10px;
+}
+
+label span{
+    color: var(--primary);
+}
+
+.optional{
+    color: var(--text-grey);
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--text-grey);
+    border-radius: 50%;
+    margin-right: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.next {
+    position: fixed;
+    bottom: 20px;
+    left: 25px;
+    right: 25px;
+    height: 70px;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

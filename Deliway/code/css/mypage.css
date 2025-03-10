@@ -1,0 +1,210 @@
+@charset "utf-8";
+
+/* mypage.css */
+.page-header {
+    margin: 30px 25px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-header .title {
+    text-align: center;
+}
+
+.page-header a {
+    color: var(--black);
+}
+
+.page-header .icon {
+    display: block;
+    font-size: 24px;
+}
+
+/* 내 정보 섹션 */
+.myinfo {
+    position: relative;
+    padding: 60px 32px 40px;
+    background-color: var(--white);
+    border-radius: 12px;
+}
+
+.myprofile {
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.myprofile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.profileWrap {
+    flex-grow: 1;
+}
+
+.profileWrap dl {
+    margin: 0 0 8px 0;
+}
+
+.profileWrap .title {
+    margin: 0;
+}
+
+.follow {
+    display: flex;
+}
+
+.follow dl {
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.follow dt {
+    color: var(--text-grey);
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+.myinfo-btn {
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.myinfo-btn a {
+    display: block;
+    /* width: 140px; */
+    padding: 15px 20px;
+    border: 1px solid var(--primary);
+    border-radius: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-grey);
+}
+
+.store-registration {
+    display: block;
+    margin-top: 10px;
+}
+
+/* 나의 메뉴 섹션 */
+.mymenu {
+    position:relative;
+    padding-bottom: 20px;
+    /* padding-bottom: 40px; */
+    background-color: var(--white);
+}
+
+/* .mymenu::after {
+    position:absolute;
+    bottom:0;
+    left:0;
+    content: '';
+    height: 6px;
+    width: 100%;
+    background-color: var(--background-grey);
+} */
+
+.mymenuWrap {
+    margin: 0 25px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    padding: 0 44px;
+}
+
+.mymenuWrap li {
+    text-align: center;
+}
+
+.mymenuWrap a {
+    padding-top: 45px;
+    display: block;
+    width: 50px;
+    color: var(--black);
+    text-align: center;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 40px;
+}
+
+.mymenuWrap li:nth-child(1) a{
+    background-image: url(../../icon/myreservation.png);
+}
+
+.mymenuWrap li:nth-child(2) a {
+    background-position-x: 11px;
+    background-image: url(../../icon/myreview.png);
+    background-size: 35px;
+}
+
+.mymenuWrap li:nth-child(3) a{
+    background-position-y: 3px;
+    background-image: url(../../icon/mylike.png);
+    background-size: 35px;
+}
+
+.store_registration {
+    padding: 20px 25px;
+    border-bottom: 6px solid var(--background-grey);
+}
+.store_registration button {
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 16px;
+}
+
+/* 최근활동 섹션 */
+.activities {
+    margin: 30px 25px 0;
+    background-color: var(--white);
+    border-radius: 12px;
+    position: relative;
+}
+
+.activitiesWrap {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.activitiesContent {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--background-grey);
+}
+
+.activities p span {
+    color: var(--text-grey);
+}
+
+.logout-section {
+    position: relative;
+    margin-bottom: 200px;
+}
+.logout {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    text-decoration: underline;
+    border: none;
+    background: none;
+}
+
+#gnb ul li a.mypage {
+    background-image: url(../image/mypage.png);
+}
