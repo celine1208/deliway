@@ -1,9 +1,9 @@
 <?php
 
 $db_host = "localhost";
-$db_user = "nanunna18";
-$db_password = "oka1838!";
-$db_name = "nanunna18";
+$db_user = "moondosa";
+$db_password = "Celine980727**";
+$db_name = "moondosa";
 
 $con = new mysqli($db_host, $db_user, $db_password, $db_name); //database 접속구문
 

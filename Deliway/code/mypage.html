@@ -50,14 +50,11 @@ $row = mysqli_fetch_array($result);
         <section class="myinfo">
             <h2 class="hidden">내 정보</h2>
             <div class="myprofile">
-                <?php if ($row['file_copied_0'] == "") {
-
-                } else {
-                ?>
-                <img src="upload/<?php echo $row['file_copied_0'];?>" alt="프로필 이미지">
-                <?php
-                }
-                ?>
+                <?php if (empty($row['file_copied_0'])) { ?>
+                    <img src="../images/profile.png" alt="기본 프로필 이미지">
+                <?php } else { ?>
+                    <img src="upload/<?php echo $row['file_copied_0']; ?>" alt="프로필 이미지">
+                <?php } ?>
                 <div class="profileWrap">
                     <dl>
                         <dt class="hidden">닉네임</dt>

@@ -75,7 +75,7 @@ $files = $_FILES["upfile"];
 		}
 	}
 
-    $sql = "update member set user_name = '".$user_name."', user_intro = '".$user_intro."', file_name_0 = '".$upfile_name[0]."', file_copied_0 = '".$copied_file_name[0]."'
+    $sql = "UPDATE member SET user_name = '".$user_name."', user_intro = '".$user_intro."', file_name_0 = '".$upfile_name[0]."', file_copied_0 = '".$copied_file_name[0]."'
     where user_id = '".$_COOKIE['user_id']."'";
 
     mysqli_query($con,$sql);
