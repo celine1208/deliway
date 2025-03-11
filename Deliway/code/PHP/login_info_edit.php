@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include "../../config/db.php";
 
 $user_post = $_POST['user_post'];
