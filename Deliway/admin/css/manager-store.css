@@ -68,6 +68,16 @@ th, td {
     text-align: left;
     border-bottom: 1px solid var(--gray-200);
 }
+td a {
+    display: block;
+    padding: 8px 15px;
+    background: var(--grey-50);
+    border-radius: var(--border-radius);
+    text-align: center;
+    width: auto;
+    text-decoration: none;
+    color: #000;
+}
 th {
     background-color: var(--gray-50);
     font-weight: 600;

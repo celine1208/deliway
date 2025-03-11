@@ -1,6 +1,7 @@
 <?php
-session start();
-include "../config/db.php"
+session_start();
+
+include "../config/db.php";
 
 $sql = "SELECT * FROM store";
 $result = mysqli_query($con,$sql);
@@ -9,6 +10,7 @@ $row_num = mysqli_num_rows($result);
 ?>
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +21,7 @@ $row_num = mysqli_num_rows($result);
     <script src="./js/manager-common.js" defer></script>
     <script src="./js/manager-store.js" defer></script>
 </head>
+
 <body>
     <aside class="sidebar">
         <div class="logo">맛집관리</div>
@@ -76,7 +79,7 @@ $row_num = mysqli_num_rows($result);
                     <select id="category">
                         <option value="">전체</option>
                         <option value="korean">한식</option>
-                        <option value="japanese">일식</option>
+                        <option value="japanese">일식   </option>
                         <option value="chinese">중식</option>
                         <option value="western">양식</option>
                     </select>
@@ -131,51 +134,50 @@ $row_num = mysqli_num_rows($result);
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                    if($row_num == ""){
+                    ?>
                     <tr>
-                        <td>
-                            <input type="checkbox">
-                        </td>
-                        <td>맛있는 찌개</td>
-                        <td>한식</td>
-                        <td>서울시 강남구 역삼동 123-45</td>
-                        <td>02-1234-5678</td>
-                        <td>2024-02-23</td>
-                        <td><span class="badge badge-pending">승인대기</span></td>
-                        <td>
-                            <button class="btn btn-primary">수정</button>
-                            <button class="btn btn-danger">삭제</button>
-                        </td>
+                        <td>등록된 업체정보가 없습니다.</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                    <?php
+                    } else {
+
+                        $sql1 = "SELECT * FROM store order by store_idx desc"; //등록된 정보의 최근 글 부터
+                        $result1 = mysqli_query($con,$sql1);
+                        while($row1 = mysqli_fetch_array($result1)){;
+
+                        ?>
                     </tr>
                     <tr>
                         <td>
                             <input type="checkbox">
                         </td>
-                        <td>파스타 하우스</td>
-                        <td>양식</td>
-                        <td>서울시 마포구 서교동 456-78</td>
-                        <td>02-9876-5432</td>
-                        <td>2024-02-23</td>
-                        <td><span class="badge badge-approved">승인완료</span></td>
+                        <td><a href="store_detail.html?store_idx=<?php echo $row1['store_idx'];?>"><?php echo $row1['store_name'];?></a></td>
+                        <td><?php echo $row1['store_opt'];?></td>
+                        <td><?php echo $row1['store_address1'];?></td>
+                        <td><?php echo $row1['store_call'];?></td>
+                        <td><?php echo $row1['store_wdate'];?></td>
+                        <td><a href="store_ok.html?store_idx=<?php echo $row1['store_idx'];?>"><?php echo $row1['store_ing'];?></a></td>
                         <td>
                             <button class="btn btn-primary">수정</button>
                             <button class="btn btn-danger">삭제</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox">
-                        </td>
-                        <td>스시야</td>
-                        <td>일식</td>
-                        <td>서울시 서초구 서초동 789-10</td>
-                        <td>02-2345-6789</td>
-                        <td>2024-02-22</td>
-                        <td><span class="badge badge-pending">승인대기</span></td>
-                        <td>
-                            <button class="btn btn-primary">수정</button>
-                            <button class="btn btn-danger">삭제</button>
-                        </td>
-                    </tr>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    }
+                    ?>
                 </tbody>
             </table>
 
@@ -194,4 +196,5 @@ $row_num = mysqli_num_rows($result);
         </div>
     </div>
 </body>
+
 </html>

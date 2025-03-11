@@ -31,6 +31,20 @@ session_start();
                     </label>
                 </div>
                 <div class="input-group">
+                    <label for="store-opt">업종
+                        <select name="store-opt" id="store-opt">
+                            <option>한식</option>
+                            <option>중식</option>
+                            <option>양식</option>
+                            <option>일식</option>
+                            <option>카페&디저트</option>
+                            <option>채식</option>
+                            <option>뷔페</option>
+                            <option>오마카세</option>
+                          </select>
+                    </label>
+                </div>
+                <div class="input-group">
                     <label for="store-address">매장 주소
                         <input type="text" id="sample5_address" placeholder="주소 검색" name="store_address1">
                     </label>
@@ -92,14 +106,14 @@ session_start();
                     </label>
                 </div>
                 <div class="input-group">
-                    <label for="business-license">사업자 등록증
+                    <label for="business-license">사업자등록증
                         <input type="file" id="business-license" name="upfile[]"
                             accept="image/*,application/pdf" required>
                     </label>
                 </div>
                 <div class="input-group">
                     <label for="store-description">매장 소개
-                        <textarea id="store-description" name="store_name" rows="5" required></textarea>
+                        <textarea id="store-description" name="store_memo" rows="5" required></textarea>
                     </label>
                 </div>
                 <div class="input-group">
