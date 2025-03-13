@@ -64,6 +64,14 @@ h2 {
     font-size: 20px;
 }
 
+.find {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--primary-color);
+}
+
 .error-message {
     color: var(--gray-500);
     font-size: 14px;

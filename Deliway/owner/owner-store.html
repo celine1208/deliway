@@ -1,5 +1,15 @@
+<?php
+session_start();
+include "../config/db.php";
+
+$sql = "SELECT * from store where user_id = '".$_SESSION['user_id']."'";
+$result = mysqli_query($con,$sql);
+$row = mysqli_fetch_array($result);
+
+?>
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +19,7 @@
     <link rel="stylesheet" href="./css/owner-common.css">
     <link rel="stylesheet" href="./css/owner-store.css">
     <script src="./js/owner-common.js" defer></script>
+
 <body>
     <button class="sidebar-toggle" aria-label="메뉴 열기">
         <i class="ri-menu-line"></i>
@@ -75,23 +86,80 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="storeName" class="form-label">매장명</label>
-                    <input type="text" id="storeName" class="form-input" value="맛있는 치킨" required>
+                    <label for="storeName" class="form-label">매장명
+                        <input type="text" id="storeName" class="form-input" value="<?php echo $row['store_name']; ?>"
+                            required>
+                    </label>
                 </div>
 
                 <div class="form-group">
-                    <label for="storeDesc" class="form-label">매장 소개</label>
-                    <textarea id="storeDesc" class="form-textarea">신선한 재료로 만드는 프리미엄 치킨전문점</textarea>
+                    <label for="storeDesc" class="form-label">매장 소개
+                        <textarea id="storeDesc" class="form-textarea"><?php echo $row['store_memo']; ?></textarea>
+                    </label>
                 </div>
 
                 <div class="form-group">
-                    <label for="storeAddress" class="form-label">주소</label>
-                    <input type="text" id="storeAddress" class="form-input" value="서울시 강남구 테헤란로 123">
+                    <label for="store-address">매장 주소
+                        <input type="text" id="sample5_address" placeholder="주소 검색" name="store_address1"
+                            value="<?php echo $row['store_address1']?>">
+                    </label>
+                    <input type="button" onclick="sample5_execDaumPostcode()" value="검색"><br>
                 </div>
+                <div id="map"></div>
+                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                <script
+                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
+                <script>
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+                            level: 5 // 지도의 확대 레벨
+                        };
+
+                    //지도를 미리 생성
+                    var map = new daum.maps.Map(mapContainer, mapOption);
+                    //주소-좌표 변환 객체를 생성
+                    var geocoder = new daum.maps.services.Geocoder();
+                    //마커를 미리 생성
+                    var marker = new daum.maps.Marker({
+                        position: new daum.maps.LatLng(37.537187, 127.005476),
+                        map: map
+                    });
+
+
+                    function sample5_execDaumPostcode() {
+                        new daum.Postcode({
+                            oncomplete: function (data) {
+                                var addr = data.address; // 최종 주소 변수
+
+                                // 주소 정보를 해당 필드에 넣는다.
+                                document.getElementById("sample5_address").value = addr;
+                                // 주소로 상세 정보를 검색
+                                geocoder.addressSearch(data.address, function (results, status) {
+                                    // 정상적으로 검색이 완료됐으면
+                                    if (status === daum.maps.services.Status.OK) {
+
+                                        var result = results[0]; //첫번째 결과의 값을 활용
+
+                                        // 해당 주소에 대한 좌표를 받아서
+                                        var coords = new daum.maps.LatLng(result.y, result.x);
+                                        // 지도를 보여준다.
+                                        mapContainer.style.display = "block";
+                                        map.relayout();
+                                        // 지도 중심을 변경한다.
+                                        map.setCenter(coords);
+                                        // 마커를 결과값으로 받은 위치로 옮긴다.
+                                        marker.setPosition(coords)
+                                    }
+                                });
+                            }
+                        }).open();
+                    }
+                </script>
 
                 <div class="form-group">
                     <label for="storePhone" class="form-label">전화번호</label>
-                    <input type="tel" id="storePhone" class="form-input" value="02-1234-5678">
+                    <input type="tel" id="storePhone" class="form-input" value="<?php echo $row['store_call']; ?>">
                 </div>
 
                 <div class="form-group">
@@ -159,121 +227,122 @@
                             <span class="toggle-slider"></span>
                         </label>
                         <p class="form-description">예약 기능을 활성화하면 손님들이 온라인으로 예약할 수 있습니다.</p>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">예약 가능 인원</label>
-                        <div class="form-inline">
-                            <input type="number" class="form-input" value="2" min="1" max="10"> 명 ~
-                            <input type="number" class="form-input" value="8" min="1" max="20"> 명
-                        </div>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">픽업 서비스</label>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <p class="form-description">픽업 서비스를 제공하면 손님을 지정된 장소에서 픽업할 수 있습니다.</p>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">픽업 가능 거리</label>
-                        <select class="form-select">
-                            <option>1km 이내</option>
-                            <option selected>2km 이내</option>
-                            <option>3km 이내</option>
-                            <option>5km 이내</option>
-                        </select>
-                    </div>
-                </section>
-    
-                <section class="section" aria-labelledby="facility-title">
-                    <div class="section-header">
-                        <h3 id="facility-title" class="section-title">시설 정보</h3>
-                    </div>
-    
-                    <div class="facilities-grid">
-                        <div class="facility-item">
-                            <label class="checkbox-label">
-                                <input type="checkbox" checked>
-                                <span>주차 가능</span>
-                            </label>
-                            <input type="text" class="form-input" placeholder="주차 정보 입력" value="건물 내 2시간 무료주차">
-                        </div>
-    
-                        <div class="facility-item">
-                            <label class="checkbox-label">
-                                <input type="checkbox" checked>
-                                <span>화장실</span>
-                            </label>
-                        </div>
-    
-                        <div class="facility-item">
-                            <label class="checkbox-label">
-                                <input type="checkbox" checked>
-                                <span>무선 인터넷</span>
-                            </label>
-                        </div>
-    
-                        <div class="facility-item">
-                            <label class="checkbox-label">
-                                <input type="checkbox">
-                                <span>단체석</span>
-                            </label>
-                            <input type="text" class="form-input" placeholder="수용 가능 인원">
-                        </div>
-                    </div>
-                </section>
-    
-                <section class="section" aria-labelledby="notice-title">
-                    <div class="section-header">
-                        <h3 id="notice-title" class="section-title">공지사항</h3>
-                        <button type="button" class="button button-outline">공지 추가</button>
-                    </div>
-    
-                    <div class="notice-list">
-                        <article class="notice-item">
-                            <header class="notice-header">
-                                <h4>신메뉴 출시 안내</h4>
-                                <div class="notice-actions">
-                                    <button type="button" class="button button-outline">수정</button>
-                                    <button type="button" class="button button-outline">삭제</button>
-                                </div>
-                            </header>
-                            <p class="notice-content">3월 1일부터 신메뉴 '트러플 치킨'이 출시됩니다.</p>
-                            <footer class="notice-footer">
-                                <time datetime="2024-02-23">2024.02.23</time>
-                            </footer>
-                        </article>
-                    </div>
-                </section>
-    
-                <section class="section" aria-labelledby="keywords-title">
-                    <div class="section-header">
-                        <h3 id="keywords-title" class="section-title">검색 키워드</h3>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">키워드 입력</label>
-                        <div class="keywords-input">
-                            <input type="text" class="form-input" placeholder="키워드를 입력하세요">
-                            <button type="button" class="button button-outline">추가</button>
-                        </div>
-                        <div class="keywords-list">
-                            <span class="keyword-tag">#치킨 <button type="button" class="remove-tag">×</button></span>
-                            <span class="keyword-tag">#강남맛집 <button type="button" class="remove-tag">×</button></span>
-                            <span class="keyword-tag">#데이트코스 <button type="button" class="remove-tag">×</button></span>
-                        </div>
-                    </div>
-                </section>
-    
-                <div class="form-actions">
-                    <button type="submit" class="button button-primary">변경사항 저장</button>
-                    <button type="button" class="button button-outline">취소</button>
                 </div>
-            </form>
-        </main>
-    </body>
-    </html>
+
+                <div class="form-group">
+                    <label class="form-label">예약 가능 인원</label>
+                    <div class="form-inline">
+                        <input type="number" class="form-input" value="2" min="1" max="10"> 명 ~
+                        <input type="number" class="form-input" value="8" min="1" max="20"> 명
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">픽업 서비스</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <p class="form-description">픽업 서비스를 제공하면 손님을 지정된 장소에서 픽업할 수 있습니다.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">픽업 가능 거리</label>
+                    <select class="form-select">
+                        <option>1km 이내</option>
+                        <option selected>2km 이내</option>
+                        <option>3km 이내</option>
+                        <option>5km 이내</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="section" aria-labelledby="facility-title">
+                <div class="section-header">
+                    <h3 id="facility-title" class="section-title">시설 정보</h3>
+                </div>
+
+                <div class="facilities-grid">
+                    <div class="facility-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>주차 가능</span>
+                        </label>
+                        <input type="text" class="form-input" placeholder="주차 정보 입력" value="건물 내 2시간 무료주차">
+                    </div>
+
+                    <div class="facility-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>화장실</span>
+                        </label>
+                    </div>
+
+                    <div class="facility-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>무선 인터넷</span>
+                        </label>
+                    </div>
+
+                    <div class="facility-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox">
+                            <span>단체석</span>
+                        </label>
+                        <input type="text" class="form-input" placeholder="수용 가능 인원">
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" aria-labelledby="notice-title">
+                <div class="section-header">
+                    <h3 id="notice-title" class="section-title">공지사항</h3>
+                    <button type="button" class="button button-outline">공지 추가</button>
+                </div>
+
+                <div class="notice-list">
+                    <article class="notice-item">
+                        <header class="notice-header">
+                            <h4>신메뉴 출시 안내</h4>
+                            <div class="notice-actions">
+                                <button type="button" class="button button-outline">수정</button>
+                                <button type="button" class="button button-outline">삭제</button>
+                            </div>
+                        </header>
+                        <p class="notice-content">3월 1일부터 신메뉴 '트러플 치킨'이 출시됩니다.</p>
+                        <footer class="notice-footer">
+                            <time datetime="2024-02-23">2024.02.23</time>
+                        </footer>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" aria-labelledby="keywords-title">
+                <div class="section-header">
+                    <h3 id="keywords-title" class="section-title">검색 키워드</h3>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">키워드 입력</label>
+                    <div class="keywords-input">
+                        <input type="text" class="form-input" placeholder="키워드를 입력하세요">
+                        <button type="button" class="button button-outline">추가</button>
+                    </div>
+                    <div class="keywords-list">
+                        <span class="keyword-tag">#치킨 <button type="button" class="remove-tag">×</button></span>
+                        <span class="keyword-tag">#강남맛집 <button type="button" class="remove-tag">×</button></span>
+                        <span class="keyword-tag">#데이트코스 <button type="button" class="remove-tag">×</button></span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="button button-primary">변경사항 저장</button>
+                <button type="button" class="button button-outline">취소</button>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
