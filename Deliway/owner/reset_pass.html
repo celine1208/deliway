@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 재설정</title>
+    <link rel="stylesheet" href="css/reset_pass.css">
+    <link rel="stylesheet" href="css/owner-common.css">
+</head>
+<body>
+    <div class="container">
+        <h1>비밀번호 재설정</h1>
+        <form action="reset_pass.php" method="post">
+            <input type="hidden" name="user_id" value="<?php echo $_GET['user_id'];?>">
+            <label for="new_password">새 비밀번호
+                <input type="password" name="new_password" required>
+            </label>
+            <label for="confirm_password">비밀번호 확인
+                <input type="password" name="confirm_password" required>
+            </label>
+            <button type="submit">비밀번호 변경</button>
+        </form>
+    </div>
+</body>
+</html>

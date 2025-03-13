@@ -1,6 +1,6 @@
-/* Enhanced Store Owner Styles */
+@charset "utf-8";
 
-/* Section Styles */
+/* section */
 .section {
     background: white;
     border-radius: var(--border-radius);
@@ -29,7 +29,7 @@
     color: var(--gray-800);
 }
 
-/* Form Elements */
+/* form */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -68,12 +68,16 @@
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
-.form-textarea {
-    min-height: 120px;
-    resize: vertical;
+.form-inline {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.store-hours {
+    position: relative;
 }
 
-/* Enhanced Image Upload */
+/* image-upload */
 .image-upload {
     border: 2px dashed var(--gray-300);
     border-radius: var(--border-radius);
@@ -110,7 +114,7 @@
     box-shadow: var(--shadow);
 }
 
-/* Enhanced Button Styles */
+/* button */
 .button {
     display: inline-flex;
     align-items: center;
@@ -146,7 +150,7 @@
     transform: translateY(-1px);
 }
 
-/* Toggle Switch Enhancement */
+/* toggle switch */
 .toggle-switch {
     position: relative;
     display: inline-block;
@@ -192,58 +196,16 @@
     transform: translateX(28px);
 }
 
-.keywords-input {
-    display: flex;
-    gap: 0.75rem;
-}
-
-.keywords-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.keyword-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background-color: var(--gray-100);
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    color: var(--gray-700);
-    transition: var(--transition);
-}
-
-.keyword-tag:hover {
-    background-color: var(--primary-light);
-    color: white;
-}
-
-.remove-tag {
-    background: none;
-    border: none;
-    padding: 0 0.25rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-    color: inherit;
-    transition: var(--transition);
-}
-
-/* Responsive Enhancements */
 @media (max-width: 768px) {
     .section {
         padding: 1.5rem;
     }
-
     .image-preview {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
-
     .keywords-input {
         flex-direction: column;
     }
-
     .button {
         width: 100%;
     }
@@ -253,11 +215,9 @@
     .section {
         padding: 1rem;
     }
-
     .form-group {
         margin-bottom: 1rem;
     }
-
     .image-preview {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     }

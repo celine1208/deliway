@@ -78,26 +78,22 @@ $row = mysqli_fetch_array($result);
             <h2 class="page-title">매장 정보 관리</h2>
             <button type="button" class="button button-primary">변경사항 저장</button>
         </header>
-
         <form id="storeInfoForm">
             <section class="section" aria-labelledby="basic-info-title">
                 <div class="section-header">
                     <h3 id="basic-info-title" class="section-title">기본 정보</h3>
                 </div>
-
                 <div class="form-group">
                     <label for="storeName" class="form-label">매장명
                         <input type="text" id="storeName" class="form-input" value="<?php echo $row['store_name']; ?>"
                             required>
                     </label>
                 </div>
-
                 <div class="form-group">
                     <label for="storeDesc" class="form-label">매장 소개
-                        <textarea id="storeDesc" class="form-textarea"><?php echo $row['store_memo']; ?></textarea>
+                        <textarea id="storeDesc" class="form-textarea"><?php echo $row['store_memo'];?></textarea>
                     </label>
                 </div>
-
                 <div class="form-group">
                     <label for="store-address">매장 주소
                         <input type="text" id="sample5_address" placeholder="주소 검색" name="store_address1"
@@ -131,16 +127,13 @@ $row = mysqli_fetch_array($result);
                         new daum.Postcode({
                             oncomplete: function (data) {
                                 var addr = data.address; // 최종 주소 변수
-
                                 // 주소 정보를 해당 필드에 넣는다.
                                 document.getElementById("sample5_address").value = addr;
                                 // 주소로 상세 정보를 검색
                                 geocoder.addressSearch(data.address, function (results, status) {
                                     // 정상적으로 검색이 완료됐으면
                                     if (status === daum.maps.services.Status.OK) {
-
                                         var result = results[0]; //첫번째 결과의 값을 활용
-
                                         // 해당 주소에 대한 좌표를 받아서
                                         var coords = new daum.maps.LatLng(result.y, result.x);
                                         // 지도를 보여준다.
@@ -156,12 +149,10 @@ $row = mysqli_fetch_array($result);
                         }).open();
                     }
                 </script>
-
                 <div class="form-group">
                     <label for="storePhone" class="form-label">전화번호</label>
                     <input type="tel" id="storePhone" class="form-input" value="<?php echo $row['store_call']; ?>">
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">매장 사진</label>
                     <div class="image-upload" role="button" tabindex="0">
@@ -182,35 +173,123 @@ $row = mysqli_fetch_array($result);
                 <div class="section-header">
                     <h3 id="hours-title" class="section-title">영업 시간</h3>
                 </div>
-
-                <div class="hours-grid">
-                    <div class="form-group">
-                        <label for="weekdayStart" class="form-label">평일</label>
-                        <select id="weekdayStart" class="form-select">
-                            <option>11:00</option>
-                        </select>
-                        ~
-                        <select id="weekdayEnd" class="form-select">
-                            <option>22:00</option>
-                        </select>
+                <div class="store-hours">
+                    <div class="form-inline">
+                        <label for="weekdayStart" class="form-label">평일 오픈시간
+                            <select id="weekdayStart" class="form-select" name="store_weekday1">
+                                <option value="">-선택-</option>
+                                <option value="06:00">06:00</option>
+                                <option value="07:00">07:00</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="21:00">21:00</option>
+                                <option value="22:00">22:00</option>
+                                <option value="23:00">23:00</option>
+                                <option value="24:00">24:00</option>
+                            </select>
+                        </label>
+                        <span> ~ </span>
+                        <label for="weekdayEnd" class="form-label">평일 마감시간
+                            <select id="weekdayEnd" class="form-select" name="store_weekday2">
+                                <option value="">-선택-</option>
+                                <option value="06:00">06:00</option>
+                                <option value="07:00">07:00</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="21:00">21:00</option>
+                                <option value="22:00">22:00</option>
+                                <option value="23:00">23:00</option>
+                                <option value="24:00">24:00</option>
+                            </select>
+                        </label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="weekendStart" class="form-label">주말</label>
-                        <select id="weekendStart" class="form-select">
-                            <option>11:00</option>
-                        </select>
-                        ~
-                        <select id="weekendEnd" class="form-select">
-                            <option>23:00</option>
-                        </select>
+                    <div class="form-inline">
+                        <label for="weekendStart" class="form-label">주말 오픈시간
+                            <select id="weekendStart" class="form-select" name="store_weekend1">
+                                <option value="">-선택-</option>
+                                <option value="06:00">06:00</option>
+                                <option value="07:00">07:00</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="21:00">21:00</option>
+                                <option value="22:00">22:00</option>
+                                <option value="23:00">23:00</option>
+                                <option value="24:00">24:00</option>
+                            </select>
+                        </label>
+                        <span> ~ </span>
+                        <label for="weekendStart" class="form-label">주말 마감시간
+                            <select id="weekendEnd" class="form-select" name="store_weekend2">
+                                <option value="">-선택-</option>
+                                <option value="06:00">06:00</option>
+                                <option value="07:00">07:00</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="21:00">21:00</option>
+                                <option value="22:00">22:00</option>
+                                <option value="23:00">23:00</option>
+                                <option value="24:00">24:00</option>
+                            </select>
+                        </label>
                     </div>
-
                     <div class="form-group">
                         <label for="breakTime" class="form-label">브레이크타임</label>
-                        <select id="breakTime" class="form-select">
-                            <option>15:00 ~ 17:00</option>
-                        </select>
+                        <label class="toggle-switch">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <select id="breakTime" class="form-select" name="store_breaktime">
+                                <option value="">-선택-</option>
+                                <option value="no">브레이크타임 없음</option>
+                                <option value="no">15:00 - 17:00</option>
+                                <option value="no">17:00 - 19:00</option>
+                            </select>
                     </div>
                 </div>
             </section>
@@ -222,37 +301,34 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group">
                     <label class="form-label">예약 서비스</label>
                     <label class="toggle-switch">
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <p class="form-description">예약 기능을 활성화하면 손님들이 온라인으로 예약할 수 있습니다.</p>
+                        <input type="checkbox" name="store_reser_service" value="1" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <p class="form-description">예약 기능을 활성화하면 손님들이 온라인으로 예약할 수 있습니다.</p>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">예약 가능 인원</label>
                     <div class="form-inline">
-                        <input type="number" class="form-input" value="2" min="1" max="10"> 명 ~
-                        <input type="number" class="form-input" value="8" min="1" max="20"> 명
+                        <input type="number" name="store_reser1" class="form-input" min="2"> 명 ~
+                        <input type="number" name="store_reser2" class="form-input" max="20"> 명
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">픽업 서비스</label>
                     <label class="toggle-switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" name="store_pickup_service" checked>
                         <span class="toggle-slider"></span>
                     </label>
                     <p class="form-description">픽업 서비스를 제공하면 손님을 지정된 장소에서 픽업할 수 있습니다.</p>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">픽업 가능 거리</label>
                     <select class="form-select">
-                        <option>1km 이내</option>
-                        <option selected>2km 이내</option>
-                        <option>3km 이내</option>
-                        <option>5km 이내</option>
+                        <option value="1km 이내">1km 이내</option>
+                        <option value="3km 이내">3km 이내</option>
+                        <option value="5km 이내">5km 이내</option>
                     </select>
                 </div>
             </section>
@@ -265,34 +341,30 @@ $row = mysqli_fetch_array($result);
                 <div class="facilities-grid">
                     <div class="facility-item">
                         <label class="checkbox-label">
-                            <input type="checkbox" checked>
-                            <span>주차 가능</span>
+                            <input type="checkbox" name="store_option1" value="1" checked>&nbsp 주차가능
+                            <input type="text" name="store_option1_memo">
                         </label>
-                        <input type="text" class="form-input" placeholder="주차 정보 입력" value="건물 내 2시간 무료주차">
                     </div>
-
                     <div class="facility-item">
                         <label class="checkbox-label">
-                            <input type="checkbox" checked>
-                            <span>화장실</span>
+                            <input type="checkbox" name="store_option2" value="1" checked>&nbsp 화장실
                         </label>
                     </div>
-
                     <div class="facility-item">
                         <label class="checkbox-label">
-                            <input type="checkbox" checked>
-                            <span>무선 인터넷</span>
+                            <input type="checkbox" name="store_option3" value="1" checked>&nbsp 무선인터넷
                         </label>
                     </div>
-
                     <div class="facility-item">
                         <label class="checkbox-label">
-                            <input type="checkbox">
-                            <span>단체석</span>
+                            <input type="checkbox" name="store_option4" value="1" checked>&nbsp 단체석
                         </label>
-                        <input type="text" class="form-input" placeholder="수용 가능 인원">
                     </div>
-                </div>
+                    <div class="facility-item">
+                        <label class="checkbox-label">
+                            <input type="text" name="store_option4_memo" placeholder="수용 가능 인원">
+                        </label>
+                    </div>
             </section>
 
             <section class="section" aria-labelledby="notice-title">
@@ -326,17 +398,13 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group">
                     <label class="form-label">키워드 입력</label>
                     <div class="keywords-input">
-                        <input type="text" class="form-input" placeholder="키워드를 입력하세요">
-                        <button type="button" class="button button-outline">추가</button>
-                    </div>
-                    <div class="keywords-list">
-                        <span class="keyword-tag">#치킨 <button type="button" class="remove-tag">×</button></span>
-                        <span class="keyword-tag">#강남맛집 <button type="button" class="remove-tag">×</button></span>
-                        <span class="keyword-tag">#데이트코스 <button type="button" class="remove-tag">×</button></span>
+                        <input type="text" class="form-input" name="store_keyword1" placeholder="치킨">
+                        <input type="text" class="form-input" name="store_keyword2" placeholder="강남맛집">
+                        <input type="text" class="form-input" name="store_keyword1" placeholder="데이트코스">
+                        <button type="submit">변경사항 저장</button>
                     </div>
                 </div>
             </section>
-
             <div class="form-actions">
                 <button type="submit" class="button button-primary">변경사항 저장</button>
                 <button type="button" class="button button-outline">취소</button>

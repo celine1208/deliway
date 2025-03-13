@@ -4,7 +4,6 @@ session_start();
 include "../config/db.php";
 
 $adm_id = $_POST['adm_id'];
-
 $adm_pass = $_POST['adm_pass'];
 
 // 1. 전송방식으로 데이터 전달

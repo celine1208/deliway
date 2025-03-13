@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/find_id.css">
 </head>
 <body>
-    <main claass="container">
+    <section class="container">
         <h1>아이디 찾기</h1>
         <form action="find_id.php" method="post">
             <label for="user_name">이름
@@ -19,6 +19,21 @@
             </label>
             <button type="submit">아이디찾기</button>
         </form>
-    </main>
+    </section>
+    <section class="container">
+        <h1>비밀번호 찾기</h1>
+        <form action="find_pass.php" method="post">
+            <label for="">아이디
+                <input type="text" name="user_id">
+            </label>
+            <label for="">이름
+                <input type="text" name="user_name">
+            </label>
+            <label for="">전화번호
+                <input type="text" name="user_phone">
+            </label>
+            <button type="submit">비밀번호 찾기</button>
+        </form>
+    </section>
     </body>
 </html>
