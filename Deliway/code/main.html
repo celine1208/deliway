@@ -1,5 +1,8 @@
 <?php
+
 session_start();
+include "config/db.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -68,73 +71,62 @@ session_start();
       <div class="category-container">
         <ul>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/krfood.png" alt="한식">
-              </div>
+            <a href="./search_result.html?store_category=1">
+              <div><img src="../icon/krfood.png" alt="한식"></div>
               <p>한식</p>
             </a>
           </li>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/jpfood.png" alt="일식">
-              </div>
+            <a href="./search_result.html?store_category=2">
+              <div><img src="../icon/jpfood.png" alt="일식"></div>
               <p>일식</p>
             </a>
           </li>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/chfood.png" alt="중식">
-              </div>
+            <a href="./search_result.html?store_category=3">
+              <div><img src="../icon/chfood.png" alt="중식"></div>
               <p>중식</p>
             </a>
           </li>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/usfood.png" alt="양식">
-              </div>
+            <a href="./search_result.html?store_category=4">
+              <div><img src="../icon/usfood.png" alt="양식"></div>
               <p>양식</p>
             </a>
           </li>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/coffee.png" alt="카페와 디저트">
-              </div>
+            <a href="./search_result.html?store_category=5">
+              <div><img src="../icon/coffee.png" alt="카페와 디저트"></div>
               <p>카페&디저트</p>
             </a>
           </li>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/began.png" alt="채식">
-              </div>
+            <a href="./search_result.html?store_category=6">
+              <div><img src="../icon/began.png" alt="채식"></div>
               <p>채식</p>
             </a>
           </li>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/bupe.png" alt="뷔페">
-              </div>
+            <a href="./search_result.html?store_category=7">
+              <div><img src="../icon/bupe.png" alt="뷔페"></div>
               <p>뷔페</p>
             </a>
           </li>
           <li>
-            <a href="./search_result.html">
-              <div>
-                <img src="../icon/chobab.png" alt="오마카세">
-              </div>
+            <a href="./search_result.html?store_category=8">
+              <div><img src="../icon/chobab.png" alt="오마카세"></div>
               <p>오마카세</p>
             </a>
           </li>
         </ul>
       </div>
     </section>
-
+    <?php
+    $sql = "SELECT * FROM store order by store_idx desc , RAND() limit 5";
+    echo $sql;
+    $result = mysqli_query($con,$sql);
+    $row = mysqli_fetch_array($result);
+    ?>
     <section class="recomand-section">
       <div class="title-container">
         <div class="recomend-title">
@@ -214,9 +206,6 @@ session_start();
       </ul>
     </section>
 
-
-
-
     <section class="recomand-section">
       <div class="title-container">
         <div class="recomend-title">
@@ -288,15 +277,9 @@ session_start();
       <div class="banner-slider-container">
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="../images/banner_1.png" alt="main-slider1">
-            </div>
-            <div class="swiper-slide">
-              <img src="../images/banner_2.png" alt="main-slider2">
-            </div>
-            <div class="swiper-slide">
-              <img src="../images/banner_3.png" alt="main-slider3">
-            </div>
+            <div class="swiper-slide"><img src="../images/banner_1.png" alt="main-slider1"></div>
+            <div class="swiper-slide"><img src="../images/banner_2.png" alt="main-slider2"></div>
+            <div class="swiper-slide"><img src="../images/banner_3.png" alt="main-slider3"></div>
           </div>
           <div class="swiper-pagination"></div>
         </div>

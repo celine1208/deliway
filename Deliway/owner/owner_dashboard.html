@@ -14,10 +14,10 @@ $row = mysqli_fetch_array($result);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>점주 대시보드</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/owner-common.css">
-    <link rel="stylesheet" href="./css/owner-dashboard.css">
-    <script src="./js/owner-common.js" defer></script>
-    <script src="./js/owner-dashboard.js" defer></script>
+    <link rel="stylesheet" href="./css/owner_common.css">
+    <link rel="stylesheet" href="./css/owner_dashboard.css">
+    <script src="./js/owner_common.js" defer></script>
+    <script src="./js/owner_dashboard.js" defer></script>
 </head>
 <body>
     <button class="sidebar-toggle" aria-label="메뉴 열기">
@@ -34,40 +34,22 @@ $row = mysqli_fetch_array($result);
         <nav>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./owner-dashboard.html" class="active">
-                        <i class="ri-dashboard-line"></i>
-                        대시보드
-                    </a>
+                    <a class="active" href="./owner_dashboard.html"><i class="ri-dashboard-line"></i>대시보드</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner-reservation.html">
-                        <i class="ri-calendar-line"></i>
-                        예약 관리
-                    </a>
+                    <a href="./owner_reservation.html"><i class="ri-calendar-line"></i>예약 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner-store.html">
-                        <i class="ri-store-line"></i>
-                        매장 정보
-                    </a>
+                    <a href="./owner_store.html"><i class="ri-store-line"></i>매장 정보</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner-menu.html">
-                        <i class="ri-restaurant-line"></i>
-                        메뉴 관리
-                    </a>
+                    <a href="./owner_menu.html"><i class="ri-restaurant-line"></i>메뉴 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner-sales.html">
-                        <i class="ri-bar-chart-line"></i>
-                        매출 통계
-                    </a>
+                    <a href="./owner_sales.html"><i class="ri-bar-chart-line"></i>매출 통계</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner-setting.html">
-                        <i class="ri-settings-line"></i>
-                        설정
-                    </a>
+                    <a href="./owner_setting.html"><i class="ri-settings-line"></i>설정</a>
                 </li>
             </ul>
         </nav>

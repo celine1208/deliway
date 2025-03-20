@@ -1,0 +1,82 @@
+<?php
+session_start();
+include "../config/db.php";
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>매뉴선택</title>
+</head>
+
+<body>
+    <aside class="sidebar" role="navigation">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <i class="ri-store-2-fill"></i>
+            </div>
+            <h1 class="brand-name">델리웨이</h1>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="./owner_dashboard.html"><i class="ri-dashboard-line"></i>대시보드</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_reservation.html"><i class="ri-calendar-line"></i>예약 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_store.html"><i class="ri-store-line"></i>매장 정보</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_menu.html"><i class="ri-restaurant-line"></i>메뉴 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_sales.html"><i class="ri-bar-chart-line"></i>매출 통계</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_setting.html"><i class="ri-settings-line"></i>설정</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main>
+        <h1>카테고리</h1>
+        <form method="post" action="menu_ok.php">
+            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+            <label for="menu_category">카테고리
+                <select name="" id="">
+                    <option value=""></option>
+                    <?php
+                    $sql = "SELECT * FROM menu_category where cate_userid = '".$_SESSION['user_id']."'";
+                    $result = mysqli_query($con,$sql);
+                    while($row = mysqli_fetch_array($result)){
+                    ?>
+                    <option value="<?php echo $row['cate_name']; ?>">
+                        <?php echo $row['cate_name']; ?>
+                    </option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </label>
+            <label for="menu_name">메뉴명
+                <input type="text" name="store_menu_name">
+            </label>
+            <label for="menu_cost">메뉴가격
+                <input type="number" name="store_menu_cost">
+            </label>
+            <label for="menue_memo">메뉴설명
+                <input type="text" name="store_menu_memo">
+            </label>
+            <label for="upflie[]">메뉴사진
+                <input type="file" name="upfile[]">
+            </label>
+            <button type="submit">메뉴등록</button>
+        </form>
+    </main>
+</body>
+
+</html>

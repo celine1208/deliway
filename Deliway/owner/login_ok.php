@@ -23,7 +23,7 @@ if (password_verify($user_pass,$hash_pass)){
 
     $sql1 = "UPDATE member set user_login = '".$user_login."' where user_id = '".$user_id."'";
     
-    echo "<script> alert('로그인에 성공하였습니다!'); location.href='owner-dashboard.html';</script>";
+    echo "<script> alert('로그인에 성공하였습니다!'); location.href='owner_dashboard.html';</script>";
 
 } else {
     echo "<script> alert('아이디 혹은 비밀번호를 확인하세요');history.back();</script>";
