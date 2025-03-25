@@ -1,10 +1,19 @@
+<?php
+session_start();
+include "../config/db.php";
+
+$store_idx = $_GET['store_idx'];
+$sql = "select * from store where store_idx='".$store_idx."'";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_array($result);
+?>
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>제주 고씨 든렘지 레스토랑</title>
+  <title><?php echo $row['store_name'];?></title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/webfont.css">
@@ -20,7 +29,7 @@
   <header>
     <h1 class="hidden">매장 상세페이지</h1>
     <div class="header-btns">
-      <a href="#" onclick="goBack(event)" class="back-btn">back</a>
+      <a href="#" onclick="goBack(event)" class="back-btn"><i class="fa fa-angle-left icon"></i><span class="hidden">뒤로가기</span></a>
       <button class="likeFunction like">
         <img class="like-icon1 active" src="../icon/like.png" alt="찜하기">
         <img class="like-icon2" src="../icon/liked.png" alt="찜하기">
@@ -33,13 +42,13 @@
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <img src="https://placehold.co/400x244" alt="main-slider1">
+            <img src="./upload/<?php echo $row['file_copied_2'];?>" alt="main-slider1">
           </div>
           <div class="swiper-slide">
-            <img src="https://placehold.co/400x244" alt="main-slider2">
+            <img src="./upload/<?php echo $row['file_copied_3'];?>" alt="main-slider2">
           </div>
           <div class="swiper-slide">
-            <img src="https://placehold.co/400x244" alt="main-slider3">
+            <img src="./upload/<?php echo $row['file_copied_4'];?>" alt="main-slider3">
           </div>
         </div>
         <div class="swiper-pagination"></div>
@@ -75,14 +84,36 @@
         <span class="body1">드라이브 가능</span>
       </div>
       <div class="store-heading">
-        <h3 class="title">제주 고씨 든렘지 레스토랑</h3>
-        <p class="body1">제주도 로컬푸드를 사용한 이탈리안 레스토랑으로 제주의 맛과 멋을 담은 특별한 요리를 선보입니다.</p>
+        <h3 class="title">
+          <?php echo $row['store_name'];?>
+        </h3>
+        <p class="body1">
+          <?php echo $row['store_memo'];?>
+        </p>
       </div>
       <div class="store-tags">
-        <p>단체 이용 가능</p>
-        <p>아기의자</p>
+        <?php if($row['store_option1'] == "1") { ?>
         <p>주차가능</p>
+        <?php } else {?>
+        <p style="display: none;"></p>
+        <?php } ?>
+        <?php if($row['store_option2'] == "1") { ?>
+        <p>화장실</p>
+        <?php } else {?>
+        <p style="display: none;"></p>
+        <?php } ?>
+        <?php if($row['store_option3'] == "1") { ?>
+        <p>무선인터넷</p>
+        <?php } else {?>
+        <p style="display: none;"></p>
+        <?php } ?>
+        <?php if($row['store_option4'] == "1") { ?>
+        <p>단체석가능</p>
+        <?php } else {?>
+        <p style="display: none;"></p>
+        <?php } ?>
       </div>
+
       <div class="store-details">
         <dl>
           <dt class="body1"><i class="fa-solid fa-location-dot icon"></i><span class="hidden">가는방법</span></dt>
@@ -90,7 +121,18 @@
         </dl>
         <dl>
           <dt class="body1"><i class="fa-regular fa-clock icon"></i><span class="hidden">영업시간</span></dt>
-          <dd>오늘 (수) 10:00 - 21:30</dd>
+          <?php
+          // 요일 배열 (일~토)
+          $days = ["일", "월", "화", "수", "목", "금", "토"];
+
+          // 현재 요일 가져오기
+          $today = date("w"); // 0: 일 ~ 6: 토
+          ?>
+          <dd>
+            (<?php echo $days[$today];?>) &nbsp;
+            <?php echo $row['store_weekday1'];?> -
+            <?php echo $row['store_weekday2'];?>
+          </dd>
         </dl>
         <dl>
           <dt class="body1"><i class="fa-solid fa-sack-dollar icon"></i><span class="hidden">가격 안내</span></dt>
@@ -111,27 +153,32 @@
       </nav>
     </section>
     <!-- menu section -->
+    <?php
+     $sql1 = "select * from menu where store_idx='".$row['store_idx']."' order by menu_idx desc limit 3";
+     $result1 = mysqli_query($con, $sql1);
+     ?>
     <section class="store-menu-section">
-      <h2 class="title">메뉴</h2>
+      <h2 class="title">대표메뉴</h2>
       <dl>
-        <dt class="sub-title1">라구 로마뇰라</dt>
-        <dd class="body1" style="color: var(--text-grey);">발음하기도 빡세네요</dd>
-        <dd class="price body1">520,000원</dd>
-        <dd class="photo"><img src="https://placehold.co/100" alt="라구 로마뇰라"></dd>
+        <?php
+        while($row1 = mysqli_fetch_array($result1)){ ?>
+        <dt class="sub-title1">
+          <?php echo $row1['store_menu_name'];?>
+        </dt>
+        <dd class="body1" style="color: var(--text-grey);">
+          <?php echo $row1['store_menu_memo'];?>
+        </dd>
+        <dd class="price body1">
+          <?php echo number_format($row1['store_menu_cost']);?>원
+        </dd>
+        <dd class="photo">
+          <div class="menu_img">
+            <img src="./upload/<?php echo $row1['file_copied_0'];?>">
+          </div>
+        </dd>
+        <?php } ?>
       </dl>
-      <dl>
-        <dt class="sub-title1">토마 호크</dt>
-        <dd class="body1" style="color: var(--text-grey);">스테....이크! 에크!</dd>
-        <dd class="price body1">520,000원</dd>
-        <dd class="photo"><img src="https://placehold.co/100" alt=""></dd>
-      </dl>
-      <dl>
-        <dt class="sub-title1">노브랜드버거 샐러드</dt>
-        <dd class="body1" style="color: var(--text-grey);">이거 맛있더라고요</dd>
-        <dd class="price body1">520,000원</dd>
-        <dd class="photo"><img src="https://placehold.co/100" alt=""></dd>
-      </dl>
-      <a class="seemore body1" href="menu_more.html">전체보기</a>
+      <a class="seemore body1" href="menu_more.html?store_idx=<?php echo $row['store_idx']?>">전체보기</a>
     </section>
     <!-- news section -->
     <section class="news-section">
@@ -307,7 +354,7 @@
         </a>
       </div>
       <div class="reservation-button">
-        <a href="./reser_detail.html" class="sub-title1">예약하기</a>
+        <a href="./reser_detail.html?store_idx=<?php echo $row['store_idx'];?>" class="sub-title1">예약하기</a>
       </div>
     </div>
   </main>

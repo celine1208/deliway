@@ -1,3 +1,15 @@
+<?php
+session_start();
+include "../config/db.php";
+
+$store_idx = $_GET['store_idx'];
+$sql = "SELECT * FROM store where store_idx = '".$store_idx."'";
+$result = mysqli_query($con,$sql);
+$row = mysqli_fetch_array($result);
+
+$sql1 = "SELECT * FROM menu_category where store_idx = '".$store_idx."' order by cate_name desc";
+$result1 = mysqli_query($con,$sql1);
+?>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -14,44 +26,58 @@
 <body>
     <div id="header-wrap">
         <header>
-            <h1 class="title">제주 고씨 든렘지 레스토랑</h1>
-            <a href="#" class="back" onclick="goBack(event)"><i class="fa fa-angle-left" aria-hidden="true" style="color: black;"></i><span
-                    class="hidden">뒤로가기</span></a>
+            <h1 class="title"><?php echo $row['store_name'] ?></h1>
+            <a href="#" class="back" onclick="goBack(event)">
+                <i class="fa fa-angle-left" aria-hidden="true" style="color: black;"></i>
+                <span class="hidden">뒤로가기</span>
+            </a>
         </header>
 
         <h2 class="hidden">메뉴별 이동</h2>
         <ul id="menu-nav">
-            <li><a href="#" class="sub-title1">파스타</a></li>
-            <li><a href="#" class="sub-title1">스테이크</a></li>
-            <li><a href="#" class="sub-title1 ">샐러드</a></li>
+            <?php while ($row1 = mysqli_fetch_array($result1)){ ?>
+                <li><a href="#" class="sub-title1"><?php echo $row1['cate_name'];?> </a></li>
+            <?php } ?>
         </ul>
     </div>
 
     <main>
         <div id="container">
+            <?php
+            $sql2 = "SELECT * FROM menu where store_idx = '".$store_idx."' order by menu_category desc";
+            $result2 = mysqli_query($con,$sql2);
+            ?>
             <section id="pasta">
-                <h3 class="sub-title2">파스타</h3>
-
-                <dl class="under-line">
-                    <dt class="sub-title1 menu-name">라구 로마뇰라</dt>
+                <?php
+                while($row2 = mysqli_fetch_array($result2)){ ?>
+                <h3 class="sub-title2"><?php echo $row2['menu_category']; ?></h3>
+                    <dl>
+                        <dt class="sub-title1 menu-name"><?php echo $row2['store_menu_name']; ?></dt>
+                        <dd class="body1"><?php echo number_format($row2['store_menu_cost']); ?> 원</dd>
+                        <dd class="price body1"><?php echo $row2['store_menu_memo']; ?></dd>
+                        <dd class="photo"><img src="./upload/<?php echo $row2['file_copied_0']; ?>" alt="음식 사진"></dd>
+                    </dl>
+                <?php
+                }
+                ?>
+                <!-- <dl class="under-line">
+                    <dt class="sub-title1 menu-name"><?php echo $row1['cate_name'] ?></dt>
                     <dd class="body1" style="color: var(--text-grey);">발음하기도 빡세네요</dd>
                     <dd class="price body1">520,000원</dd>
                     <dd class="photo"><img src="../images/pasta1.png" alt="라구 로마뇰라"></dd>
                 </dl>
-
                 <dl class="under-line">
                     <dt class="sub-title1 menu-name">살모네 크레마</dt>
                     <dd class="body1" style="color: var(--text-grey);">외노자 요리사가 맛있다면서 출시한 요리</dd>
                     <dd class="price body1">1,120,000원</dd>
                     <dd class="photo"><img src="../images/pasta2.png" alt=""></dd>
                 </dl>
-
                 <dl>
                     <dt class="sub-title1 menu-name">봉골레</dt>
                     <dd class="body1" style="color: var(--text-grey);">"늘 먹던 걸로"</dd>
                     <dd class="price body1">230,000원</dd>
                     <dd class="photo"><img src="../images/pasta3.png" alt=""></dd>
-                </dl>
+                </dl> -->
 
             </section>
             <section id="stake">

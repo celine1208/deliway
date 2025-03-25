@@ -8,9 +8,14 @@ $user_pass = $_POST['user_pass'];
 $user_pass1 = $_POST['user_pass1'];
 
 // 이메일 중복 체크
-$id_check = "select * from member where user_id='".$user_id."'";
+$id_check = "SELECT * FROM member WHERE user_id='".$user_id."'";
 $result_check = mysqli_query($con,$id_check);
 $row_check = mysqli_num_rows($result_check);
+
+// 전화번호 중복 체크
+$num_check = "SELECT * FROM member WHERE user_id = '".$user_id."'";
+$result1_check = mysqli_query($con,$num_check);
+$row1_check = mysqli_num_rows($result1_check);
 
 if ($row_check >= 1) {
     echo "<script> alert('중복된 아이디입니다');history.back();</script>";
@@ -22,7 +27,9 @@ if ($user_pass != $user_pass1){
     echo "<script>alert('비밀번호가 다릅니다.');history.back();</script>";
     exit;
 }
-$secret_pass = password_hash($user_pass, PASSWORD_DEFAULT); //암호화처리
+
+ //암호화처리
+$secret_pass = password_hash($user_pass, PASSWORD_DEFAULT);
 
 // 회원가입 sql 실행
 $sql = "INSERT INTO member (user_id, user_pass, user_name, user_phone, user_type, user_wdate, user_ing, user_login) VALUES ('".$user_id."','".$secret_pass."','".$user_name."','".$user_phone."','1','".$user_wdate."','1','".$user_login."')";

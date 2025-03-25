@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     echo "<script>alert('로그인이 필요합니다.'); history.back();</script>";
     exit;
 }
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_idx'];
 
 // POST 데이터 받기
 $store_name = mysqli_real_escape_string($con, $_POST['store_name']);
@@ -72,6 +72,7 @@ foreach ($_FILES["upfile"]["name"] as $i => $file_name) {
 
 // 데이터베이스 업데이트
 $sql = "UPDATE store SET
+        user_idx = '$user_idx',
         store_name = '$store_name',
         store_call = '$store_call',
         store_memo = '$store_memo',
@@ -105,7 +106,7 @@ $sql = "UPDATE store SET
         WHERE user_id = '$user_id'";
 
 if (mysqli_query($con, $sql)) {
-    echo "<script>alert('매장정보를 수정이 완료되었습니다!'); location.href='owner_store.html';</script>";
+    echo "<script>alert('매장정보 수정이 완료되었습니다!'); location.href='owner_store.html';</script>";
 } else {
     echo "<script>alert('오류 발생: " . mysqli_error($con) . "'); history.back();</script>";
 }

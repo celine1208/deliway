@@ -156,8 +156,7 @@ main {
   color: white;
   border-radius: 10px;
   position: relative;
-  background: url("../../images/pexels-othmane-ettalbi-2148497459-30374243.jpg")
-    no-repeat center / cover;
+  /* background: url("../../images/pexels-othmane-ettalbi-2148497459-30374243.jpg") no-repeat center / cover; */
 }
 
 dd {

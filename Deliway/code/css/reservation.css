@@ -370,7 +370,6 @@ footer dl dd {
   width: 75%;
   max-width: 400px;
   text-align: center;
-
 }
 
 .modal p {
@@ -381,7 +380,8 @@ footer dl dd {
   margin: 0 auto;
 }
 
-.modal button {
+.modal button,
+.modal a {
   background-color: var(--primary);
   color: var(--white);
   padding: 12px 24px;

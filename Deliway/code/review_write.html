@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+include "../config/db.php";
+
+$sql = "SELECT * FROM reser where reser_idx = '".$_GET['reser_idx']."'";
+$result = mysqli_query($con,$sql);
+$row = mysqli_fetch_array($result);
+
+$sql1 = "SELECT * FROM store where store_idx = '".$row['store_idx']."'";
+$result1 = mysqli_query($con,$sql1);
+$row1 = mysqli_fetch_array($result1);
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -23,21 +37,22 @@
   </header>
 
   <main>
+    <form method="post" action="PHP/review_ok.php" enctype="multipart/form-data">
+      <input type="hidden" name="store_idx" value="<?php echo $row['store_idx'];?>">
+      <input type="hidden" name="reser_idx" value="<?php echo $_GET['reser_idx'];?>">
+      <input type="hidden" name="user_id" value="<?php echo $_COOKIE['user_id'];?>">
     <section id="section">
-      <h2 class="sub-title2">제주 고씨 든렘지 레스토랑</h2>
-
-      <form>
+      <h2 class="sub-title2"><?php echo $row1['store_name']; ?></h2>
         <fieldset>
           <legend>방문 목적을 알려주세요</legend>
           <div class="btns">
-            <button type="button" class="tag" onclick="toggleSelection(event)">가족 외식</button>
-            <button type="button" class="tag" onclick="toggleSelection(event)">데이트</button>
-            <button type="button" class="tag" onclick="toggleSelection(event)">친구 모임</button>
-            <button type="button" class="tag" onclick="toggleSelection(event)">회식</button>
-            <button type="button" class="tag" onclick="toggleSelection(event)">혼밥</button>
+            <input type="checkbox" name="visit_opt1" value="1" class="tag" onclick="toggleSelection(event)">가족 외식</input>
+            <input type="checkbox" name="visit_opt2" value="1" class="tag" onclick="toggleSelection(event)">데이트</input>
+            <input type="checkbox" name="visit_opt3" value="1" class="tag" onclick="toggleSelection(event)">친구 모임</input>
+            <input type="checkbox" name="visit_opt4" value="1" class="tag" onclick="toggleSelection(event)">회식</input>
+            <input type="checkbox" name="visit_opt5" value="1" class="tag" onclick="toggleSelection(event)">혼밥</input>
           </div>
         </fieldset>
-
         <fieldset>
           <legend>어떤 점이 좋았나요?</legend>
           <div class="slider-container">
@@ -54,7 +69,6 @@
                     <button type="button" class="tag2" onclick="toggleSelection(event)">가격만큼 고급스러워요</button>
                   </div>
                 </div>
-
                 <div>
                   <p class="menu-title">분위기</p>
                   <div class="btn-wrap">
@@ -66,7 +80,6 @@
                     <button type="button" class="tag2" onclick="toggleSelection(event)">매장이 고급스러워요</button>
                   </div>
                 </div>
-
                 <div>
                   <p class="menu-title">기타 정보</p>
                   <div class="btn-wrap">
@@ -78,7 +91,6 @@
                     <button type="button" class="tag2" onclick="toggleSelection(event)">화장실이 청결해요</button>
                   </div>
                 </div>
-
                 <div>
                   <p class="menu-title">선택 안 함</p>
                   <div class="btn-wrap">
@@ -89,43 +101,46 @@
             </div>
           </div>
         </fieldset>
-
         <div class="input-group picture">
           <label>사진 업로드</label>
           <div class="image-upload">
             <label for="review-image" class="image-upload-button"></label>
-            <input type="file" id="review-image" name="review-image" class="hidden" accept="image/*">
+            <input type="file" name="upfile[]" id="review-image" class="hidden" multiple max="5" >
+            <?php
+            for ($i = 0; $i < 5; $i++) {
+              if (!empty($row['file_copied_' . $i])) {
+                echo "<img src='/upload/{$row['file_copied_' . $i]}' width='100' style='margin-right: 10px;'>";
+              }
+            }
+            ?>
           </div>
         </div>
-
         <div class="review">
           <p class="score sub-title1">별점</p>
           <div class="star-rating">
-            <span onclick="setRating(1)">★</span>
-            <span onclick="setRating(2)">★</span>
-            <span onclick="setRating(3)">★</span>
-            <span onclick="setRating(4)">★</span>
-            <span onclick="setRating(5)">★</span>
-            <input type="hidden" id="rating" name="rating" value="0">
+            <select name="review_score" id="review_score" required>
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★</option>
+              <option value="3">★★★</option>
+              <option value="2">★★</option>
+              <option value="1">★</option>
+            </select>
           </div>
         </div>
-
         <div class="input-group">
           <label for="title">제목</label>
-          <input type="text" id="title" name="title" required>
+          <input type="text" id="title" name="review_title" required>
         </div>
-
         <div class="input-group">
           <label for="content">내용</label>
-          <textarea id="content" name="content" rows="10" placeholder="리뷰를 작성해주세요" required></textarea>
+          <textarea id="content" name="review_memo" rows="10" placeholder="리뷰를 작성해주세요" required></textarea>
         </div>
-
-        <button type="submit" onclick="showConfirmModal(event)">리뷰 등록하기</button>
-      </form>
-    </section>
+        <button type="submit">리뷰 등록하기</button>
+      </section>
+    </form>
   </main>
-
-  <div id="cautionModal" class="modal">
+  
+  <!-- <div id="cautionModal" class="modal">
     <div class="modal-content">
       <p class="small">
         정확하고 유익한 정보를 나누어 쾌적한 리뷰 문화를 경험할 수 있도록 아래
@@ -143,7 +158,7 @@
       <p>리뷰등록이 완료되었습니다</p>
       <button onclick="closeModal('completionModal'); window.location.href='./review_detail.html'">확인</button>
     </div>
-  </div>
+  </div> -->
 </body>
 
 </html>

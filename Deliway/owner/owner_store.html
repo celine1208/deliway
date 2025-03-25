@@ -62,6 +62,8 @@ $row = mysqli_fetch_array($result);
         </header>
 
         <form id="storeInfoForm" method="post" action="owner_store.php" enctype="multipart/form-data">
+            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+            <input type="hidden" name="user_idx" value="<?php echo $_SESSION['user_idx']; ?>">
             <section class="section" aria-labelledby="basic-info-title">
                 <div class="section-header">
                     <h3 id="basic-info-title" class="section-title">기본 정보</h3>

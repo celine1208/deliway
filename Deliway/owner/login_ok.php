@@ -20,8 +20,10 @@ if (password_verify($user_pass,$hash_pass)){
     // 세션부여
     $_SESSION['user_id'] = $row['user_id'];
     $_SESSION['user_name'] = $row['user_name'];
+    $_SESSION['user_idx'] = $row['user_idx'];
 
     $sql1 = "UPDATE member set user_login = '".$user_login."' where user_id = '".$user_id."'";
+    $result = mysqli_query($con,$sql);
     
     echo "<script> alert('로그인에 성공하였습니다!'); location.href='owner_dashboard.html';</script>";
 

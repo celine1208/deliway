@@ -40,51 +40,18 @@
         <div class="options-row">
           <div class="remember-me">
             <label for="checkbox" class="body1">
-            <input id="checkbox" type="checkbox" name="auto_login" value="1" checked>
-            로그인 상태 유지하기</label>
+              <input id="checkbox" type="checkbox" name="auto_login" value="1" checked>
+              로그인 상태 유지하기
+            </label>
           </div>
           <a href="#" class="body1 find-account">아이디 | 비밀번호 찾기</a>
         </div>
-        
-        <!-- <button type="submit" class="title">로그인</button> -->
+
         <button type="submit" value="로그인" class="title">로그인</button>
         
         <p class="signup-prompt body1">아직 회원이 아니신가요? <a href="./login_terms.html" class="body1-bold">회원가입</a></p>
       </form>
     </section>
   </main>
-<!--
-  <script>
-    // Simple validation for demonstration
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-      let isValid = true;
-      
-      // Validate email
-      if (!emailInput.value || !emailInput.value.includes('@')) {
-        emailInput.classList.add('error');
-        isValid = false;
-      } else {
-        emailInput.classList.remove('error');
-      }
-      
-      // Validate password
-      if (!passwordInput.value) {
-        passwordInput.classList.add('error');
-        isValid = false;
-      } else {
-        passwordInput.classList.remove('error');
-      }
-      
-      // Submit if valid
-      if (isValid) {
-        console.log('Form submitted');
-        this.submit();
-      }
-    });
-  </script> -->
 </body>
 </html>

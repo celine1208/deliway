@@ -14,3 +14,7 @@ function showChangeModal() {
 function closeModal(modalId) {
   document.getElementById(modalId).style.display = "none";
 }
+
+function showReserveModal(){
+  document.getElementById("reserveModal").style.display = "flex";
+}
