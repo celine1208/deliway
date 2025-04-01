@@ -124,9 +124,10 @@ $total = mysqli_num_rows($result);
                             </div>
                             <div class="rest-time">
                                 <p class="restaurant-time body1">
-                                    <?php
+                                <?php
                                 $reser_day = date("Y.m.d · H:i", strtotime($row['reser_day']));
-                                echo $reser_day; ?>
+                                echo $reser_day;
+                                ?>
                                 </p>
                                 <p class="person body1">
                                     <?php echo $row['reser_number']; ?> 명
@@ -207,8 +208,22 @@ $total = mysqli_num_rows($result);
                             </div>
                         </div>
                     </div>
-                    <a href="./review_write.html?reser_idx=<?php echo $visit_row['reser_idx'];?>"
-                        class="view-details">리뷰 작성하기<i class='fas fa-plus plus'></i></a>
+                    <?php
+                    $sql2 = "SELECT * FROM review WHERE user_id = '".$_COOKIE['user_id']."' and store_idx = '".$visit_row['store_idx']."' and reser_idx = '".$visit_row['reser_idx']."'";
+                    $result2 = mysqli_query($con, $sql2);
+                    $total2 = mysqli_num_rows($result2);
+                    
+                    if ($total2 > 0){
+                    ?>
+                        <a href="">내가 쓴 리뷰 보기</a>
+                    <?php
+                    } else {
+                    ?>
+                    <a href="./review_write.html?reser_idx=<?php echo $visit_row['reser_idx'];?>"class="view-details">
+                        리뷰 작성하기<i class='fas fa-plus plus'></i>
+                    </a>
+                </div>
+                <?php } ?>
                 </div>
                 <?php
                 }
@@ -218,5 +233,4 @@ $total = mysqli_num_rows($result);
 
     </main>
 </body>
-
 </html>

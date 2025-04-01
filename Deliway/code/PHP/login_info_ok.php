@@ -2,13 +2,21 @@
 session_start();
 include "../../config/db.php";
 
-$user_id = $_POST['user_id'];
+$user_id = $_SESSION['user_id'];
+$user_phone = $_SESSION['user_phone'];
+$user_pass = $_SESSION['user_pass'];
 $user_name = $_POST['user_name'];
 $user_addr = $_POST['user_addr'];
 $user_wdate = date("Y-m-d H:i:s");
+$user_login = date("Y-m-d H:i:s");
+
+$secret_pass = password_hash($user_pass, PASSWORD_DEFAULT);
+
 
 // 회원가입 sql 실행
-$sql = "UPDATE member set user_name = '".$user_name."', user_addr = '".$user_addr."', user_wdate = '".$user_wdate."' where user_id='".$user_id."'";
+$sql = "INSERT INTO member (user_id, user_pass, user_name, user_phone, user_addr, user_type, user_wdate, user_ing, user_login)
+        VALUES ('$user_id', '$secret_pass', '$user_name', '$user_phone', '$user_addr', '1', '$user_wdate', '1', '$user_login')";
+
 $result = mysqli_query($con,$sql);
 
 ?>

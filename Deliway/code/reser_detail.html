@@ -57,9 +57,10 @@ $row = mysqli_fetch_array($result);
               <img src="../icon/reservation.png" alt="예약 아이콘">
               <span>예약일시</span>
             </label>
-            <input type="date" id="datetimePicker" name="reser_day" class="hidden-input"
+            <input type="datetime-local" name="reser_day" min="<?php echo $row['store_weekday1'];?>" max="<?php echo $row['store_weekday2'];?>">
+            <!-- <input type="date" id="datetimePicker" name="reser_day" class="hidden-input"
               aria-describedby="selectedDateTime">
-            <button class="flatpickr-button" id="openPicker" type="button">선택하기</button>
+            <button class="flatpickr-button" id="openPicker" type="button">선택하기</button> -->
           </div>
           <button id="confirmDate" class="confirm-btn" style="display: none;">확인</button>
 

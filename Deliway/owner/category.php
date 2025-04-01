@@ -8,7 +8,6 @@ $store_idx = $_POST['store_idx'];
 
 $sql = "INSERT into menu_category (cate_name, cate_userid, store_idx) VALUES ('".$cate_name."', '".$cate_userid."', '".$store_idx."')";
 mysqli_query($con,$sql);
-
 ?>
 
 <script>

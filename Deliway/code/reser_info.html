@@ -79,15 +79,31 @@ $row1 = mysqli_fetch_array($result1);
   </header>
 
   <main>
+    <?php
+    $sql2 = "SELECT COUNT(*) as cnt from review WHERE store_idx='".$row['store_idx']."'";
+    $result2 = mysqli_query($con,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+  
+    $sql3 = "SELECT sum(review_score) as total_score from review WHERE store_idx = '".$row['store_idx']."'";
+    $result3 = mysqli_query($con,$sql3);
+    $row3 = mysqli_fetch_array($result3);
+
+    if ($row2['cnt'] > 0) {
+      $total_score = $row3['total_score'] / $row2['cnt'];
+    }
+
+    ?>
     <section class="title-section">
       <h2 class="title"><?php echo $row1['store_name']; ?></h2>
       <dl>
-        <dt>
-          <img class="rating" src="../icon/star.png" alt="평점"><span class="hidden">평점</span>
-        </dt>
-        <dd>1.4</dd>
+        <dt><img class="rating" src="../icon/star.png" alt="평점"><span class="hidden">평점</span></dt>
+        <dd><?php echo number_format(round($total_score,1),1) ?></dd>
         <dt>리뷰</dt>
-        <dd>1,000</dd>
+        <dd>
+          <?php if($total_score == "0") { ?>
+          0.0 <?php } else { echo number_format($row2['cnt']); }
+          ?>
+        </dd>
         <a href="../">상세보기</a>
       </dl>
     </section>

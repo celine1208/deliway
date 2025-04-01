@@ -27,7 +27,7 @@ $files = $_FILES["upfile"];
 		
 		$upfile_size[$i]     = $files["size"][$i];
 		$upfile_error[$i]    = $files["error"][$i];
-      
+
 	
 		$file = explode(".", $upfile_name[$i]);
 		$file_name = $file[0]; // 파일명
@@ -80,7 +80,7 @@ $files = $_FILES["upfile"];
 			}
 		}
 	}
-$sql = "INSERT INTO menu (user_id, store_idx, menu_category, store_menu_name, store_menu_cost, store_menu_memo, file_name_0, file_copied_0) VALUES ('".$user_id."','".$store_idx."'  '".$menu_category."', '".$store_menu_name."', '".$store_menu_cost."', '".$store_menu_memo."', '".$upfile_name_[0]."', '".$copied_file_name[0]."')";
+$sql = "INSERT INTO menu (user_id, store_idx, menu_category, store_menu_name, store_menu_cost, store_menu_memo, file_name_0, file_copied_0) VALUES ('$user_id', '$store_idx', '$menu_category', '$store_menu_name', '$store_menu_cost', '$store_menu_memo', '{$upfile_name[0]}', '{$copied_file_name[0]}' )";
 
 mysqli_query($con,$sql);
 

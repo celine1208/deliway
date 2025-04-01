@@ -9,6 +9,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 $user_id = $_SESSION['user_idx'];
 
+$sql = 
+
 // POST 데이터 받기
 $store_name = mysqli_real_escape_string($con, $_POST['store_name']);
 $store_memo = mysqli_real_escape_string($con, $_POST['store_memo']);

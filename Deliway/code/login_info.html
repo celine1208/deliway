@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>alert('잘못된 접근입니다.'); location.href='login.html';</script>";
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -15,21 +24,40 @@
 
 <body>
     <header>
-        <a href="#" onclick="goBack(event)"><i class="fas fa-angle-left" aria-hidden="true"></i><span class="hidden">뒤로가기</span></a>
+        <a href="#" onclick="goBack(event)"><i class="fas fa-angle-left" aria-hidden="true"></i><span
+                class="hidden">뒤로가기</span></a>
         <h1 class="hidden">정보 입력</h1>
     </header>
     <main>
         <form method="post" action="./PHP/login_info_ok.php" id='loginInfo'>
-            <input type="hidden" name="user_id" value="<?php echo $_GET['user_id'];?>">
             <label class="login">델리웨이에 사용할 <br>닉네임을 입력해주세요
                 <input class="login-placeholder" type="text" name="user_name" placeholder="닉네임을 입력해주세요" required>
-            </label>
-
-            <label class="login">위치 설정
-                <input class="login-placeholder" type="text" name="user_addr" placeholder="주소검색" required>
-            </label>
+            <div>
+                <label for="postcode">우편번호</label>
+                <input type="text" id="postcode" name="user_post" placeholder="우편번호" readonly>
+                <button class="address-btn btn" type="button" onclick="execDaumPostcode()">주소 검색</button>
+            </div>
+            <div>
+                <label for="address">주소</label>
+                <input type="text" id="address" name="user_addr" placeholder="주소" readonly required>
+            </div>
+            <div>
+                <label for="detailAddress">상세 주소</label>
+                <input type="text" id="detailAddress" name="user_addr1" placeholder="상세 주소를 입력해주세요" required>
+            </div>
             <button type="submit" class="next title">다음</button>
         </form>
+        <script>
+            function execDaumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        document.getElementById('postcode').value = data.zonecode; // 우편번호 입력
+                        document.getElementById('address').value = data.roadAddress; // 도로명 주소 입력
+                    }
+                }).open();
+            }
+        </script>
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     </main>
 </body>
 

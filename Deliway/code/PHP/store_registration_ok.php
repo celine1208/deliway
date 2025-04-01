@@ -10,6 +10,7 @@ $store_call = $_POST['store_call'];
 $store_address1 = $_POST['store_address1'];
 $store_memo = $_POST['store_memo'];
 $store_ing = "승인 대기";
+$store_wdate = date("Y-m-d H:i:s");
 
 $files = $_FILES["upfile"];
 	$count = count($files["name"]);
@@ -26,7 +27,7 @@ $files = $_FILES["upfile"];
 		
 		$upfile_size[$i]     = $files["size"][$i];
 		$upfile_error[$i]    = $files["error"][$i];
-      
+
 	
 		$file = explode(".", $upfile_name[$i]);
 		$file_name = $file[0]; // 파일명

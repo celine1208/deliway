@@ -1,47 +1,115 @@
 <?php
 session_start();
-include "../config/db.php";
+include "../config/db.php"; // DB 연결
 
-$sql = "SELECT * FROM menu_category where cate_userid = '".$_SESSION['user_id']."'";
-$result = mysqli_query($con,$sql);
+$sql = "SELECT * FROM menu_category WHERE cate_userid = '".$_SESSION['user_id']."'";
+$result = mysqli_query($con, $sql);
 $row_num = mysqli_num_rows($result);
 
 ?>
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>카테고리 관리</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/menu_category.css">
+    <link rel="stylesheet" href="./css/owner_common.css">
 </head>
+
 <body>
-    <h1>카테고리 관리</h1>
-    <table>
-        <tr>
-            <td>카테고리명</td>
-            <td>관리</td>
-        </tr>
-        <?php
-        if($row_num == "0"){
-        ?>
-        <tr>
-            <td colspan="2">등록된 카테고리가 없습니다.</td>
-        </tr>
-        <?php
-        }  else {
+    <button class="sidebar-toggle" aria-label="메뉴 열기">
+        <i class="ri-menu-line"></i>
+    </button>
+    <!-- Navigation -->
+    <aside class="sidebar" role="navigation">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <i class="ri-store-2-fill"></i>
+            </div>
+            <h1 class="brand-name">델리웨이</h1>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="./owner_dashboard.html"><i class="ri-dashboard-line"></i>대시보드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="active" href="./owner_reservation.html"><i class="ri-calendar-line"></i>예약 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_store.html"><i class="ri-store-line"></i>매장 정보</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_menu.html"><i class="ri-restaurant-line"></i>메뉴 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_sales.html"><i class="ri-bar-chart-line"></i>매출 통계</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./owner_setting.html"><i class="ri-settings-line"></i>설정</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <section>
+        <h2> 카테고리 관리</h2>
+        <table>
+            <tr>
+                <td>카테고리명</td>
+                <td>관리</td>
+            </tr>
+            <?php
+            if($row_num == "0"){
+            ?>
+            <tr>
+                <td colspan="2">등록된 카테고리가 없습니다.</td>
+            </tr>
+            <?php
+            }  else {
             while($row = mysqli_fetch_array($result)){
-        ?>
-        <tr>
-            <td><?php echo $row['cate_name'] ?></td>
-            <td>수정 삭제</td>
-        </tr>
+            ?>
+            <tr>
+                <td>
+                    <?php echo $row['cate_name']; ?>
+                </td>
+                <td>수정 삭제</td>
+            </tr>
+            <?php
+            }
+            }
+            ?>
+        </table>
+        <button id="openModal">카테고리 등록</button>
+    </section>
+    <div class="modal">
         <?php
-        }
-        }
+        $sql_store = "SELECT store_idx FROM store WHERE user_id = '".$_SESSION['user_id']."'";
+        $result_store = mysqli_query($con, $sql_store);
+        $row_store = mysqli_fetch_array($result_store);
         ?>
-        <tr>
-            <td colspan="2"><a href="menu_category_write.html">카테고리 등록</a></td>
-        </tr>
-    </table>
+        <form method="post" action="category.php">
+            <h1>카테고리 등록</h1>
+            <input type="hidden" name="cate_userid" value="<?php echo $_SESSION['user_id']; ?>">
+            <input type="hidden" name="user_idx" value="<?php echo $_SESSION['user_idx']; ?>">
+            <input type="hidden" name="store_idx" value="<?php echo $row_store['store_idx']; ?>">
+            <label for="cate_name">카테고리명
+                <input type="text" id="cate_name" name="cate_name">
+            </label>
+            <button type="submit">등록</button>
+            <button type="button" id="closeModal">닫기</button>
+        </form>
+    </div>
 </body>
+<script>
+    document.getElementById("openModal").addEventListener("click", function () {
+        document.querySelector(".modal").style.display = "block";
+    });
+    document.getElementById("closeModal").addEventListener("click", function () {
+        document.querySelector(".modal").style.display = "none";
+    });
+</script>
+
 </html>

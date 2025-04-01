@@ -1,7 +1,8 @@
 <?php
 session_start();
 include "../config/db.php";
-$sql1 = "SELECT * FROM store where user_id = '".$_SESSION['user_id']."'";
+
+$sql1 = "SELECT * FROM menu where menu_idx = '".$_GET['menu_idx']."'";
 $result1 = mysqli_query($con,$sql1);
 $row1 = mysqli_fetch_array($result1);
 ?>
@@ -11,6 +12,9 @@ $row1 = mysqli_fetch_array($result1);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/owner_menu_edit.css">
+    <link rel="stylesheet" href="./css/owner_common.css">
     <title>매뉴선택</title>
 </head>
 
@@ -47,9 +51,9 @@ $row1 = mysqli_fetch_array($result1);
     </aside>
     <main>
         <h1>카테고리</h1>
-        <form method="post" action="menu_ok.php" enctype="multipart/form-data">
-            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-            <input type="hidden" name="store_idx" value="<?php echo $row1['store_idx']; ?>">
+        <form method="post" action="menu_edit_ok.php" enctype="multipart/form-data">
+            <input type="hidden" name="menu_idx" value="<?php echo $row1['menu_idx']; ?>">
+            <input type="hidden" name="mode" value="modify">
             <label for="menu_category">카테고리
                 <select name="menu_category" id="menu_category">
                     <option value=""></option>
@@ -58,7 +62,7 @@ $row1 = mysqli_fetch_array($result1);
                     $result = mysqli_query($con,$sql);
                     while($row = mysqli_fetch_array($result)){
                     ?>
-                    <option value="<?php echo $row['cate_name']; ?>">
+                    <option value="<?php echo $row['cate_name']; ?>" <?php if($row1['menu_category'] == $row['cate_name']) {echo "selected";} ?>>
                         <?php echo $row['cate_name']; ?>
                     </option>
                     <?php
@@ -66,21 +70,33 @@ $row1 = mysqli_fetch_array($result1);
                     ?>
                 </select>
             </label>
+            <?php
+            $item_file_0 = $row1['file_name_0'];
+            $copied_file_0 = $row1['file_copied_0'];
+            ?>
             <label for="menu_name">메뉴명
-                <input type="text" name="store_menu_name">
+                <input type="text" name="store_menu_name" value="<?php echo $row1['store_menu_name']; ?>">
             </label>
             <label for="menu_cost">메뉴가격
-                <input type="number" name="store_menu_cost">
+                <input type="number" name="store_menu_cost" value="<?php echo $row1['store_menu_cost']; ?>">
             </label>
             <label for="menue_memo">메뉴설명
-                <input type="text" name="store_menu_memo">
+                <input type="text" name="store_menu_memo" value="<?php echo $row1['store_menu_memo']; ?>">
             </label>
             <label for="upflie[]">메뉴사진
                 <input type="file" name="upfile[]">
             </label>
+            <?php
+            if ($item_file_0) {
+                ?>
+                현재 <?php echo $copied_file_0; ?> 파일이 등록되어 있습니다.
+                <input type="checkbox" name="del_file[]" value="0" checked>
+                <?php
+            }
+            ?>
+            <br>
             <button type="submit">메뉴등록</button>
         </form>
     </main>
 </body>
-
 </html>

@@ -1,0 +1,32 @@
+<?php
+session_start();
+include "../config/db.php";
+
+$store_idx = $_GET['store_idx'];
+$user_id = $_COOKIE['user_id'];
+
+$sql_user = "SELECT user_idx FROM member WHERE user_id = '$user_id'";
+$result_user = mysqli_query($con, $sql_user);
+$row_user = mysqli_fetch_array($result_user);
+$user_idx = $row_user['user_idx'];
+
+$reser_idx = $_GET['reser_idx'];
+$review_idx = $_GET['review_idx'];
+$user_like = $_GET['user_like'];
+
+$sql = "SELECT * FROM review_like WHERE user_idx = '".$user_idx."' and reser_idx= '".$reser_idx."' and review_idx= '".$review_idx."' and store_idx= '".$store_idx."'";
+$result = mysqli_query($con,$sql);
+$row = mysqli_fetch_array($result);
+
+if ($row == 0) {
+    $sql = "INSERT into review_like (user_idx,store_idx,reser_idx,user_like,review_idx) VALUES (".$user_idx.", ".$store_idx.", ".$reser_idx.", ".$user_like.", ".$review_idx.")";
+    mysqli_query($con,$sql);
+} else {
+    $sql = "UPDATE review_like SET user_like = '".$user_like."' WHERE user_idx = '".$user_idx."' AND reser_idx = '".$reser_idx."' AND review_idx = '".$review_idx."' AND store_idx = '".$store_idx."'";
+    mysqli_query($con,$sql);
+}
+?>
+
+<script>
+    location.href="store_detail.html?store_idx=<?php echo $store_idx;?>";
+</script>

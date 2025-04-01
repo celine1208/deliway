@@ -82,11 +82,14 @@ include "../config/db.php";
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_array($result)) {
                         echo "<tr>";
-                        echo "<td>".$row['store_menu_name']."</td>";
-                        echo "<td>".$row['store_menu_cost']."</td>";
-                        echo "<td>".$row['store_menu_memo']."</td>";
-                        echo "<td><img src='../code/upload/".$row['file_copied_0']."' alt='업로드 이미지' width='150'></td>";
+                        echo "<td>{$row['store_menu_name']}</td>";
+                        echo "<td>" . number_format($row['store_menu_cost']) . "</td>";
+                        echo "<td>{$row['store_menu_memo']}</td>";
+                        echo "<td><img src='../code/upload/{$row['file_copied_0']}' alt='업로드 이미지' width='150'></td>";
                         echo "</tr>";
+                        echo "<tr><td colspan='4' style='text-align: right;'>
+                                <a class='btn-edit' href='owner_menu_edit.html?menu_idx={$row['menu_idx']}'>수정</a>
+                                </td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan='4'>등록된 메뉴가 없습니다.</td></tr>";
