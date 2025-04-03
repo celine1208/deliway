@@ -61,7 +61,7 @@ $row = mysqli_fetch_array($result);
             <h2 class="page-title">매장 정보 관리</h2>
         </header>
 
-        <form id="storeInfoForm" method="post" action="owner_store.php" enctype="multipart/form-data">
+        <form id="storeInfoForm" method="post" action="owner_store_edit.php" enctype="multipart/form-data">
             <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
             <input type="hidden" name="user_idx" value="<?php echo $_SESSION['user_idx']; ?>">
             <input type="hidden" name="store_idx" value="<?php echo $row['store_idx']; ?>">
@@ -79,14 +79,14 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group">
                     <label for="storeCatehgory" class="form-label">카테고리</label>
                     <select name="store_category">
-                        <option value="한식" <?php if ($row['store_category']=='한식') { echo "selected";} ?>>한식</option>
-                        <option value="일식" <?php if ($row['store_category']=='일식') { echo "selected";} ?>>일식</option>
-                        <option value="중식" <?php if ($row['store_category']=='중식') { echo "selected";} ?>>중식</option>
-                        <option value="양식" <?php if ($row['store_category']=='양식') { echo "selected";} ?>>양식</option>
-                        <option value="카페&디저트" <?php if ($row['store_category']=='카페&디저트') { echo "selected";} ?>>카페&디저트</option>
-                        <option value="채식" <?php if ($row['store_category']=='채식') { echo "selected";} ?>>채식</option>
-                        <option value="뷔페" <?php if ($row['store_category']=='뷔페') { echo "selected";} ?>>뷔페</option>
-                        <option value="오마카세" <?php if ($row['store_category']=='오마카세') { echo "selected";} ?>>오마카세</option>
+                        <option value="1" <?php if ($row['store_category']=='1') { echo "selected";} ?>>한식</option>
+                        <option value="2" <?php if ($row['store_category']=='2') { echo "selected";} ?>>중식</option>
+                        <option value="3" <?php if ($row['store_category']=='3') { echo "selected";} ?>>양식</option>
+                        <option value="4" <?php if ($row['store_category']=='4') { echo "selected";} ?>>일식</option>
+                        <option value="5" <?php if ($row['store_category']=='5') { echo "selected";} ?>>카페&디저트</option>
+                        <option value="6" <?php if ($row['store_category']=='6') { echo "selected";} ?>>채식</option>
+                        <option value="7" <?php if ($row['store_category']=='7') { echo "selected";} ?>>뷔페</option>
+                        <option value="8" <?php if ($row['store_category']=='8') { echo "selected";} ?>>오마카세</option>
                     </select>
                 </div>
 
@@ -97,7 +97,7 @@ $row = mysqli_fetch_array($result);
 
                 <div class="form-group">
                     <label for="store-address">매장 주소
-                        <input type="text" id="sample5_address" placeholder="주소 검색" name="store_address1">
+                        <input type="text" id="sample5_address" placeholder="주소 검색" name="store_address1" value="<?php echo $row['store_address1']; ?>">
                     </label>
                     <input type="button" onclick="sample5_execDaumPostcode()" value="검색"><br>
                 </div>

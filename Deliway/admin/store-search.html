@@ -1,10 +1,18 @@
 <?php
 session_start();
+
 include "../config/db.php";
 
-$sql = "SELECT * FROM store";
+$search = $_POST['search'];
+$searchstring = $_POST['searchstring'];
+
+$sql = "SELECT * FROM store WHERE $search like '%$searchstring%'";
+echo $sql;
 $result = mysqli_query($con,$sql);
-$row_num = mysqli_num_rows($result);
+if (!$result) {
+    echo "쿼리 오류: " . mysqli_error($con);
+}
+$row_num = mysqli_num_rows($result);f
 
 ?>
 <!DOCTYPE html>
@@ -71,6 +79,7 @@ $row_num = mysqli_num_rows($result);
                 <div class="form-group">
                     <label for="search">필터</label>
                     <select name="search" id="search">
+                        <option value="" disabled selected>필터 선택</option>
                         <option value="store_name">업체명으로 찾기</option>
                         <option value="store_call">매장 연락처로 찾기</option>
                     </select>
@@ -118,43 +127,45 @@ $row_num = mysqli_num_rows($result);
                     ?>
                     <tr>
                         <td>등록된 업체정보가 없습니다.</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><?php echo $row['store_name'] ?></td>
+                        <td><?php echo $row['store_category'] ?></td>
+                        <td><?php echo $row['store_address1'] ?></td>
+                        <td><?php echo $row['store_call'] ?></td>
+                        <td><?php echo $row['store_wdate'] ?></td>
+                        <td><?php echo $row['store_ing'] ?></td>
                     </tr>
                     <tr>
                     <?php
                     } else {
-                        while($row = mysqli_fetch_array($result)){
+
+                        $sql1 = "SELECT * FROM store WHERE $search like '%$searchstring%' ORDER BY store_idx DESC"; //등록된 정보의 최근 글 부터
+                        $result1 = mysqli_query($con,$sql1);
+                        while($row1 = mysqli_fetch_array($result1)){;
+
                         ?>
                     </tr>
                     <tr>
                         <td>
                             <input type="checkbox">
                         </td>
-                        <td><a href="store_detail.html?store_idx=<?php echo $row1['store_idx'];?>"><?php echo $row['store_name'];?></a></td>
-                        <td>
-                            <?php
+                        <td><a href="store_detail.html?store_idx=<?php echo $row1['store_idx'];?>"><?php echo $row1['store_name'];?></a></td>
+                        <td><?php
                             if ($row1['store_category'] == '1') { echo '한식'; }
-                            else if ($row['store_category'] == '2') { echo '중식'; }
-                            else if ($row['store_category'] == '3') { echo '양식'; }
-                            else if ($row['store_category'] == '4') { echo '일식'; }
-                            else if ($row['store_category'] == '5') { echo '카페&디저트'; }
-                            else if ($row['store_category'] == '6') { echo '채식'; }
-                            else if ($row['store_category'] == '7') { echo '뷔페'; }
-                            else if ($row['store_category'] == '8') { echo '오마카세'; }
-                            ?>
-                        </td>
-                        <td><?php echo mb_substr($row['store_address1'],0,6);?></td>
-                        <td><?php echo $row['store_call'];?></td>
-                        <td><?php echo $row['store_wdate'];?></td>
+                            else if ($row1['store_category'] == '2') { echo '중식'; }
+                            else if ($row1['store_category'] == '3') { echo '양식'; }
+                            else if ($row1['store_category'] == '4') { echo '일식'; }
+                            else if ($row1['store_category'] == '5') { echo '카페&디저트'; }
+                            else if ($row1['store_category'] == '6') { echo '채식'; }
+                            else if ($row1['store_category'] == '7') { echo '뷔페'; }
+                            else if ($row1['store_category'] == '8') { echo '오마카세'; }
+                        ?></td>
+                        <td><?php echo mb_substr($row1['store_address1'],0,6);?></td>
+                        <td><?php echo $row1['store_call'];?></td>
+                        <td><?php echo $row1['store_wdate'];?></td>
+                        <td><a href="store_ok.html?store_idx=<?php echo $row1['store_idx'];?>&user_id=<?php echo $row1['user_id'];?>"><?php echo $row1['store_ing'];?></a></td>
                         <td>
-                            <a href="store_ok.html?store_idx=<?php echo $row1['store_idx'];?>&user_id=<?php echo $row1['user_id'];?>" class="status">
-                                <?php echo $row['store_ing'];?>
-                            </a>
+                            <button class="btn btn-primary">수정</button>
+                            <button class="btn btn-danger">삭제</button>
                         </td>
                     </tr>
                     <?php } ?>
@@ -175,10 +186,6 @@ $row_num = mysqli_num_rows($result);
                 <button class="page-btn"><i class="fas fa-angle-double-right"></i></button>
             </div>
         </div>
-    </div>
-    
-    <div class="modal">
-
     </div>
 </body>
 

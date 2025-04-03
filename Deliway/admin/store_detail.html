@@ -70,9 +70,18 @@ if (!$store) {
         <div class="store-detail-container">
             <h1 class="store-title"><?php echo htmlspecialchars($store['store_name']); ?></h1>
             <div class="store-meta">
-                <span class="category"><?php echo htmlspecialchars($store['store_opt']); ?></span>
+                <span class="category"><?php
+                    if ($store['store_category'] == '1') { echo '한식'; }
+                    else if ($store['store_category'] == '2') { echo '중식'; }
+                    else if ($store['store_category'] == '3') { echo '양식'; }
+                    else if ($store['store_category'] == '4') { echo '일식'; }
+                    else if ($store['store_category'] == '5') { echo '카페&디저트'; }
+                    else if ($store['store_category'] == '6') { echo '채식'; }
+                    else if ($store['store_category'] == '7') { echo '뷔페'; }
+                    else if ($store['store_category'] == '8') { echo '오마카세'; }
+                ?></span>
                 <span class="status <?php echo strtolower($store['store_ing']); ?>">
-                    <?php echo htmlspecialchars($store['store_ing']); ?>
+                    상태: <?php echo htmlspecialchars($store['store_ing']); ?>
                 </span>
             </div>
             <p class="store-address">
@@ -94,10 +103,10 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var geocoder = new kakao.maps.services.Geocoder();
 
 // 주소로 좌표를 검색합니다
-geocoder.addressSearch('<?php echo $row['store_address1'];?>', function(result, status) {
+geocoder.addressSearch('<?php echo $store['store_address1'];?>', function(result, status) {
 
     // 정상적으로 검색이 완료됐으면
-     if (status === kakao.maps.services.Status.OK) {
+    if (status === kakao.maps.services.Status.OK) {
 
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
@@ -109,7 +118,7 @@ geocoder.addressSearch('<?php echo $row['store_address1'];?>', function(result, 
 
         // 인포윈도우로 장소에 대한 설명을 표시합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;"><?php echo $row['store_name'];?></div>'
+            content: '<div style="width:150px;text-align:center;padding:6px 0;"><?php echo $store['store_name'];?></div>'
         });
         infowindow.open(map, marker);
 
@@ -122,18 +131,28 @@ geocoder.addressSearch('<?php echo $row['store_address1'];?>', function(result, 
             <p class="store-phone">
                 <i class="fas fa-phone"></i> <?php echo htmlspecialchars($store['store_call']); ?>
             </p>
-            <div class="store-images">
-                <img src="../upload/<?php echo htmlspecialchars($store['file_name_1']); ?>" alt="매장 이미지" class="store-image">
-            </div>
             <div class="store-description">
                 <h2>매장 소개</h2>
                 <p><?php echo nl2br(htmlspecialchars($store['store_memo'])); ?></p>
             </div>
-
-            <div class="store-actions">
-                <a href="store_edit.php?store_idx=<?php echo $store_idx; ?>" class="btn btn-primary">수정</a>
-                <a href="store_delete.php?store_idx=<?php echo $store_idx; ?>" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+            <div class="store-thumbnail">
+                <p>매장 대표 이미지</p>
+                <img src="../code/upload/<?php echo $store['file_copied_1']; ?>" alt="매장 대표이미지" style="width:100%;height:350px;">
             </div>
+            <section class="store-images">
+                <div class="store-image-wrapper">
+                    <img src="../code/upload/<?php echo $store['file_copied_2']; ?>" alt="매장 이미지 1" class="store-image">
+                    <span class="store-image-label">매장 이미지 1</span>
+                </div>
+                <div class="store-image-wrapper">
+                    <img src="../code/upload/<?php echo $store['file_copied_3']; ?>" alt="매장 이미지 2" class="store-image">
+                    <span class="store-image-label">매장 이미지 2</span>
+                </div>
+                <div class="store-image-wrapper">
+                    <img src="../code/upload/<?php echo $store['file_copied_4']; ?>" alt="매장 이미지 3" class="store-image">
+                    <span class="store-image-label">매장 이미지 3</span>
+                </div>
+            </section>
         </div>
     </div>
 </body>

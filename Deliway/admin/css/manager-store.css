@@ -70,14 +70,18 @@ th, td {
 }
 td a {
     display: block;
-    padding: 8px 15px;
-    background: var(--grey-50);
-    border-radius: var(--border-radius);
-    text-align: center;
-    width: auto;
     text-decoration: none;
     color: #000;
 }
+
+.status {
+    display: block;
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    color: #fff;
+    width: fit-content;
+}
+
 th {
     background-color: var(--gray-50);
     font-weight: 600;
@@ -122,21 +126,7 @@ tr:hover {
 .btn-danger:hover {
     background-color: #b91c1c;
 }
-/* 상태 뱃지 */
-.badge {
-    padding: 4px 8px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-}
-.badge-pending {
-    background-color: var(--warning-color);
-    color: white;
-}
-.badge-approved {
-    background-color: var(--success-color);
-    color: white;
-}
+
 /* 페이지네이션 */
 .pagination {
     display: flex;

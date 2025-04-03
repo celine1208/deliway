@@ -124,7 +124,6 @@ body {
 
 .nav-link i {
     margin-right: 10px;
-    width: 20px;
 }
 
 .btn {
@@ -172,6 +171,14 @@ body {
 .pending {
     background: var(--warning-color);
     color: #fff;
+}
+
+.status {
+    display: block;
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    color: #fff;
+    width: fit-content;
 }
 
 /* 반응형 디자인 */

@@ -182,7 +182,7 @@ $row = mysqli_fetch_array($result);
 
       <div id="do-reser">
         <ul>
-          <li><button type="submit" onclick="showCompletionModal(event)" style="color:white">예약하기</button></li>
+          <li><button type="submit" style="color:white">예약하기</button></li>
         </ul>
       </div>
   </form>
@@ -214,13 +214,6 @@ $row = mysqli_fetch_array($result);
       </dd>
     </dl>
   </footer>
-
-  <div id="completionModal" class="modal">
-    <div class="modal-content">
-      <p>예약이 완료 되었습니다.</p>
-      <button onclick="closeModal('completionModal'); window.location.href='./reser_list.html'">확인</button>
-    </div>
-  </div>
 </body>
 
 </html>

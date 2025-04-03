@@ -141,9 +141,7 @@ if ($mode==$_POST["modify"])
 			}
 
 		}
-		$sql = "UPDATE menu SET menu_category='".$menu_category."', store_menu_name = '".$store_menu_name."', store_menu_cost = '".$store_menu_cost."', store_menu_memo = '".$store_menu_memo."' where menu_idx=".$menu_idx."";
-		
-		
+		$sql = "UPDATE menu SET menu_category='".$menu_category."', store_menu_name = '".$store_menu_name."', store_menu_cost = '".$store_menu_cost."', store_menu_memo = '".$store_menu_memo."' WHERE menu_idx=".$menu_idx."";
 		
 		mysqli_query($con,$sql);  // $sql 에 저장된 명령 실행
 		

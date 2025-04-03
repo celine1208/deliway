@@ -56,6 +56,24 @@ include "../config/db.php";
                     <span>리뷰 관리</span>
                 </a>
             </li>
+            <?php
+
+            $date = date("Y-m-d 00:00:00");
+            $date1 = date("Y-m-d 23:59:59");
+            
+            $sql2 = "SELECT * FROM reser WHERE reser_wdate >= '".$date."' and reser_wdate <= '".$date1."'";
+            $result2 = mysqli_query($con,$sql2);
+            $row_num2 = mysqli_num_rows($result2);
+
+            $sql3 = "SELECT * FROM review WHERE review_wdate >= '".$date."' and review_wdate <= '".$date1."'";
+            $result3 = mysqli_query($con,$sql3);
+            $row_num3 = mysqli_num_rows($result3);
+
+            $sql4 = "SELECT * FROM store ORDER BY store_idx desc LIMIT 5";
+            $result4 = mysqli_query($con,$sql4);
+            $row_num4 = mysqli_num_rows($result4);
+
+            ?>
             <li class="nav-item">
                 <a href="./manager-statistics.html" class="nav-link">
                     <i class="fas fa-chart-bar"></i>
@@ -95,11 +113,11 @@ include "../config/db.php";
             </div>
             <div class="card">
                 <div class="card-title">오늘의 예약</div>
-                <div class="card-value">342</div>
+                <div class="card-value"><?php echo $row_num2; ?></div>
             </div>
             <div class="card">
                 <div class="card-title">신규 리뷰</div>
-                <div class="card-value">127</div>
+                <div class="card-value"><?php echo $row_num3; ?></div>
             </div>
         </div>
 
@@ -114,7 +132,6 @@ include "../config/db.php";
                         <th>카테고리</th>
                         <th>등록일</th>
                         <th>상태</th>
-                        <th>관리</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -124,17 +141,37 @@ include "../config/db.php";
                     </tr>
                     <?php
                     } else {
+                        while($row_store = mysqli_fetch_array($result_store)){
                     ?>
                     <tr>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
+                        <td><a href="store_detail.html?store_idx=<?php echo $row_store['store_idx']; ?>"><?php echo $row_store['store_name']; ?></a></td>
+                        <td><?php echo mb_substr($row_store['store_address1'],0,6); ?></td>
+                        <td>
+                            <?php
+                                if ($row_store['store_category'] == '1') { echo '한식'; }
+                                else if ($row_store['store_category'] == '2') { echo '중식'; }
+                                else if ($row_store['store_category'] == '3') { echo '양식'; }
+                                else if ($row_store['store_category'] == '4') { echo '일식'; }
+                                else if ($row_store['store_category'] == '5') { echo '카페&디저트'; }
+                                else if ($row_store['store_category'] == '6') { echo '채식'; }
+                                else if ($row_store['store_category'] == '7') { echo '뷔페'; }
+                                else if ($row_store['store_category'] == '8') { echo '오마카세'; }
+                            ?>
+                        </td>
+                        <td><?php echo $row_store['store_wdate']; ?></td>
+                        <td>
+                            <span class="status
+                                <?php 
+                                    if ($row_store['store_ing'] == '승인') echo ' approved';
+                                    else if ($row_store['store_ing'] == '승인 대기') echo ' pending';
+                                    else if ($row_store['store_ing'] == '반려') echo ' rejected';
+                                ?>">
+                                <?php echo $row_store['store_ing']; ?>
+                            </span>
+                        </td>
                     </tr>
-                    <?php
-                    }
-                    ?>
+                    <?php } ?>
+                    <?php }?>
                 </tbody>
             </table>
         </div>
