@@ -1,0 +1,75 @@
+if(isset($_GET['page'])){
+	$page = $_GET['page'];
+	} else {
+	$page = 1;
+}
+            $sql = "select * from news";
+			$result = mysqli_query($con,$sql);
+			$row_num = mysqli_num_rows($result); //게시판 총 레코드 수
+			
+            $list = 10; //한 페이지에 보여줄 개수
+            $block_ct = 5; //블록당 보여줄 페이지 개수
+
+            $block_num = ceil($page/$block_ct); // 현재 페이지 블록 구하기
+            $block_start = (($block_num - 1) * $block_ct) + 1; // 블록의 시작번호
+        	$block_end = $block_start + $block_ct - 1; //블록 마지막 번호
+
+            $total_page = ceil($row_num / $list); // 페이징한 페이지 수 구하기
+            if($block_end > $total_page) $block_end = $total_page; //만약 블록의 마지박 번호가 페이지수보다 많다면 마지박번호는 페이지 수
+            $total_block = ceil($total_page/$block_ct); //블럭 총 개수
+            $start_num = ($page-1) * $list; //시작번호 (page-1)에서 $list를 곱한다.
+
+            $idNumber = $row_num - ($page-1)*$total_page;
+
+			$number = $row_num - $start_num;
+						
+?>
+
+
+
+
+	<?php
+		if($page <= 1) {
+	?>
+        <a href='?page=1'><li class="aro01 aro_le01"></li></a>
+	<?php
+		} else {
+	?>
+	    <a href='?page=1'><li class="aro01 aro_le01"></a></li>
+	<?php
+		}
+		if($page <= 1) {
+		} else {
+		$pre = $page-1;
+	?>
+        <a href='?page=<?php echo $pre;?>'><li class="aro aro_le">  </li></a>
+		<?php
+		}
+		for($i=$block_start; $i<=$block_end; $i++){
+		if($page == $i){
+		?>
+        <li class="on"><?php echo $i;?></li>
+		<?php
+		} else {
+		?>
+		<li ><a href='?page=<?php echo $i;?>'><?php echo $i;?></a></li>
+        <?php
+		}
+		}
+		if($block_num >= $total_block){
+		}else{
+		$next = $page + 1;
+		?>
+        <a href='?page=<?php echo $next;?>'><li class="aro aro_ri">  </li></a>
+		<?php
+		}
+		if($page >= $total_page){
+		?>
+        <li class="aro01 aro_ri01"></li>
+		<?php
+		} else {
+		?>
+		<a href='?page=<?php echo $total_page;?>'><li class="aro01 aro_ri01"></li></a>
+		<?php
+		}
+		?>

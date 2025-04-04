@@ -8,7 +8,10 @@ if(isset($_GET['page'])){
 	$page = 1; //페이지
 }
 
-$sql = "SELECT * FROM member";
+$search = $_POST['search'] ?? $_GET['search'] ?? '';
+$searchstring = $_POST['searchstring'] ?? $_GET['searchstring'] ?? '';
+
+$sql = "SELECT * FROM member WHERE $search LIKE '%$searchstring%'";
 $result = mysqli_query($con,$sql);
 $row_num = mysqli_num_rows($result);
 
@@ -40,7 +43,7 @@ $number = $row_num - $start_num;
     <link rel="stylesheet" href="./css/manager-common.css">
     <link rel="stylesheet" href="./css/manager-user.css">
     <script src="./js/manager-common.js" defer></script>
-    <!-- <script src="./js/manager-user.js" defer></script> -->
+    <script src="./js/manager-user.js" defer></script>
 </head>
 
 <body>
@@ -102,17 +105,9 @@ $number = $row_num - $start_num;
                     <input type="text" id="search" name="searchstring" placeholder="이름, 이메일, 전화번호">
                 </div>
                 <div class="form-group">
-                    <label for="search">검색어</label>
-                    <select name="search" id="">
-                        <option value="user_name">이름</option>
-                        <option value="user_id">이메일</option>
-                        <option value="user_phone">연락처</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="user_type">회원 유형</label>
                     <select id="user_type" name="search">
-                        <option value="" checked>전체</option>
+                        <option value="" disabled selected>전체</option>
                         <option value="1">일반회원</option>
                         <option value="2">점주회원</option>
                     </select>
@@ -174,7 +169,9 @@ $number = $row_num - $start_num;
                 <h2 class="table-title">회원 목록</h2>
                 <div class="table-actions">
                     <button class="btn btn-secondary">
-                        <i class="fas fa-download"></i>엑셀 다운로드</button>
+                        <i class="fas fa-download"></i>
+                        엑셀 다운로드
+                    </button>
                 </div>
             </div>
             <table>
@@ -192,9 +189,23 @@ $number = $row_num - $start_num;
                 </thead>
                 <tbody>
                     <?php
-                    $sql1 = "SELECT * FROM member ORDER BY user_idx DESC limit $start_num, $list";
-                    $result1 = mysqli_query($con,$sql1);
-                    while($row1 = mysqli_fetch_array($result1)){
+                    if($row_num == ""){
+                    ?>
+                    <tr>
+                        <td>등록된 업체정보가 없습니다.</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <?php
+                    } else {
+                        $sql1 = "SELECT * FROM member WHERE $search LIKE '%$searchstring%' ORDER BY user_idx DESC limit $start_num, $list";
+                        $result1 = mysqli_query($con,$sql1);
+                        while($row1 = mysqli_fetch_array($result1)){
                     ?>
                     <tr>
                         <td><input type="checkbox"></td>
@@ -211,6 +222,7 @@ $number = $row_num - $start_num;
                     </tr>
                     <?php
                     $number--;
+                        }
                     }
                     ?>
                 </tbody>
@@ -225,7 +237,7 @@ $number = $row_num - $start_num;
                 <?php
                 } else {
                 ?>
-                    <a href="?page=1" class="page-btn"><i class="fas fa-angle-double-left"></i></a>
+                    <a href="?search=<?php echo $search ?>&searchstring=<?php echo $searchstring ?>&page=1" class="page-btn"><i class="fas fa-angle-double-left"></i></a>
                 <?php
                 }
                 ?>
@@ -237,7 +249,7 @@ $number = $row_num - $start_num;
                 } else {
                     $pre = $page - 1;
                 ?>
-                    <a href="?page=<?php echo $pre; ?>" class="page-btn"><i class="fas fa-angle-left"></i></a>
+                    <a href="?search=<?php echo $search ?>&searchstring=<?php echo $searchstring ?>&page=<?php echo $pre; ?>" class="page-btn"><i class="fas fa-angle-left"></i></a>
                 <?php
                 }
                 ?>
@@ -249,7 +261,7 @@ $number = $row_num - $start_num;
                 <?php
                 } else {
                 ?>
-                    <a href="?page=<?php echo $i; ?>" class="page-btn"><?php echo $i; ?></a>
+                    <a href="?search=<?php echo $search ?>&searchstring=<?php echo $searchstring ?>&page=<?php echo $i; ?>" class="page-btn"><?php echo $i; ?></a>
                     <?php
                     }
                     ?>
@@ -264,7 +276,7 @@ $number = $row_num - $start_num;
                 } else {
                     $next = $page + 1;
                 ?>
-                    <a href="?page=<?php echo $next; ?>" class="page-btn"><i class="fas fa-angle-right"></i></a>
+                    <a href="?search=<?php echo $search ?>&searchstring=<?php echo $searchstring ?>&page=<?php echo $next; ?>" class="page-btn"><i class="fas fa-angle-right"></i></a>
                 <?php
                 }
                 ?>
@@ -275,7 +287,7 @@ $number = $row_num - $start_num;
                 <?php
                 } else {
                 ?>
-                    <a href="?page=<?php echo $total_page; ?>" class="page-btn"><i class="fas fa-angle-double-right"></i></a>
+                    <a href="?search=<?php echo $search ?>&searchstring=<?php echo $searchstring ?>&page=<?php echo $total_page; ?>" class="page-btn"><i class="fas fa-angle-double-right"></i></a>
                 <?php
                 }
                 ?>

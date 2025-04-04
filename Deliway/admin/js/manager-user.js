@@ -4,23 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const userTable = document.querySelector('.user-table table');
     const modal = document.getElementById('userDetailModal');
     const modalClose = modal.querySelector('.modal-close');
-    
-    // 검색 폼 제출 처리
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const searchData = {
-            keyword: document.getElementById('search').value,
-            memberType: document.getElementById('memberType').value,
-            status: document.getElementById('status').value
-        };
-        searchUsers(searchData);
-    });
-
-    // 회원 검색 함수
-    function searchUsers(searchData) {
-        // TODO: API 호출 및 테이블 업데이트 로직 구현
-        console.log('검색 데이터:', searchData);
-    }
 
     // 테이블 체크박스 전체 선택/해제
     const selectAllCheckbox = userTable.querySelector('thead input[type="checkbox"]');
@@ -45,49 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 회원 상태 변경 처리
-    userTable.addEventListener('click', function(e) {
-        if (e.target.classList.contains('btn-danger') || 
-            e.target.classList.contains('btn-success')) {
-            const row = e.target.closest('tr');
-            const userId = row.dataset.userId; // TODO: 실제 사용자 ID 추가 필요
-            const newStatus = e.target.classList.contains('btn-danger') ? 'suspended' : 'active';
-            updateUserStatus(userId, newStatus);
-        }
-    });
-
-    // 회원 상세 정보 표시 함수
-    function showUserDetail(userData) {
-        // 모달 내용 업데이트
-        const profileValues = modal.querySelectorAll('.profile-value');
-        profileValues[0].textContent = userData.name;
-        profileValues[1].textContent = userData.email;
-        profileValues[2].textContent = userData.phone;
-        profileValues[3].textContent = userData.memberType;
-        profileValues[4].textContent = userData.joinDate;
-
-        // TODO: API를 통해 추가 회원 정보 조회 및 표시
-        
-        // 모달 표시
-        modal.classList.add('show');
-    }
-
     // 회원 상태 업데이트 함수
     function updateUserStatus(userId, newStatus) {
         // TODO: API 호출하여 회원 상태 업데이트
         console.log('상태 업데이트:', userId, newStatus);
-    }
-
-    // 엑셀 다운로드 버튼 처리
-    const excelDownloadBtn = document.querySelector('.btn-secondary');
-    excelDownloadBtn.addEventListener('click', function() {
-        downloadExcel();
-    });
-
-    // 엑셀 다운로드 함수
-    function downloadExcel() {
-        // TODO: 회원 목록 엑셀 다운로드 로직 구현
-        console.log('엑셀 다운로드 시작');
     }
 
     // 모달 닫기 처리

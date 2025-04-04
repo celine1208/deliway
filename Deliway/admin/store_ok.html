@@ -1,6 +1,8 @@
 <?php
+
 session_start();
-include "../config/db.php"
+include "../config/db.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,7 +16,7 @@ include "../config/db.php"
     <form method="post" action="store_ok.php">
         <input type="hidden" name="store_idx" value="<?php echo $_GET['store_idx'];?>">
         <input type="hidden" name="user_id" value="<?php echo $_GET['user_id'];?>">
-        <input type="radio" name="store_ing" value="승인">승인&nbsp;
+        <input type="radio" name="store_ing" value="승인" checked>승인&nbsp;
         <input type="radio" name="store_ing" value="반려">반려
         <input type="submit" value="등록">
     </form>

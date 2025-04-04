@@ -19,6 +19,7 @@
     gap: 15px;
 }
 .form-group {
+    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -74,14 +75,6 @@ td a {
     color: #000;
 }
 
-.status {
-    display: block;
-    padding: 8px 15px;
-    border-radius: var(--border-radius);
-    color: #fff;
-    width: fit-content;
-}
-
 th {
     background-color: var(--gray-50);
     font-weight: 600;
@@ -127,6 +120,10 @@ tr:hover {
     background-color: #b91c1c;
 }
 
+.searchBtn {
+    width: fit-content;
+}
+
 /* 페이지네이션 */
 .pagination {
     display: flex;
@@ -151,6 +148,21 @@ tr:hover {
 .page-btn:hover:not(.active) {
     background-color: var(--gray-100);
 }
+
+
+/* 모달창 */
+.modal form {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     

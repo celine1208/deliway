@@ -27,7 +27,7 @@
                     <a href="./owner_dashboard.html"><i class="ri-dashboard-line"></i>대시보드</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_reservation.html"><i class="ri-calendar-line"></i>예약 관리</a>
+                    <a href="owner_reservation.html?store_idx=<?php echo $row['store_idx']; ?>"><i class="ri-calendar-line"></i>예약 관리</a>
                 </li>
                 <li class="nav-item">
                     <a href="./owner_store.html"><i class="ri-store-line"></i>매장 정보</a>
@@ -40,6 +40,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="./owner_setting.html"><i class="ri-settings-line"></i>설정</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./logout.php" class="nav-link"><i class="ri-logout-box-r-line"></i><span>로그아웃</span></a>
                 </li>
             </ul>
         </nav>
