@@ -109,7 +109,7 @@ $files = $_FILES["upfile"];
 		}
 	}
 
-if ($mode==$_POST["modify"]) {
+if ($_POST["mode"] == "modify") {
 
 	$num_checked = isset($_POST['del_file']) ? count($_POST['del_file']) : 0;
 	

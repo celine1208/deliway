@@ -1,12 +1,12 @@
 <?php
 session_start();
-
 include "../config/db.php";
 
-$sql = "SELECT * FROM store WHERE user_id='".$_SESSION['user_id']."'";
+$sql = "select * from store where user_id='".$_SESSION['user_id']."'";
 $result = mysqli_query($con,$sql);
 $row = mysqli_fetch_array($result);
 ?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,11 +14,10 @@ $row = mysqli_fetch_array($result);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>점주 대시보드</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/owner_common.css">
     <link rel="stylesheet" href="./css/owner_dashboard.css">
-    <script src="./js/owner_common.js" defer></script>
-    <script src="./js/owner_dashboard.js" defer></script>
+    <script src="./js/owner-common.js" defer></script>
+    <!-- <script src="./js/owner-dashboard.js" defer></script> -->
 </head>
 <body>
     <button class="sidebar-toggle" aria-label="메뉴 열기">
@@ -35,25 +34,25 @@ $row = mysqli_fetch_array($result);
         <nav>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a class="active" href="./owner_dashboard.html"><i class="ri-dashboard-line"></i>대시보드</a>
+                    <a href="./owner_dashboard.html?store_idx=<?php echo $row['store_idx'];?>" class="active"><i class="ri-dashboard-line"></i>대시보드</a>
                 </li>
                 <li class="nav-item">
-                    <a href="owner_reservation.html?store_idx=<?php echo $row['store_idx']; ?>"><i class="ri-calendar-line"></i>예약 관리</a>
+                    <a href="./owner_reservation.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-calendar-line"></i>예약 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_store.html"><i class="ri-store-line"></i>매장 정보</a>
+                    <a href="./owner_store.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-store-line"></i>매장 정보</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_menu.html"><i class="ri-restaurant-line"></i>메뉴 관리</a>
+                    <a href="./owner_menu.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-restaurant-line"></i>메뉴 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_sales.html"><i class="ri-bar-chart-line"></i>매출 통계</a>
+                    <a href="./owner_sales.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-bar-chart-line"></i>매출 통계</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_setting.html"><i class="ri-settings-line"></i>설정</a>
+                    <a href="./owner_setting.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-settings-line"></i>설정</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./logout.php" class="nav-link"><i class="ri-logout-box-r-line"></i><span>로그아웃</span></a>
+                    <a href="./logout.php"><i class="ri-logout-box-r-line"></i>로그아웃</a>
                 </li>
             </ul>
         </nav>
@@ -61,22 +60,37 @@ $row = mysqli_fetch_array($result);
     <main class="main-content">
         <header class="header">
             <div class="store-info">
-                <div class="store-avatar">M</div>
+                <?php
+                $sql_cha = "select * from member where user_id = '".$_SESSION['user_id']."'";
+                $result_cha = mysqli_query($con, $sql_cha);
+                $row_cha = mysqli_fetch_array($result_cha);
+                ?>
+                <div class="store-avatar">
+                    <img src="../code/upload/<?php echo $row_cha['file_copied_0'];?>" width="56px" height="56px">
+                </div>
                 <div>
                     <h1><?php echo $row['store_name'];?></h1>
                     <span class="store-status">영업 중</span>
                 </div>
             </div>
             <div class="quick-actions">
-                <a href="owner_reservation.html?store_idx=<?php echo $row['store_idx']; ?>" class="btn btn-primary">예약 시간 관리</a>
+                <button class="btn btn-primary">예약 시간 관리</button>
                 <button class="btn btn-red">영업 상태 변경</button>
             </div>
         </header>
 
         <section class="stats-container">
+
+            <?php
+            $today = date("Y-m-d");
+
+            $sql_info = "select * from reser where reser_day='".$today."' and (reser_ing='예약확정' or reser_ing='예약신청')";
+            $result_info = mysqli_query($con, $sql_info);
+            $row_info = mysqli_num_rows($result_info);
+            ?>
             <div class="stat-card">
                 <div class="stat-title">오늘 예약</div>
-                <div class="stat-value">28</div>
+                <div class="stat-value"><?php echo $row_info;?></div>
                 <div class="stat-trend">어제보다 5건 많음</div>
             </div>
             <div class="stat-card">
@@ -84,9 +98,17 @@ $row = mysqli_fetch_array($result);
                 <div class="stat-value">857,000원</div>
                 <div class="stat-trend">목표 달성률 85%</div>
             </div>
+            <?php
+            $date = date("Y-m-d 00:00:00");
+            $date1 = date("Y-m-d 23:59:59");
+        
+            $sql_info_2 = "select * from review where review_wdate >= '".$date."' and review_wdate <= '".$date1."'";
+            $result_info_2 = mysqli_query($con, $sql_info_2);
+            $row_num_info_2 = mysqli_num_rows($result_info_2); //레코드의 갯수
+            ?>
             <div class="stat-card">
                 <div class="stat-title">새 리뷰</div>
-                <div class="stat-value">12</div>
+                <div class="stat-value"><?php echo $row_num_info_2;?></div>
                 <div class="stat-trend">평균 평점 4.5</div>
             </div>
             <div class="stat-card">
@@ -100,37 +122,37 @@ $row = mysqli_fetch_array($result);
             <section class="card">
                 <div class="card-header">
                     <h3 class="card-title">최근 예약</h3>
-                    <button class="btn btn-primary">전체 보기</button>
+                    <button class="btn btn-primary"><a href="owner_reservation.html?store_idx=<?php echo $row['store_idx'];?>" style="color: #fff; text-decoration: none;">전체 보기</a></button>
                 </div>
+                <?php
+                $sql_reser = "SELECT * FROM reser WHERE store_idx = '".$row['store_idx']."' ORDER BY reser_wdate DESC LIMIT 3";
+                $result_reser = mysqli_query($con, $sql_reser);
+                while ($row_reser = mysqli_fetch_array($result_reser)) {
+                ?>
                 <div class="reservation-list">
                     <div class="reservation-item">
-                        <span class="status-badge status-pending">대기중</span>
+                        <span class="status-badge status-pending"><?php echo $row_reser['reser_ing'];?></span>
                         <div class="reservation-info">
-                            <h4>김손님 (4인)</h4>
+                            <h4><?php echo $row_reser['reser_name'];?> (<?php echo $row_reser['reser_number'];?>인)</h4>
                             <div class="reservation-meta">
-                                오늘 18:30 | 테이블 12 | 픽업 요청
+                                <?php echo date("Y-m-d H:i", strtotime($row_reser['reser_day']));?> |
+                                <?php
+                                if ($row_reser['reser_pickup'] == 1) {
+                                ?> <?php echo "픽업 신청";?>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <button class="btn btn-primary">승인</button>
-                            <button class="btn btn-red">거절</button>
-                        </div>
-                    </div>
-                    <div class="reservation-item">
-                        <span class="status-badge status-pending">대기중</span>
-                        <div class="reservation-info">
-                            <h4>이손님 (2인)</h4>
-                            <div class="reservation-meta">
-                                오늘 19:00 | 테이블 5
-                            </div>
-                        </div>
-                        <!-- 승인 시 여기에 상태 뱃지가 추가됨 -->
-                        <div class="action-buttons">
-                            <button class="btn btn-primary">승인</button>
-                            <button class="btn btn-red">거절</button>
+                            <button class="btn btn-primary"><a href="reser_ok_dashboard.php?reser_idx=<?php echo $row_reser['reser_idx'];?>&reser_ing=1" style="color: #fff; text-decoration: none;">승인</a></button>
+                            <button class="btn btn-red"><a href="reser_ok_dashboard.php?reser_idx=<?php echo $row_reser['reser_idx'];?>&reser_ing=0" style="color: #fff; text-decoration: none;">거절</a></button>
                         </div>
                     </div>
                 </div>
+                <?php
+                }
+                ?>
             </section>
 
             <section class="card">

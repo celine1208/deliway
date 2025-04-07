@@ -13,7 +13,6 @@ include "../config/db.php";
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/manager-common.css">
     <link rel="stylesheet" href="./css/manager-dashboard.css">
-    <script src="./js/manager-common.js" defer></script>
 </head>
 
 <body>
@@ -33,7 +32,7 @@ include "../config/db.php";
         <div class="logo">델리웨이</div>
         <ul class="nav-menu">
             <li class="nav-item">
-                <a href="./manager-dashboard.html" class="nav-link">
+                <a href="./manager-dashboard.html" class="nav-link active">
                     <i class="fas fa-home"></i>
                     <span>대시보드</span>
                 </a>
@@ -151,7 +150,13 @@ include "../config/db.php";
                     ?>
                     <tr>
                         <td><a href="store_detail.html?store_idx=<?php echo $row_store['store_idx']; ?>"><?php echo $row_store['store_name']; ?></a></td>
-                        <td><?php echo mb_substr($row_store['store_address1'],0,6); ?></td>
+                        <td><?php
+                            $addr = explode(" ",$row_store['store_address1']);
+                            echo $addr[0];
+                            echo " ";
+                            echo $addr[1];
+                            ?>
+                        </td>
                         <td>
                             <?php
                                 if ($row_store['store_category'] == '1') { echo '한식'; }

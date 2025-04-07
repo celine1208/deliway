@@ -88,26 +88,16 @@ if (!$store) {
         <div class="store-detail-container">
             <h1 class="store-title"><?php echo htmlspecialchars($store['store_name']); ?></h1>
             <div class="store-meta">
-                <span class="category"><?php
-                    if ($store['store_category'] == '1') { echo '한식'; }
-                    else if ($store['store_category'] == '2') { echo '중식'; }
-                    else if ($store['store_category'] == '3') { echo '양식'; }
-                    else if ($store['store_category'] == '4') { echo '일식'; }
-                    else if ($store['store_category'] == '5') { echo '카페&디저트'; }
-                    else if ($store['store_category'] == '6') { echo '채식'; }
-                    else if ($store['store_category'] == '7') { echo '뷔페'; }
-                    else if ($store['store_category'] == '8') { echo '오마카세'; }
-                ?></span>
+                <span class="category"><?php echo htmlspecialchars($store['store_category']);?></span>
                 <span class="status <?php echo strtolower($store['store_ing']); ?>">
                     상태: <?php echo htmlspecialchars($store['store_ing']); ?>
                 </span>
             </div>
             <p class="store-address">
                 <i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($store['store_address1']); ?>
-            </p>
-<div id="map" style="width:100%;height:350px;"></div>
+                <div id="map" style="width:100%;height:350px;"></div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cf296d5c3ef945628fc8bfd4d32c00a8&libraries=services"></script>
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     mapOption = {
@@ -146,6 +136,7 @@ geocoder.addressSearch('<?php echo $store['store_address1'];?>', function(result
     }
 });
 </script>
+            </p>
             <p class="store-phone">
                 <i class="fas fa-phone"></i> <?php echo htmlspecialchars($store['store_call']); ?>
             </p>

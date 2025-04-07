@@ -44,7 +44,6 @@ $number = $row_num - $start_num;
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/manager-common.css">
     <link rel="stylesheet" href="./css/manager-store.css">
-    <script src="./js/manager-common.js" defer></script>
 </head>
 
 <body>
@@ -58,7 +57,7 @@ $number = $row_num - $start_num;
                 </a>
             </li>
             <li class="nav-item">
-                <a href="./manager-store.html" class="nav-link">
+                <a href="./manager-store.html" class="nav-link active">
                     <i class="fas fa-utensils"></i>
                     <span>식당 관리</span>
                 </a>
@@ -162,7 +161,6 @@ $number = $row_num - $start_num;
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
                     <?php
                     } else {
                         $sql1 = "SELECT * FROM store ORDER BY store_idx DESC limit $start_num, $list";
@@ -170,7 +168,6 @@ $number = $row_num - $start_num;
                         $row_num = mysqli_num_rows($result1);
                         while($row1 = mysqli_fetch_array($result1)){
                         ?>
-                    </tr>
                     <tr>
                         <td>
                             <input type="checkbox">
@@ -189,11 +186,16 @@ $number = $row_num - $start_num;
                             else if ($row1['store_category'] == '8') { echo '오마카세'; }
                             ?>
                         </td>
-                        <td><?php echo mb_substr($row1['store_address1'],0,6);?></td>
+                        <td><?php
+                            $addr = explode(" ",$row1['store_address1']);
+                            echo $addr[0];
+                            echo " ";
+                            echo $addr[1];
+                            ?></td>
                         <td><?php echo $row1['store_call'];?></td>
                         <td><?php echo $row1['store_wdate'];?></td>
                         <td>
-                            <a href="store_ok.html?store_idx=<?php echo $row1['store_idx'];?>&user_id=<?php echo $row['user_id'];?>" class="status
+                            <a href="store_ok.html?store_idx=<?php echo $row1['store_idx'];?>&user_id=<?php echo $row1['user_id'];?>" class="status
                                 <?php
                                 if ($row1['store_ing'] == '승인') echo ' approved';
                                 else if ($row1['store_ing'] == '승인 대기') echo ' pending';
