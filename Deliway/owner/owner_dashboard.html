@@ -91,12 +91,10 @@ $row = mysqli_fetch_array($result);
             <div class="stat-card">
                 <div class="stat-title">오늘 예약</div>
                 <div class="stat-value"><?php echo $row_info;?></div>
-                <div class="stat-trend">어제보다 5건 많음</div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">오늘 매출</div>
                 <div class="stat-value">857,000원</div>
-                <div class="stat-trend">목표 달성률 85%</div>
             </div>
             <?php
             $date = date("Y-m-d 00:00:00");
@@ -109,12 +107,10 @@ $row = mysqli_fetch_array($result);
             <div class="stat-card">
                 <div class="stat-title">새 리뷰</div>
                 <div class="stat-value"><?php echo $row_num_info_2;?></div>
-                <div class="stat-trend">평균 평점 4.5</div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">남은 예약 가능 시간</div>
                 <div class="stat-value">6</div>
-                <div class="stat-trend">저녁 타임 예약 가능</div>
             </div>
         </section>
 
@@ -131,17 +127,31 @@ $row = mysqli_fetch_array($result);
                 ?>
                 <div class="reservation-list">
                     <div class="reservation-item">
-                        <span class="status-badge status-pending"><?php echo $row_reser['reser_ing'];?></span>
+                        <span class="status-badge
+                        <?php
+                            if ($row_reser['reser_ing'] == '예약신청') {
+                                echo ' badge-warning';
+                            } else if ($row_reser['reser_ing'] == '예약확정') {
+                                echo ' badge-success';
+                            } else if ($row_reser['reser_ing'] == '방문완료') {
+                                echo ' badge-primary';
+                            } else if ($row_reser['reser_ing'] == '예약거절') {
+                                echo ' badge-danger';
+                            }
+                        ?>">
+                            <?php echo $row_reser['reser_ing'];?>
+                        </span>
                         <div class="reservation-info">
                             <h4><?php echo $row_reser['reser_name'];?> (<?php echo $row_reser['reser_number'];?>인)</h4>
                             <div class="reservation-meta">
                                 <?php echo date("Y-m-d H:i", strtotime($row_reser['reser_day']));?> |
                                 <?php
                                 if ($row_reser['reser_pickup'] == 1) {
-                                ?> <?php echo "픽업 신청";?>
+                                ?> 픽업 O
                                 <?php
-                                }
-                                ?>
+                                } else if ($row_reser['reser_pickup'] == 0){
+                                ?> 픽업 X
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="action-buttons">
@@ -181,16 +191,20 @@ $row = mysqli_fetch_array($result);
                 <div class="card-header">
                     <h3 class="card-title">오늘의 예약 현황</h3>
                 </div>
-                <div class="time-slots">
-                    <div class="time-slot">17:00 (만석)</div>
-                    <div class="time-slot available">17:30 (4석)</div>
-                    <div class="time-slot">18:00 (만석)</div>
-                    <div class="time-slot available">18:30 (2석)</div>
-                    <div class="time-slot available">19:00 (6석)</div>
-                    <div class="time-slot">19:30 (만석)</div>
-                    <div class="time-slot available">20:00 (8석)</div>
-                    <div class="time-slot available">20:30 (8석)</div>
-                </div>
+                <ul class="time-slots">
+                    <?php
+                    $sql_reser1 = "SELECT * FROM reser WHERE reser_wdate >= '".$date."' AND reser_wdate <= '".$date1."' AND store_idx = '".$row['store_idx']."' AND (reser_ing = '예약확정' or reser_ing = '방문완료') ORDER BY reser_wdate DESC LIMIT 8";
+                    $result_reser1 = mysqli_query($con,$sql_reser1);
+                    while($row_reser1 = mysqli_fetch_array($result_reser1)){
+                    ?>
+                    <li class="time-slot" style="list-style: none;">
+                    <span><?php echo $row_reser1['reser_ing'];?></span><br>
+                    <span><?php echo date("h:i A", strtotime($row_reser1['reser_day']));?></span><br><span><?php echo $row_reser1['reser_name'];?> · <?php echo $row_reser1['reser_number'];?>명</span>
+                    </li>
+                    <?php
+                    }
+                    ?>
+                </ul>
             </section>
 
             <section class="card">

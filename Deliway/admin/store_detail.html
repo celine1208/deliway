@@ -58,8 +58,8 @@ if (!$store) {
                 </a>
             </li>
             <li class="nav-item">
-                <a href="./manager-reservation.html" class="nav-link">
-                    <i class="fas fa-star"></i>
+                <a href="./manager-reservation.html" class="nav-link active">
+                    <i class="fas fa-calendar-alt"></i>
                     <span>예약 관리</span>
                 </a>
             </li>
@@ -104,8 +104,7 @@ if (!$store) {
             </div>
             <p class="store-address">
                 <i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($store['store_address1']); ?>
-            </p>
-<div id="map" style="width:100%;height:350px;"></div>
+                <div id="map" style="width:100%;height:350px;"></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
 <script>
@@ -146,6 +145,7 @@ geocoder.addressSearch('<?php echo $store['store_address1'];?>', function(result
     }
 });
 </script>
+            </p>
             <p class="store-phone">
                 <i class="fas fa-phone"></i> <?php echo htmlspecialchars($store['store_call']); ?>
             </p>

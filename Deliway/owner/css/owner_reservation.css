@@ -156,7 +156,6 @@
   color: var(--gray-900);
 }
 
-/* Enhanced Status Badges */
 .status-badge {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
@@ -173,6 +172,11 @@
 .status-confirmed {
   background-color: var(--success-color);
   color: white;
+}
+
+.status-done {
+  background-color: var(--gray-50);
+  color: var(--gray-600);
 }
 
 /* Reservation Details */

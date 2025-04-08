@@ -25,6 +25,7 @@ if ($row == 0) {
     $sql = "UPDATE review_like SET user_like = '".$user_like."' WHERE user_idx = '".$user_idx."' AND reser_idx = '".$reser_idx."' AND review_idx = '".$review_idx."' AND store_idx = '".$store_idx."'";
     mysqli_query($con,$sql);
 }
+
 ?>
 
 <script>

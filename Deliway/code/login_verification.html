@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +9,71 @@
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="css/webfont.css">
     <link rel="stylesheet" href="./css/login_verification.css">
-    <script src="./js/common.js" defer></script></head>
+    <!-- <script src="./js/common.js" defer></script> -->
+</head>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+    $(document).ready(function () {
+    $(document).off("keyup", ".check").on("keyup", ".check", function () {
+        var self = $(this);
+        var value = self.val();
+        var id = self.attr("id");
+
+        if (id === "user_id") {
+            $.post("PHP/id_check.php", { user_id: value }, function (data) {
+                $("#id_check").html(data).css("color", "red");
+                const target = $("#id_check");
+                target.html(data);
+                if (data.includes("중복")) {
+                    target.css("color", "red");
+                } else {
+                    target.css("color", "green");
+                }
+            });
+        }
+
+        if (id === "user_phone") {
+            $.post("PHP/phone_check.php", { user_phone: value }, function (data) {
+                console.log("user_phone:", value);
+                $("#phone_check").html(data).css("color", "red");
+                const target = $("#phone_check");
+                target.html(data);
+                if (data.includes("중복")) {
+                    target.css("color", "red");
+                } else {
+                    target.css("color", "green");
+                }
+            });
+        }
+    });
+});
+</script>
+<!-- 전화번호 입력시 자동 하이픈 생성 -->
+<script>
+    const autoHyphen = (target) => {
+        target.value = target.value
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{2,3})(\d{4,4})(\d{4})$/, `$1-$2-$3`);
+    }
+</script>
 
 <body>
     <header>
-        <a href="#" onclick="goBack(event)"><i class="fas fa-angle-left" aria-hidden="true"></i><span class="hidden">뒤로가기</span></a>
+        <a href="#" onclick="goBack(event)"><i class="fas fa-angle-left" aria-hidden="true"></i><span
+                class="hidden">뒤로가기</span></a>
         <h1 class="hidden">본인인증</h1>
     </header>
     <main>
         <form method="post" action="./PHP/login_verification_ok.php">
             <div>
-                <label class="login">이메일 주소를 입력해주세요
-                    <input type="email" name="user_id" placeholder="example@email.com" required>
-                </label>
+                <label class="login">이메일 주소를 입력해주세요</label>
+                <input class="check" id="user_id" type="email" name="user_id" placeholder="example@email.com" required>
+                <div id="id_check"></div>
             </div>
             <div>
-                <label class="login">전화번호를 입력해주세요
-                    <input type="text" name="user_phone" placeholder="000-0000-0000" oninput="autoHyphen(this)" maxlength="13" required>
-                </label>
-                <!-- 자동 하이픈 생성 -->
-                <script>
-                    const autoHyphen = (target) => {
-                        target.value = target.value
-                        .replace(/[^0-9]/g,'')
-                        .replace(/^(\d{2,3})(\d{4,4})(\d{4})$/,`$1-$2-$3`);
-                    }
-                </script>
+                <label class="login">전화번호를 입력해주세요</label>
+                <input class="check" type="text" id="user_phone" name="user_phone" placeholder="000-0000-0000" oninput="autoHyphen(this)" maxlength="13" required>
+                <div id="phone_check"></div>
             </div>
             <div>
                 <label class="login">비밀번호를 입력해주세요
@@ -49,4 +89,5 @@
         </form>
     </main>
 </body>
+
 </html>

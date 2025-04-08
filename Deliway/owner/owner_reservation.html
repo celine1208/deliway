@@ -153,7 +153,13 @@ $today = date("Y-m-d");
                                         <h3><?php echo $row_reser['reser_name'];?></h3>
                                         <span><?php echo $row_reser['reser_number'];?>인</span>
                                     </div>
-                                    <span class="status-badge status-pending" role="status">
+                                    <span class="status-badge
+                                    <?php
+                                    if ($row_reser['reser_ing'] == '예약신청') { echo ' status-pending'; }
+                                    else if ($row_reser['reser_ing'] == '예약확정') { echo ' status-confirmed'; }
+                                    else if ($row_reser['reser_ing'] == '예약거절') { echo ' status-rejected'; }
+                                    else if ($row_reser['reser_ing'] == '방문완료') { echo ' status-done'; }
+                                    ?>" role="status">
                                         <?php echo $row_reser['reser_ing'];?>
                                     </span>
                                 </header>
@@ -172,11 +178,11 @@ $today = date("Y-m-d");
                                         <dd><?php echo $row_reser['reser_memo'];?></dd>
                                         <dt>픽업 요청</dt>
                                         <dd>
-                                            <?php if($row_reser['reser_pickup'] == "1"){
+                                            <?php if($row_reser['reser_pickup'] == "1" && $row_reser['reser_ing'] == '예약확정'){
                                             ?>
                                             <span> O </span>
                                             <?php
-                                            } else if($row_reser['reser_pickup'] == "0"){
+                                            } else if($row_reser['reser_pickup'] == "0" && $row_reser['reser_ing'] == '예약확정'){
                                             ?>
                                             <span> X </span>
                                             <?php
@@ -186,14 +192,14 @@ $today = date("Y-m-d");
                                     </dl>
                                 </div>
                                 <footer class="reservation-actions">
-                                    <button type="button" class="btn btn-primary">
-                                        <a href="reser_ok.php?reser_idx=<?php echo $row['reser_idx'];?>&reser_ing=1&store_idx=<?php echo $_GET['store_idx'];?>" style="color: #fff; text-decoration: none;">승인</a>
+                                    <button type="button" class="btn btn-green">
+                                        <a href="reser_ok.php?reser_idx=<?php echo $row_reser['reser_idx'];?>&reser_ing=1&store_idx=<?php echo $_GET['store_idx'];?>" style="color: #fff; text-decoration: none;">승인</a>
                                     </button>
                                     <button type="button" class="btn btn-red">
-                                        <a href="reser_ok.php?reser_idx=<?php echo $row['reser_idx'];?>&reser_ing=0&store_idx=<?php echo $_GET['store_idx'];?>" style="color: #fff; text-decoration: none;">거절</a>
+                                        <a href="reser_ok.php?reser_idx=<?php echo $row_reser['reser_idx'];?>&reser_ing=0&store_idx=<?php echo $_GET['store_idx'];?>" style="color: #fff; text-decoration: none;">거절</a>
                                     </button>
-                                    <button type="button" class="btn btn-green">
-                                        <a href="reser_ok.php?reser_idx=<?php echo $row['reser_idx'];?>&reser_ing=2&store_idx=<?php echo $_GET['store_idx'];?>" style="color: #fff; text-decoration: none;">방문완료</a>
+                                    <button type="button" class="btn btn-primary">
+                                        <a href="reser_ok.php?reser_idx=<?php echo $row_reser['reser_idx'];?>&reser_ing=2&store_idx=<?php echo $_GET['store_idx'];?>" style="color: #fff; text-decoration: none;">방문완료</a>
                                     </button>
                                 </footer>
                             </article>

@@ -1,4 +1,4 @@
-/* Enhanced Dashboard Owner Styles */
+@charset "utf-8";
 
 /* Header Section */
 .header {
@@ -178,7 +178,7 @@
 }
 
 .status-pending {
-  background-color: var(--warning-color);
+  background-color: var(--primary-color);
   color: white;
 }
 
@@ -192,6 +192,11 @@
   color: white;
 }
 
+.status-done {
+  background-color: var(--gray-50);
+  color: var(--gray-500);
+}
+
 /* Enhanced Time Slots */
 .time-slots {
   display: grid;
@@ -203,21 +208,14 @@
 .time-slot {
   padding: 1rem;
   border-radius: var(--border-radius);
-  background-color: var(--gray-100);
   text-align: center;
-  color: var(--gray-600);
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 1rem;
   transition: var(--transition);
+  list-style: none;
 }
 
 .time-slot:hover {
   transform: translateY(-2px);
-}
-
-.time-slot.available {
-  background-color: var(--primary-color);
-  color: white;
 }
 
 /* Enhanced Notice List */

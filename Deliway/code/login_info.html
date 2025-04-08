@@ -19,9 +19,30 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="css/webfont.css">
     <link rel="stylesheet" href="css/login-common.css">
     <link rel="stylesheet" href="css/login_info.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./js/common.js" defer></script>
 </head>
+<script>
+$(document).ready(function () {
+    $(document).off("keyup", ".check").on("keyup", ".check", function () {
+        var self = $(this);
+        var value = self.val();
+        var id = self.attr("id");
 
+        if (id === "user_name") {
+            $.post("PHP/nickname_check.php", { user_name: value }, function (data) {
+                const target = $("#name_check");
+                target.html(data);
+                if (data.includes("중복")) {
+                    target.css("color", "red");
+                } else {
+                    target.css("color", "green");
+                }
+            });
+        }
+    });
+});
+</script>
 <body>
     <header>
         <a href="#" onclick="goBack(event)"><i class="fas fa-angle-left" aria-hidden="true"></i><span
@@ -30,8 +51,11 @@ if (!isset($_SESSION['user_id'])) {
     </header>
     <main>
         <form method="post" action="./PHP/login_info_ok.php" id='loginInfo'>
-            <label class="login">델리웨이에 사용할 <br>닉네임을 입력해주세요
-                <input class="login-placeholder" type="text" name="user_name" placeholder="닉네임을 입력해주세요" required>
+            <div>
+                <label class="login">델리웨이에 사용할 <br>닉네임을 입력해주세요</label>
+                <input class="login-placeholder check" id="user_name" type="text" name="user_name" placeholder="닉네임을 입력해주세요" required>
+                <div class="body1" id="name_check">닉네임 중복검사</div>
+            </div>
             <div>
                 <label for="postcode">우편번호</label>
                 <input type="text" id="postcode" name="user_post" placeholder="우편번호" readonly>

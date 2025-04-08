@@ -29,6 +29,14 @@
     box-sizing: border-box;
 }
 
+ul, li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
 body {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     background-color: var(--gray-50);
@@ -237,6 +245,12 @@ body {
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 500;
+}
+
+
+.badge-primary {
+    background: #ECFDF5;
+    color: var(--primary-color);
 }
 
 .badge-success {
