@@ -14,9 +14,95 @@
     <header>
         <h1><a href="#">Deliway</a></h1>
     </header>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script>
+        Kakao.init('d9c2bf478d1f4ea74468bbfdd9afa23b'); //발급받은 키 중 javascript키를 사용해준다.
+        console.log(Kakao.isInitialized()); // sdk초기화여부판단
+        //카카오로그인
+        function kakaoLogin() {
+            Kakao.Auth.login({
+
+                success: function (response) {
+                    Kakao.API.request({
+                        url: 'https://www.flashriding.com/oauth.php',
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        fail: function (error) {
+                            console.log(error)
+                        },
+                    })
+                },
+                fail: function (error) {
+                    console.log(error)
+                },
+            })
+        }
+        //카카오로그아웃
+        function kakaoLogout() {
+            if (Kakao.Auth.getAccessToken()) {
+                Kakao.API.request({
+                    url: '/v1/user/unlink',
+                    success: function (response) {
+                        console.log(response)
+                    },
+                    fail: function (error) {
+                        console.log(error)
+                    },
+                })
+                Kakao.Auth.setAccessToken(undefined)
+            }
+        }
+    </script>
+
+<?php
+define('NAVER_CLIENT_ID', 'xs5NNvCKl_SOpyZmxB3e');
+define('NAVER_CLIENT_SECRET', 'kTuRKk3ptS');
+define('NAVER_CALLBACK_URL', 'http://moondosa.dothome.co.kr/code/PHP/naverLogin.php');
+
+$naverUrl = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=".NAVER_CLIENT_ID."&redirect_uri=".NAVER_CALLBACK_URL;
+
+?>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<script>
+
+    var naverLogin = new naver.LoginWithNaverId(
+            {
+                clientId: "xs5NNvCKl_SOpyZmxB3e",
+                callbackUrl: "http://moondosa.dothome.co.kr/code/PHP/naverLogin.php",
+                isPopup: false,
+                callbackHandle: true
+            }
+        );
+    
+    naverLogin.init();
+    
+    window.addEventListener('load', function () {
+        naverLogin.getLoginStatus(function (status) {
+            if (status) {
+                var email = naverLogin.user.getEmail();
+                
+                console.log(naverLogin.user);
+                
+                if( email == undefined || email == null) {
+                    alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
+                    naverLogin.reprompt();
+                    return;
+                }
+            } else {
+                console.log("callback 처리에 실패하였습니다.");
+            }
+        });
+    });
+    </script>
     <main>
-        <a href="#" class="title loginWay"><span>카카오로 간편 로그인</span></a>
-        <a href="#" class="title loginWay"><span>네이버로 간편 로그인</span></a>
+        <?php
+        $restAPIKey = "e338c2e042766a107a064816c6fe85e2";
+        $callbackURI = "http://moondosa.dothome.co.kr/code/PHP/oauth.php";
+        $kakaoLoginUrl = "https://kauth.kakao.com/oauth/authorize?client_id=".$restAPIKey."&redirect_uri=".$callbackURI."&response_type=code";
+        ?>
+        <a href="<?php echo $kakaoLoginUrl; ?>" class="title loginWay"><span>카카오로 간편 로그인</span></a>
+        <a href="<?php echo $naverUrl; ?>" class="title loginWay"><span>네이버로 간편 로그인</span></a>
         <a href="./login_email.html" class="title loginWay"><span>델리웨이 계정 로그인</span></a>
     </main>
 </body>

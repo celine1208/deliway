@@ -14,10 +14,9 @@
   <body>
     <header>
       <h1 class="hidden">약관동의</h1>
-      <a href="#" onclick="goBack(event)"
-        ><i class="fas fa-angle-left" aria-hidden="true"></i
-        ><span class="back hidden">뒤로가기</span></a
-      >
+      <a href="#" onclick="goBack(event)">
+        <i class="fas fa-angle-left" aria-hidden="true"></i>
+        <span class="back hidden">뒤로가기</span></a>
     </header>
     <main>
       <h2 class="login">델리웨이 서비스 이용을 위해 <br>약관에 동의해주세요</h2>
@@ -47,7 +46,7 @@
           광고성 정보 수신동의<span class="optional">(선택)</span
           >
         </label>
-        <button class="next title" type="button" onclick="window.location.href = 'login_verification.html'" class="title">다음</button>
+        <button class="next title" type="submit" class="title" onclick="window.location.href = 'login_verification.html?code=<?php echo $_GET['code']; ?>'">다음</button>
       </form>
     </main>
     <script>

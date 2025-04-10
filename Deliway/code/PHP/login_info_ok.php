@@ -7,15 +7,16 @@ $user_phone = $_SESSION['user_phone'];
 $user_pass = $_SESSION['user_pass'];
 $user_name = $_POST['user_name'];
 $user_addr = $_POST['user_addr'];
+$user_addr1 = $_POST['user_addr1'];
+$user_post = $_POST['user_post'];
 $user_wdate = date("Y-m-d H:i:s");
 $user_login = date("Y-m-d H:i:s");
 
 $secret_pass = password_hash($user_pass, PASSWORD_DEFAULT);
 
-
 // 회원가입 sql 실행
-$sql = "INSERT INTO member (user_id, user_pass, user_name, user_phone, user_addr, user_type, user_wdate, user_ing, user_login)
-        VALUES ('$user_id', '$secret_pass', '$user_name', '$user_phone', '$user_addr', '1', '$user_wdate', '1', '$user_login')";
+$sql = "INSERT INTO member (user_id, user_pass, user_name, user_phone, user_addr, user_type, user_wdate, user_ing, user_login, user_addr1, user_post)
+        VALUES ('$user_id', '$secret_pass', '$user_name', '$user_phone', '$user_addr', '1', '$user_wdate', '1', '$user_login', '$user_addr1','$user_post' )";
 
 $result = mysqli_query($con,$sql);
 

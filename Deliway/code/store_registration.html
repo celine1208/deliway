@@ -52,7 +52,8 @@ session_start();
                 </div>
                 <div id="map"></div>
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-                <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
+                <script
+                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
                 <script>
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
@@ -99,6 +100,11 @@ session_start();
                             }
                         }).open();
                     }
+                    // 파일 업로드 시 선택한 파일 이름 보여주기
+                    document.getElementById("business-license").addEventListener("change", function () {
+                        const fileName = this.files.length ? this.files[0].name : "선택된 파일 없음";
+                        document.getElementById("file-name").textContent = fileName;
+                    });
                 </script>
                 <div class="input-group">
                     <label for="store-phone">매장 전화번호
@@ -106,10 +112,14 @@ session_start();
                     </label>
                 </div>
                 <div class="input-group">
-                    <label for="business-license">사업자등록증
-                        <input type="file" id="business-license" name="upfile[]"
-                            accept="image/*,application/pdf" required>
-                    </label>
+                    <div class="input-group">
+                        <span>사업자등록증</span>
+                        <div class="file-upload-wrapper">
+                            <label class="file-upload-label" for="business-license">파일 선택</label>
+                            <input type="file" id="business-license" name="upfile[]" accept="image/*" required>
+                            <span id="file-name">선택된 파일 없음</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="input-group">
                     <label for="store-description">매장 소개
@@ -117,9 +127,12 @@ session_start();
                     </label>
                 </div>
                 <div class="input-group">
-                    <label for="store-images">매장 이미지
+                    <span>매장대표사진</span>
+                    <div class="file-upload-wrapper">
+                        <label class="file-upload-label" for="store-images">파일 선택</label>
                         <input type="file" id="store-images" name="upfile[]" accept="image/*" multiple>
-                    </label>
+                        <span id="file-name">선택된 파일 없음</span>
+                    </div>
                 </div>
                 <button type="submit" class="submit-btn title">신청하기</button>
             </form>

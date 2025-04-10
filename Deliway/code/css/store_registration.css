@@ -27,7 +27,8 @@
 }
 
 .input-group input,
-.input-group textarea {
+.input-group textarea,
+.input-group select {
     margin-top: 10px;
     width: 100%;
     padding: 15px;
@@ -76,4 +77,39 @@ textarea:focus {
     border-radius: 10px;
     cursor: pointer;
     z-index: 999;
+}
+
+/* 파일선택 */
+.file-upload-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid var(--text-grey);
+    border-radius: 8px;
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.file-upload-label:hover {
+    background-color: #555; /* 호버 시 조금 어둡게 */
+}
+
+.input-group input[type="file"] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 }

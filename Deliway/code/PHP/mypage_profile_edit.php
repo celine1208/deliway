@@ -4,7 +4,7 @@ session_start();
 include "../../config/db.php";
 
 $user_name = $_POST['user_name'];
-$user_intro = $_POST['user_intro'];
+$user_intro = $_POST['editor1'];
 
 $files = $_FILES["upfile"];
 	$count = count($files["name"]);
@@ -21,7 +21,7 @@ $files = $_FILES["upfile"];
 		
 		$upfile_size[$i]     = $files["size"][$i];
 		$upfile_error[$i]    = $files["error"][$i];
-      
+
 	
 		$file = explode(".", $upfile_name[$i]);
 		$file_name = $file[0]; // 파일명
