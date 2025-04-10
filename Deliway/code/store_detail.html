@@ -370,9 +370,7 @@ $row = mysqli_fetch_array($result);
                 <img class="like-icon2 active" src="../icon/liked.png" alt="좋아요" width="22" height="22">
               </a>
             <?php } ?>
-            <span class="like-count">
-              <?php echo $rowre['cnt'];?>
-            </span>
+            <span class="like-count"><?php echo $rowre['cnt'];?></span>
           </button>
           <?php
           $sql5 = "SELECT COUNT(*) AS cnt1 FROM reply WHERE review_idx = '".$row_1['review_idx']."'";
@@ -388,7 +386,7 @@ $row = mysqli_fetch_array($result);
       <?php
       }
       ?>
-      <a class="seemore body1" href="./review_more.html">전체보기</a>
+      <a class="seemore body1" href="./review_more.html?store_idx=<?php echo $row['store_idx']; ?>">전체보기</a>
     </section>
     <!-- 오시는 길 -->
     <section class="map-section">

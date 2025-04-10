@@ -33,7 +33,7 @@ $files = $_FILES["upfile"];
 		
 		$upfile_size[$i]     = $files["size"][$i];
 		$upfile_error[$i]    = $files["error"][$i];
-      
+
 	
 		$file = explode(".", $upfile_name[$i]);
 		$file_name = $file[0]; // 파일명
@@ -89,7 +89,7 @@ $files = $_FILES["upfile"];
 	$sql = "INSERT INTO review (reser_idx, user_id, store_idx, visit_opt1, visit_opt2, visit_opt3, visit_opt4, visit_opt5, review_score, review_title, review_memo, review_wdate, file_name_0, file_name_1, file_name_2, file_name_3, file_name_4, file_copied_0, file_copied_1, file_copied_2, file_copied_3, file_copied_4) VALUES ('".$reser_idx."', '".$user_id."','".$store_idx."','".$visit_opt1."','".$visit_opt2."','".$visit_opt3."','".$visit_opt4."','".$visit_opt5."','".$review_score."','".$review_title."','".$review_memo."','".$review_wdate."','".$upfile_name[0]."','".$upfile_name[1]."','".$upfile_name[2]."','".$upfile_name[3]."','".$upfile_name[4]."','".$copied_file_name[0]."','".$copied_file_name[1]."','".$copied_file_name[2]."','".$copied_file_name[3]."','".$copied_file_name[4]."')";
 	$result = mysqli_query($con,$sql);
 	if ($result) {
-		echo "<script> alert('리뷰가 등록되었습니다.'); location.href='../review_detail.html'; </script>";
+		echo "<script> alert('리뷰가 등록되었습니다.'); location.href='../review_detail.html?reser_idx=<?php echo $reser_idx;?></script>";
 	} else {
 		echo "<script> alert('리뷰 등록에 실패: ".mysqli_error($con)."'); history.back(); </script>";
 	}
