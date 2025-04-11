@@ -10,6 +10,9 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+$store_lat = $_POST['find_lat']; // 위도
+$store_lng = $_POST['find_lng']; // 경도
+
 // POST 데이터 받기
 $store_name = mysqli_real_escape_string($con, $_POST['store_name']);
 $store_memo = mysqli_real_escape_string($con, $_POST['store_memo']);
@@ -156,6 +159,8 @@ if ($_POST["mode"] == "modify") {
 				// unlink($delete_path);
 
 				$sql = "UPDATE store SET
+				store_lat = '$store_lat',
+				store_lng = '$store_lng',
                 $field_org_name = '$org_name_value',
                 $field_real_name = '$org_real_value',
                 store_name = '$store_name',
@@ -192,6 +197,8 @@ if ($_POST["mode"] == "modify") {
 				if (!$upfile_error[$i])
 				{
 					$sql = "UPDATE store SET
+					store_lat = '$store_lat',
+					store_lng = '$store_lng',
                     $field_org_name = '$org_name_value',
                     $field_real_name = '$org_real_value',
                     store_name = '$store_name',
@@ -229,6 +236,8 @@ if ($_POST["mode"] == "modify") {
 		
         // 데이터베이스 업데이트
         $sql = "UPDATE store SET
+		store_lat = '$store_lat',
+		store_lng = '$store_lng',
         store_name = '$store_name',
         store_call = '$store_call',
         store_memo = '$store_memo',
@@ -257,6 +266,7 @@ if ($_POST["mode"] == "modify") {
 
 mysqli_query($con,$sql);
 }
+
 
 ?>
 

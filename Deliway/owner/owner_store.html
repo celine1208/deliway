@@ -81,7 +81,7 @@ $row = mysqli_fetch_array($result);
 
                 <div class="form-group">
                     <label for="storeCatehgory" class="form-label">카테고리</label>
-                    <select name="store_category">
+                    <select class="form-select" name="store_category">
                         <option value="1" <?php if ($row['store_category']=='1') { echo "selected";} ?>>한식</option>
                         <option value="2" <?php if ($row['store_category']=='2') { echo "selected";} ?>>중식</option>
                         <option value="3" <?php if ($row['store_category']=='3') { echo "selected";} ?>>양식</option>
@@ -97,17 +97,18 @@ $row = mysqli_fetch_array($result);
                     <label for="storeDesc" class="form-label">매장 소개</label>
                     <textarea id="storeDesc" class="form-textarea" name="store_memo"><?php echo $row['store_memo'];?></textarea>
                 </div>
-
                 <div class="form-group">
-                    <label for="store-address">매장 주소
-                        <input type="text" id="sample5_address" placeholder="주소 검색" name="store_address1" value="<?php echo $row['store_address1']; ?>">
-                    </label>
-                    <input type="button" onclick="sample5_execDaumPostcode()" value="검색"><br>
+                    <label for="store-address">매장 주소</label>
+                        <input class="form-input" type="text" id="sample5_address" placeholder="주소 검색" name="store_address1" value="<?php echo $row['store_address1']; ?>">
+                        <input class="search-btn" type="button" onclick="sample5_execDaumPostcode()" value="검색"><br>
+                        <div class="location">
+                            <input class="form-input" type="hidden" name="find_lat" id="find_lat" placeholder="위도" value="<?php echo $row['store_lat'] ;?>">
+                            <input class="form-input" type="hidden" name="find_lng" id="find_lng" placeholder="경도" value="<?php echo $row['store_lng'] ;?>">
+                        </div>
                 </div>
-                <div id="map"></div>
+                <div id="map" style="width: 100px; height: 300px; display: none"></div>
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-                <script
-                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cf296d5c3ef945628fc8bfd4d32c00a8&libraries=services"></script>
+                <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
                 <script>
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
@@ -125,7 +126,6 @@ $row = mysqli_fetch_array($result);
                         map: map
                     });
 
-
                     function sample5_execDaumPostcode() {
                         new daum.Postcode({
                             oncomplete: function (data) {
@@ -142,6 +142,10 @@ $row = mysqli_fetch_array($result);
 
                                         // 해당 주소에 대한 좌표를 받아서
                                         var coords = new daum.maps.LatLng(result.y, result.x);
+
+                                        document.getElementById("find_lat").value = result.y;
+                                        document.getElementById("find_lng").value = result.x;
+
                                         // 지도를 보여준다.
                                         mapContainer.style.display = "block";
                                         map.relayout();

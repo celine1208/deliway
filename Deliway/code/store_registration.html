@@ -45,93 +45,77 @@ session_start();
                     </label>
                 </div>
                 <div class="input-group">
-                    <label for="store-address">매장 주소
-                        <input type="text" id="sample5_address" placeholder="주소 검색" name="store_address1">
-                    </label>
-                    <input type="button" onclick="sample5_execDaumPostcode()" value="검색"><br>
+                    <label for="postcode">매장 우편번호</label>
+                    <input type="text" id="postcode" name="store_post" placeholder="우편번호" readonly>
+                    <input class="address-btn btn" type="button" onclick="execDaumPostcode()" value="주소 검색"></input>
+                </div>
+                <div class="input-group">
+                    <label for="address">매장 주소</label>
+                    <input type="text" id="address" name="store_address1" placeholder="주소" readonly required>
+                </div>
+                <div class="input-group">
+                    <label for="detailAddress">매장 상세 주소</label>
+                    <input type="text" id="detailAddress" name="store_address2" placeholder="상세 주소를 입력해주세요" required>
                 </div>
                 <div id="map"></div>
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                 <script
                     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
                 <script>
-                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                        mapOption = {
-                            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-                            level: 5 // 지도의 확대 레벨
-                        };
 
-                    //지도를 미리 생성
-                    var map = new daum.maps.Map(mapContainer, mapOption);
-                    //주소-좌표 변환 객체를 생성
-                    var geocoder = new daum.maps.services.Geocoder();
-                    //마커를 미리 생성
-                    var marker = new daum.maps.Marker({
-                        position: new daum.maps.LatLng(37.537187, 127.005476),
-                        map: map
-                    });
-
-
-                    function sample5_execDaumPostcode() {
+                    function execDaumPostcode() {
                         new daum.Postcode({
                             oncomplete: function (data) {
-                                var addr = data.address; // 최종 주소 변수
-
-                                // 주소 정보를 해당 필드에 넣는다.
-                                document.getElementById("sample5_address").value = addr;
-                                // 주소로 상세 정보를 검색
-                                geocoder.addressSearch(data.address, function (results, status) {
-                                    // 정상적으로 검색이 완료됐으면
-                                    if (status === daum.maps.services.Status.OK) {
-
-                                        var result = results[0]; //첫번째 결과의 값을 활용
-
-                                        // 해당 주소에 대한 좌표를 받아서
-                                        var coords = new daum.maps.LatLng(result.y, result.x);
-                                        // 지도를 보여준다.
-                                        mapContainer.style.display = "block";
-                                        map.relayout();
-                                        // 지도 중심을 변경한다.
-                                        map.setCenter(coords);
-                                        // 마커를 결과값으로 받은 위치로 옮긴다.
-                                        marker.setPosition(coords)
-                                    }
-                                });
+                                document.getElementById('postcode').value = data.zonecode; // 우편번호 입력
+                                document.getElementById('address').value = data.roadAddress; // 도로명 주소 입력
                             }
                         }).open();
                     }
-                    // 파일 업로드 시 선택한 파일 이름 보여주기
-                    document.getElementById("business-license").addEventListener("change", function () {
-                        const fileName = this.files.length ? this.files[0].name : "선택된 파일 없음";
-                        document.getElementById("file-name").textContent = fileName;
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // 사업자등록증 업로드 시 선택한 파일 이름 보여주기
+                        const licenseInput = document.getElementById("business-license");
+                        const licenseFileName = document.getElementById("file-name-license");
+
+                        licenseInput.addEventListener("change", function () {
+                            const fileName = this.files.length > 0 ? this.files[0].name : "선택된 파일 없음";
+                            licenseFileName.textContent = fileName;
+                        });
+                        // 매장 이미지 업로드 시 선택한 파일 이름 보여주기
+                        const imageInput = document.getElementById("store-images");
+                        const imageFileName = document.getElementById("file-name-images");
+
+                        imageInput.addEventListener("change", function () {
+                            let names = [];
+                            for (let i = 0; i < this.files.length; i++) {
+                                names.push(this.files[i].name);
+                            }
+                            imageFileName.textContent = names.length ? names.join(', ') : "선택된 파일 없음";
+                        });
                     });
                 </script>
                 <div class="input-group">
-                    <label for="store-phone">매장 전화번호
-                        <input type="tel" id="store-phone" name="store_call" required>
-                    </label>
+                    <label for="store-phone">매장 전화번호</label>
+                    <input type="tel" id="store-phone" name="store_call" required>
                 </div>
                 <div class="input-group">
-                    <div class="input-group">
-                        <span>사업자등록증</span>
-                        <div class="file-upload-wrapper">
-                            <label class="file-upload-label" for="business-license">파일 선택</label>
-                            <input type="file" id="business-license" name="upfile[]" accept="image/*" required>
-                            <span id="file-name">선택된 파일 없음</span>
-                        </div>
+                    <span>사업자등록증</span>
+                    <div class="file-upload-wrapper">
+                        <label class="file-upload-label" for="business-license">파일 선택</label>
+                        <input type="file" id="business-license" name="upfile[]" accept="image/*" required>
+                        <span id="file-name-license">선택된 파일 없음</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label for="store-description">매장 소개
-                        <textarea id="store-description" name="store_memo" rows="5" required></textarea>
-                    </label>
+                    <label for="store-description">매장 소개</label>
+                    <textarea id="store-description" name="store_memo" rows="5" required></textarea>
                 </div>
                 <div class="input-group">
                     <span>매장대표사진</span>
                     <div class="file-upload-wrapper">
                         <label class="file-upload-label" for="store-images">파일 선택</label>
                         <input type="file" id="store-images" name="upfile[]" accept="image/*" multiple>
-                        <span id="file-name">선택된 파일 없음</span>
+                        <span id="file-name-images">선택된 파일 없음</span>
                     </div>
                 </div>
                 <button type="submit" class="submit-btn title">신청하기</button>

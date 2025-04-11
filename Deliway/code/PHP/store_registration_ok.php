@@ -8,6 +8,8 @@ $store_category = $_POST['store_category'];
 $store_name = $_POST['store_name'];
 $store_call = $_POST['store_call'];
 $store_address1 = $_POST['store_address1'];
+$store_address2 = $_POST['store_address2'];
+$store_post = $_POST['store_post'];
 $store_memo = $_POST['store_memo'];
 $store_ing = "승인 대기";
 $store_wdate = date("Y-m-d H:i:s");
@@ -78,7 +80,7 @@ $files = $_FILES["upfile"];
 		}
 	}
 
-	$sql = "INSERT INTO store (user_id, store_category, store_name, store_call, store_address1, store_memo, file_name_0, file_name_1, file_copied_0, file_copied_1, store_ing) VALUES('".$user_id."', '".$store_category."', '".$store_name."', '".$store_call."', '".$store_address1."', '".$store_memo."', '".$upfile_name[0]."', '".$upfile_name[1]."', '".$copied_file_name[0]."', '".$copied_file_name[1]."', '".$store_ing."')";
+	$sql = "INSERT INTO store (user_id, store_category, store_name, store_call, store_address1, store_memo, file_name_0, file_name_1, file_copied_0, file_copied_1, store_ing, store_post, store_address2) VALUES('".$user_id."', '".$store_category."', '".$store_name."', '".$store_call."', '".$store_address1."', '".$store_memo."', '".$upfile_name[0]."', '".$upfile_name[1]."', '".$copied_file_name[0]."', '".$copied_file_name[1]."', '".$store_ing."', '".$store_post."', '".$store_address2."')";
     mysqli_query($con,$sql);
     
 ?>

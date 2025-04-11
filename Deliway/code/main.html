@@ -12,9 +12,8 @@ include "../config/db.php";
   <link rel="stylesheet" href="./css/common.css">
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="./js/likeButton.js" defer></script>
-  <script src="./js/slider2.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 
@@ -22,33 +21,48 @@ include "../config/db.php";
   <header>
     <h1 class="hidden">맛있는 길의 시작 델리웨이</h1>
 
-  <section>
-    <h2 class="hidden">위치 및 알림</h2>
-    <ul>
-      <li><span class="gps">gps</span> <span>지역 위치</span></li>
-      <li><a href="./alarm.html" class="notice">알림</a></li>
-    </ul>
-  </section>
+    <section>
+      <h2 class="hidden">위치 및 알림</h2>
+      <ul>
+        <li>
+          <span class="gps">gps</span>
+          <span><a href="#" onclick="getLocation()" class="location">현재위치</a></span>
+        </li>
+        <!-- <img src="/img/main/ring.png" alt="" style="display: block;"> -->
+        <script>
+          function getLocation() {
+            navigator.geolocation.getCurrentPosition(function (position) {
+              var lat = position.coords.latitude; // 위도
+              var lon = position.coords.longitude; // 경도
 
-  <section class="main-slider-section">
-    <h2 class="hidden">메인 배너</h2>
-    <div class="main-slider-container">
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img src="../images/event_1.png" alt="main-slider1">
+              window.location.assign("<?php echo basename( $_SERVER[ 'PHP_SELF' ] ); ?>?var1=" + position.coords.latitude + "&var2=" + position.coords.longitude);
+
+            });
+          };
+        </script>
+        <li><a href="./alarm.html" class="notice">알림</a></li>
+      </ul>
+    </section>
+
+    <section class="main-slider-section">
+      <h2 class="hidden">메인 배너</h2>
+      <div class="main-slider-container">
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="../images/event_1.png" alt="main-slider1">
+            </div>
+            <div class="swiper-slide">
+              <img src="../images/event_3.png" alt="main-slider2">
+            </div>
+            <div class="swiper-slide">
+              <img src="../images/event_4.png" alt="main-slider3">
+            </div>
           </div>
-          <div class="swiper-slide">
-            <img src="../images/event_3.png" alt="main-slider2">
-          </div>
-          <div class="swiper-slide">
-            <img src="../images/event_4.png" alt="main-slider3">
-          </div>
+          <div class="swiper-pagination"></div>
         </div>
-        <div class="swiper-pagination"></div>
       </div>
-    </div>
-  </section>
+    </section>
   </header>
 
   <nav id="gnb">
@@ -61,7 +75,7 @@ include "../config/db.php";
       <li><a href="./mypage.html" class="mypageBtn">마이페이지</a></li>
     </ul>
   </nav>
-  
+
   <!-- 메인페이지 시작 -->
   <main>
     <section>
@@ -121,10 +135,10 @@ include "../config/db.php";
     </section>
 
     <?php
-    $sql = "SELECT * FROM store ORDER BY store_idx DESC, RAND() LIMIT 5";
+    $sql = "SELECT * FROM store WHERE store_ing = '승인' ORDER BY store_idx DESC, RAND() LIMIT 5";
     $result = mysqli_query($con, $sql);
     ?>
-    
+
     <section class="recomand-section">
       <div class="title-container">
         <div class="recomend-title">
@@ -132,8 +146,8 @@ include "../config/db.php";
           <p>궁예도 한 수 접는 독심술</p>
         </div>
       </div>
-    
-      <div class="store-container" id="slider">
+
+      <div class="store-container">
         <ul>
           <?php while ($row = mysqli_fetch_array($result)) {
             $bg_image = !empty($row['file_copied_1']) ? "upload/" . $row['file_copied_1'] : "default_bg.jpg"; // 배경 이미지 설정
@@ -141,14 +155,19 @@ include "../config/db.php";
           <li>
             <a href="./store_detail.html?store_idx=<?php echo $row['store_idx']; ?>">
               <dl class="rec-container" style="background: url('<?php echo $bg_image; ?>') no-repeat center/cover;">
-                <dt><?php echo $row['store_name']; ?></dt>
+                <dt>
+                  <?php echo $row['store_name']; ?>
+                </dt>
                 <dd class="rec-content">평점 1.6</dd>
                 <?php
                 $store_address = explode(' ', $row['store_address1']);
                 $store_address1 = $store_address[0];
                 $store_address2 = isset($store_address[1]) ? $store_address[1] : "";
                 ?>
-                <dd class="rec-content"><?php echo $store_address1; ?> &nbsp;<?php echo $store_address2; ?></dd>
+                <dd class="rec-content">
+                  <?php echo $store_address1; ?> &nbsp;
+                  <?php echo $store_address2; ?>
+                </dd>
                 <dd class="like">
                   <img class="like-icon1 active" src="../icon/like.png" alt="찜하기">
                   <img class="like-icon2" src="../icon/liked.png" alt="찜하기">
@@ -163,16 +182,16 @@ include "../config/db.php";
 
     <?php
     $sql1 = "select * from store order by store_idx desc limit 3";
-    $result1 = mysqli_query($con, $sql);
+    $result1 = mysqli_query($con, $sql1);
     ?>
     <section class="distance-section">
       <h2 class="title-container">주변 맛집 부수기</h2>
       <ul id="slider4">
         <li><a class="sub-title1" href="./search_result.html">내 주변</a></li>
-        <li><a class="sub-title1" href="./search_result.html">1km이내</a></li>
-        <li><a class="sub-title1" href="./search_result.html">3km이내</a></li>
-        <li><a class="sub-title1" href="./search_result.html">5km이내</a></li>
-        <li><a class="sub-title1" href="./search_result.html">10km이내</a></li>
+        <li><a class="sub-title1" href="search_result_dis.html?var1=<?php echo $_GET['var1'];?>&var2=<?php echo $_GET['var2'];?>">1km이내</a></li>
+        <li><a class="sub-title1" href="search_result_dis.html?var1=<?php echo $_GET['var1'];?>&var2=<?php echo $_GET['var2'];?>">3km이내</a></li>
+        <li><a class="sub-title1" href="search_result_dis.html?var1=<?php echo $_GET['var1'];?>&var2=<?php echo $_GET['var2'];?>">5km이내</a></li>
+        <li><a class="sub-title1" href="search_result_dis.html?var1=<?php echo $_GET['var1'];?>&var2=<?php echo $_GET['var2'];?>">10km이내</a></li>
       </ul>
     </section>
 
@@ -184,25 +203,30 @@ include "../config/db.php";
         </div>
       </div>
       <?php
-      $sql_new = "SELECT * FROM store ORDER BY store_idx DESC, RAND() LIMIT 3";
+      $sql_new = "SELECT * FROM store ORDER BY store_wdate DESC, RAND() LIMIT 5";
       $result_new = mysqli_query($con, $sql_new);
       ?>
-      <div class="store-container" id="slider2">
+      <div class="store-container">
         <ul>
           <?php while ($row_new = mysqli_fetch_array($result_new)) {
-            $bg_image = !empty($row['file_copied_1']) ? "upload/" . $row['file_copied_1'] : "default_bg.jpg"; // 배경 이미지 설정
+            $bg_image = !empty($row_new['file_copied_1']) ? "upload/" . $row_new['file_copied_1'] : "default_bg.jpg"; // 배경 이미지 설정
           ?>
           <li>
             <a href="./store_detail.html?store_idx=<?php echo $row['store_idx']; ?>">
               <dl class="rec-container" style="background: url('<?php echo $bg_image; ?>') no-repeat center/cover;">
-                <dt><?php echo $row['store_name']; ?></dt>
+                <dt>
+                  <?php echo $row_new['store_name']; ?>
+                </dt>
                 <dd class="rec-content">평점 1.6</dd>
                 <?php
-                $store_address = explode(' ', $row['store_address1']);
+                $store_address = explode(' ', $row_new['store_address1']);
                 $store_address1 = $store_address[0];
                 $store_address2 = isset($store_address[1]) ? $store_address[1] : "";
                 ?>
-                <dd class="rec-content"><?php echo $store_address1; ?> &nbsp;<?php echo $store_address2; ?></dd>
+                <dd class="rec-content">
+                  <?php echo $store_address1; ?> &nbsp;
+                  <?php echo $store_address2; ?>
+                </dd>
                 <dd class="like">
                   <img class="like-icon1 active" src="../icon/like.png" alt="찜하기">
                   <img class="like-icon2" src="../icon/liked.png" alt="찜하기">
@@ -244,7 +268,7 @@ include "../config/db.php";
         </div>
       </div>
 
-      <div class="store-container" id="slider3">
+      <div class="store-container">
         <ul>
           <li>
             <a href="./store_detail.html">
@@ -322,10 +346,7 @@ include "../config/db.php";
             <div class="swiper-pagination"></div>
           </div>
         </div>
-
         <!-- Swiper JS -->
-
-        <!-- Initialize Swiper -->
         <script>
           var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1,

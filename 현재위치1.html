@@ -1,0 +1,15 @@
+<a href="#" onclick="getLocation()" class="location">
+                <!-- <img src="/img/main/ring.png" alt="" style="display: block;"> -->
+                <i class="fa-solid fa-location-dot"></i> 현재위치
+            </a>
+            <script>
+                function getLocation() {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var lat = position.coords.latitude; // 위도
+                        var lon = position.coords.longitude; // 경도
+
+                        window.location.assign("<?php echo basename( $_SERVER[ 'PHP_SELF' ] ); ?>?var1=" + position.coords.latitude + "&var2=" + position.coords.longitude);
+
+                    });
+                };
+            </script>

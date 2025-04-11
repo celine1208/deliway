@@ -67,14 +67,39 @@
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
+.search-btn {
+    position: absolute;
+    right: 80px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 10px 15px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
 
 .form-inline {
     display: flex;
     gap: 20px;
     align-items: center;
 }
+
+.location {
+    display: flex;
+    gap: 10px;
+}
+
 .store-hours {
     position: relative;
+}
+#map {
+    width: 100%;
+    height: 300px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
 }
 
 /* image-upload */

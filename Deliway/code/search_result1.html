@@ -75,7 +75,16 @@ $search = $_POST['search'];
           <div class="rest">
             <div class="rest-place">
               <p class="restaurant-name sub-title2"><?php echo $row['store_name'];?></p>
-              <p class="restaurant-location small"><?php echo $row['store_category'];?> · <?php echo $row['store_address1'];?></p>
+              <p class="restaurant-location small"><?php
+                if($row['store_category'] == "1") { echo '한식';
+                } else if ($row['store_category'] == "2") { echo '중식';
+                } else if ($row['store_category'] == "3") { echo '양식';
+                } else if ($row['store_category'] == "4") { echo '일식';
+                } else if ($row['store_category'] == "5") { echo '카페&디저트';
+                } else if ($row['store_category'] == "6") { echo '채식';
+                } else if ($row['store_category'] == "7") { echo '뷔페';
+                } else if ($row['store_category'] == "8") { echo '오마카세';
+                } ?> · <?php echo $row['store_address1'];?></p>
             </div>
             <div class="rest-time">
               <p class="restaurant-time"><i class="far fa-clock clock" aria-hidden="true"></i><span><?php echo $row['store_weekday1'];?> - <?php echo $row['store_weekday2'];?></span></p>

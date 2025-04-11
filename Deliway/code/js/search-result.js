@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let startY = 0;
     let startHeight = 0;
     let currentPosition = 60; // 초기 높이는 60%
-    const minHeight = 20; // 최소 높이 (%)
+    const minHeight = 40; // 최소 높이 (%)
     const maxHeight = 85; // 최대 높이 (%)
 
     // 드래그 시작
