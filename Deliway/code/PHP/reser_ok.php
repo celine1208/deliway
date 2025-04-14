@@ -17,9 +17,5 @@ $sql = "INSERT INTO reser (user_id, store_idx, reser_ing, reser_day, reser_name,
 
 mysqli_query($con,$sql);
 
+echo "success";
 ?>
-
-<script>
-    alert("예약이 완료되었습니다.");
-    location.href="../reser_list.html";
-</script>

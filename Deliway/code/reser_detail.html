@@ -34,7 +34,7 @@ $row = mysqli_fetch_array($result);
 
 <body>
 
-  <form method="post" action="./PHP/reser_ok.php">
+  <form id="reservationForm" method="post" action="./PHP/reser_ok.php">
     <input type="hidden" name="user_id" value="<?php echo $_COOKIE['user_id'];?>">
     <input type="hidden" name="store_idx" value="<?php echo $store_idx?>">
     <input type="hidden" name="reser_ing" value="예약신청">
@@ -53,17 +53,24 @@ $row = mysqli_fetch_array($result);
         <div class="container">
           <!-- Flatpickr 버튼 -->
           <div class="dateAndTime">
-            <label for="datetimePicker">
-              <img src="../icon/reservation.png" alt="예약 아이콘">
-              <span>예약일시</span>
-            </label>
-            <input type="datetime-local" name="reser_day" min="<?php echo $row['store_weekday1'];?>" max="<?php echo $row['store_weekday2'];?>">
-            <!-- <input type="date" id="datetimePicker" name="reser_day" class="hidden-input"
-              aria-describedby="selectedDateTime">
-            <button class="flatpickr-button" id="openPicker" type="button">선택하기</button> -->
-          </div>
-          <button id="confirmDate" class="confirm-btn" style="display: none;">확인</button>
-
+            <div class="date_row">
+              <label for="datetimePicker" class="datetimePicker">
+                <img src="../icon/reservation.png" alt="예약 아이콘">
+                <span>예약일시</span>
+              </label>
+              <button type="button" id="openModalBtn" class="flatpickr-button sub-title1">선택하기</button>
+            </div>
+            <div id="reservationModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+              <div style="position: relative; width: 300px; margin: 250px auto; padding: 20px; background: white; border-radius: 8px;">
+                <label for="modalDateTime">예약 날짜와 시간 선택:</label>
+                <input type="datetime-local" id="modalDateTime">
+                <div style="margin-top: 10px;">
+                  <button type="button" id="submitDateBtn">확인</button>
+                  <button type="button" id="closeModalBtn">닫기</button>
+                </div>
+              </div>
+            </div>
+          <input type="datetime-local" name="reser_day" class="hidden-input" min="<?php echo $row['store_weekday1'];?>" max="<?php echo $row['store_weekday2'];?>">
           <div class="modal-overlay" id="modalOverlay"></div>
 
           <!-- 날짜 나오는 부분 -->
@@ -107,6 +114,31 @@ $row = mysqli_fetch_array($result);
             pickupLocationContainer.style.display = "none";// 체크 해제하면 입력창 숨김
           }
         });
+
+        const openModalBtn = document.getElementById('openModalBtn');
+        const reservationModal = document.getElementById('reservationModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const submitDateBtn = document.getElementById('submitDateBtn');
+        const dateTimeInput = document.getElementById('modalDateTime');
+        const selectedDateTime = document.getElementById('selectedDateTime');
+
+        openModalBtn.addEventListener('click', () => {
+          reservationModal.style.display = 'block';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+          reservationModal.style.display = 'none';
+        });
+
+        submitDateBtn.addEventListener('click', () => {
+        const rawValue = dateTimeInput.value; // "2025-04-16T13:13"
+        const formattedValue = rawValue.replace("T", " "); // "2025-04-16 13:13"
+
+        selectedDateTime.innerText = formattedValue; // 사용자 표시용
+        document.querySelector('input[name="reser_day"]').value = rawValue; // DB 전송용은 원래 형식 유지
+
+        reservationModal.style.display = 'none';
+      });
       </script>
       <!-- 오시는 길 -->
       <section class="map-section">
@@ -116,7 +148,7 @@ $row = mysqli_fetch_array($result);
         <script type="text/javascript"
           src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9c2bf478d1f4ea74468bbfdd9afa23b&libraries=services"></script>
         <script>
-          var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+          var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
             mapOption = {
               center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
               level: 3 // 지도의 확대 레벨
@@ -131,7 +163,7 @@ $row = mysqli_fetch_array($result);
           // 주소로 좌표를 검색합니다
           geocoder.addressSearch('<?php echo $row['store_address1']?>', function (result, status) {
 
-            // 정상적으로 검색이 완료됐으면
+            // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
 
               var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -182,7 +214,7 @@ $row = mysqli_fetch_array($result);
 
       <div id="do-reser">
         <ul>
-          <li><button type="submit" style="color:white">예약하기</button></li>
+          <li><button type="submit" onclick="showCompletionModal(event)" style="color:white">예약하기</button></li>
         </ul>
       </div>
   </form>
@@ -214,6 +246,44 @@ $row = mysqli_fetch_array($result);
       </dd>
     </dl>
   </footer>
+
+  <div id="completionModal" class="modal">
+    <div class="modal-content">
+      <p>예약이 완료 되었습니다.</p>
+      <button onclick="closeModal('completionModal'); window.location.href='./reser_list.html'">확인</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("reservationForm");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(result => {
+        if (result.trim() === "success") {
+          document.getElementById("completionModal").style.display = "flex";
+        } else {
+          alert("예약 처리에 실패했습니다.");
+        }
+      })
+      .catch(error => {
+        console.error("에러 발생:", error);
+        alert("서버 오류가 발생했습니다.");
+      });
+    });
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+  </script>
 </body>
 
 </html>

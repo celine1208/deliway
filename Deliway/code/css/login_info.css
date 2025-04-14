@@ -30,6 +30,7 @@ form div {
     position: relative;
 }
 
+
 input {
     margin: 15px 0 20px;
     width: 100%;
@@ -44,6 +45,13 @@ div input {
     border: 1px solid #CCCCCC;
     border-radius: 10px;
     padding: 0 12px;
+}
+
+.login-placeholder {
+    margin-bottom: 2px;
+}
+#name_check {
+    margin-bottom: 20px;
 }
 
 input:focus {
@@ -67,7 +75,7 @@ input:read-only {
     padding: 0 10px;
     cursor: pointer;
     right: 8px;
-    top: 48px;
+    top: 44px;
 }
 
 .next {

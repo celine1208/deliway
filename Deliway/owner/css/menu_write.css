@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+/* 메뉴 수정 페이지 기본 레이아웃 */
+main {
+    margin-left: 280px;
+    padding: 2rem;
+    background-color: var(--gray-50);
+}
+
+/* 제목 */
+main h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 1.5rem;
+}
+
+/* 폼 라벨 및 필드 */
+form label {
+    display: block;
+    font-weight: 500;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    transition: var(--transition);
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+/* 현재 파일 안내 및 체크박스 */
+form input[type="checkbox"] {
+    margin-top: 0.5rem;
+}
+
+/* 버튼 */
+form button[type="submit"] {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+form button[type="submit"]:hover {
+    background-color: var(--primary-dark);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    main {
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+
+    form input,
+    form select {
+        font-size: 0.85rem;
+    }
+}

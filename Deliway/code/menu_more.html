@@ -44,78 +44,35 @@ $result1 = mysqli_query($con,$sql1);
     <main>
         <div id="container">
             <?php
-            $sql2 = "SELECT * FROM menu where store_idx = '".$store_idx."' order by menu_category desc";
-            $result2 = mysqli_query($con,$sql2);
-            ?>
-            <section id="pasta">
-                <?php
-                while($row2 = mysqli_fetch_array($result2)){ ?>
-                <h3 class="sub-title2"><?php echo $row2['menu_category']; ?></h3>
-                    <dl>
-                        <dt class="sub-title1 menu-name"><?php echo $row2['store_menu_name']; ?></dt>
-                        <dd class="body1"><?php echo number_format($row2['store_menu_cost']); ?> 원</dd>
-                        <dd class="price body1"><?php echo $row2['store_menu_memo']; ?></dd>
-                        <dd class="photo"><img src="./upload/<?php echo $row2['file_copied_0']; ?>" alt="음식 사진"></dd>
-                    </dl>
-                <?php
+            $sql2 = "SELECT * FROM menu WHERE store_idx = '$store_idx' ORDER BY menu_category DESC";
+            $result2 = mysqli_query($con, $sql2);
+
+            $menu_by_category = [];
+
+            while($row2 = mysqli_fetch_array($result2)) {
+                $category = $row2['menu_category'];
+                if (!isset($menu_by_category[$category])) {
+                    $menu_by_category[$category] = [];
                 }
-                ?>
-                <!-- <dl class="under-line">
-                    <dt class="sub-title1 menu-name"><?php echo $row1['cate_name'] ?></dt>
-                    <dd class="body1" style="color: var(--text-grey);">발음하기도 빡세네요</dd>
-                    <dd class="price body1">520,000원</dd>
-                    <dd class="photo"><img src="../images/pasta1.png" alt="라구 로마뇰라"></dd>
-                </dl>
-                <dl class="under-line">
-                    <dt class="sub-title1 menu-name">살모네 크레마</dt>
-                    <dd class="body1" style="color: var(--text-grey);">외노자 요리사가 맛있다면서 출시한 요리</dd>
-                    <dd class="price body1">1,120,000원</dd>
-                    <dd class="photo"><img src="../images/pasta2.png" alt=""></dd>
-                </dl>
-                <dl>
-                    <dt class="sub-title1 menu-name">봉골레</dt>
-                    <dd class="body1" style="color: var(--text-grey);">"늘 먹던 걸로"</dd>
-                    <dd class="price body1">230,000원</dd>
-                    <dd class="photo"><img src="../images/pasta3.png" alt=""></dd>
-                </dl> -->
+                $menu_by_category[$category][] = $row2;
+            }
+            ?>
 
-            </section>
-            <section id="stake">
-                <h3 class="sub-title2">스테이크</h3>
-
-                <dl>
-                    <dt class="sub-title1 menu-name">토마 호크</dt>
-                    <dd class="body1" style="color: var(--text-grey);">스테....이크! 에크!</dd>
-                    <dd class="price body1">520,000원</dd>
-                    <dd class="photo"><img src="../images/stake.png" alt=""></dd>
-                </dl>
-
-            </section>
-            <section id="salad">
-                <h3 class="sub-title2">샐러드</h3>
-
-                <dl class="under-line">
-                    <dt class="sub-title1 menu-name">노브랜드버거 샐러드</dt>
-                    <dd class="body1" style="color: var(--text-grey);">이거 맛있더라고요</dd>
-                    <dd class="price body1">520,000원</dd>
-                    <dd class="photo"><img src="../images/salad1.png" alt=""></dd>
-                </dl>
-
-                <dl class="under-line">
-                    <dt class="sub-title1 menu-name">유기농 샐러드</dt>
-                    <dd class="body1" style="color: var(--text-grey);">포장지에 유기농이라길래 샀으니까 유기농임</dd>
-                    <dd class="price body1">1,120,000원</dd>
-                    <dd class="photo"><img src="../images/salad2.png" alt=""></dd>
-                </dl>
-
-                <dl>
-                    <dt class="sub-title1 menu-name">옆 집 텃밭에서 훔쳐온 야채로 만든 샐러드</dt>
-                    <dd class="body1" style="color: var(--text-grey);">새벽에 몰래 훔쳐왔습니다</dd>
-                    <dd class="price body1">230,000원</dd>
-                    <dd class="photo"><img src="../images/salad3.png" alt=""></dd>
-                </dl>
-
-            </section>
+            <?php foreach ($menu_by_category as $category_name => $menus) { ?>
+                <section id="category">
+                    <h3 class="sub-title2"><?php echo $category_name; ?></h3>
+                    <?php foreach ($menus as $index => $menu) {
+                        $is_last = $index === array_key_last($menus);
+                    ?>
+                        <dl class="<?php echo $is_last ? '' : 'under-line'; ?>">
+                            <dt class="sub-title1 menu-name"><?php echo $menu['store_menu_name']; ?></dt>
+                            <dd class="body1"><?php echo number_format($menu['store_menu_cost']); ?> 원</dd>
+                            <dd class="price body1"><?php echo $menu['store_menu_memo']; ?></dd>
+                            <dd class="photo"><img src="./upload/<?php echo $menu['file_copied_0']; ?>" alt="음식 사진"></dd>
+                        </dl>
+                    <?php } ?>
+                </section>
+            <?php } ?>
         </div>
 
         <div id="btn-container">

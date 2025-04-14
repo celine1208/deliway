@@ -75,7 +75,7 @@ section {
     padding: 25px 25px 10px 25px;
 }
 
-#pasta, #stake {
+#category {
     margin-bottom: 6px;
 }
 
@@ -103,11 +103,12 @@ dl > .photo {
 }
 
 .photo > img {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
 }
 
-dt,dd { 
+dt,dd {
     margin-bottom: 10px;
 }
 

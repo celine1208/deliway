@@ -73,7 +73,6 @@ table tr:first-child {
     height: 100%;
     background: rgba(17, 24, 39, 0.5); /* 어두운 반투명 배경 */
     z-index: 999;
-    display: flex;
     justify-content: center;
     align-items: center;
     padding: 1rem;

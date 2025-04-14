@@ -183,9 +183,9 @@ $row = mysqli_fetch_array($result);
     ?>
     <section class="store-menu-section">
       <h2 class="title">대표메뉴</h2>
+      <?php
+      while($row1 = mysqli_fetch_array($result1)){ ?>
       <dl>
-        <?php
-        while($row1 = mysqli_fetch_array($result1)){ ?>
         <dt class="sub-title1">
           <?php echo $row1['store_menu_name'];?>
         </dt>
@@ -200,8 +200,8 @@ $row = mysqli_fetch_array($result);
             <img src="./upload/<?php echo $row1['file_copied_0'];?>">
           </div>
         </dd>
-        <?php } ?>
       </dl>
+      <?php } ?>
       <a class="seemore body1" href="menu_more.html?store_idx=<?php echo $row['store_idx']?>">전체보기</a>
     </section>
     <!-- news section -->

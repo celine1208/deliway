@@ -161,6 +161,10 @@ main {
   /* background: url("../../images/pexels-othmane-ettalbi-2148497459-30374243.jpg") no-repeat center / cover; */
 }
 
+.text-shadow{
+  text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+}
+
 dd {
   display: inline-block;
   padding-right: 10px;
@@ -220,7 +224,7 @@ dd:nth-of-type(3)::before {
 /* 거리 선택 */
 .distance-section ul {
   margin-top: 10px;
-  padding: 0 var(--padding-default);
+  padding: 10px var(--padding-default);
   display: flex;
   gap: 10px;
   overflow: scroll;

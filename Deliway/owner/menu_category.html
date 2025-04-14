@@ -34,22 +34,25 @@ $row_num = mysqli_num_rows($result);
         <nav>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./owner_dashboard.html"><i class="ri-dashboard-line"></i>대시보드</a>
+                    <a href="./owner_dashboard.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-dashboard-line"></i>대시보드</a>
                 </li>
                 <li class="nav-item">
-                    <a class="active" href="./owner_reservation.html"><i class="ri-calendar-line"></i>예약 관리</a>
+                    <a href="./owner_reservation.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-calendar-line"></i>예약 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_store.html"><i class="ri-store-line"></i>매장 정보</a>
+                    <a href="./owner_store.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-store-line"></i>매장 정보</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_menu.html"><i class="ri-restaurant-line"></i>메뉴 관리</a>
+                    <a href="./owner_menu.html?store_idx=<?php echo $row['store_idx'];?>" class="active"><i class="ri-restaurant-line"></i>메뉴 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_sales.html"><i class="ri-bar-chart-line"></i>매출 통계</a>
+                    <a href="./owner_sales.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-bar-chart-line"></i>매출 통계</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./owner_setting.html"><i class="ri-settings-line"></i>설정</a>
+                    <a href="./owner_setting.html?store_idx=<?php echo $row['store_idx'];?>"><i class="ri-settings-line"></i>설정</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./logout.php"><i class="ri-logout-box-r-line"></i>로그아웃</a>
                 </li>
             </ul>
         </nav>
@@ -75,7 +78,10 @@ $row_num = mysqli_num_rows($result);
                 <td>
                     <?php echo $row['cate_name']; ?>
                 </td>
-                <td>수정 삭제</td>
+                <td>
+                    <button class="openEditModal btn btn-primary" data-cate-id="<?php echo $row['cate_idx']; ?>" data-cate-name="<?php echo $row['cate_name']; ?>">수정</button>
+                    <button class="openDeleteModal btn btn-red" data-cate-id="<?php echo $row['cate_idx']; ?>">삭제</button>
+                </td>
             </tr>
             <?php
             }
@@ -95,11 +101,30 @@ $row_num = mysqli_num_rows($result);
             <input type="hidden" name="cate_userid" value="<?php echo $_SESSION['user_id']; ?>">
             <input type="hidden" name="user_idx" value="<?php echo $_SESSION['user_idx']; ?>">
             <input type="hidden" name="store_idx" value="<?php echo $row_store['store_idx']; ?>">
-            <label for="cate_name">카테고리명
-                <input type="text" id="cate_name" name="cate_name">
-            </label>
+            <label for="cate_name">카테고리명</label>
+            <input type="text" id="cate_name" name="cate_name">
             <button type="submit">등록</button>
             <button type="button" id="closeModal">닫기</button>
+        </form>
+    </div>
+    <div class="modal delete-modal">
+        <form method="post" action="menu_category_delete.php">
+            <input type="hidden" name="cate_idx" value="<?php echo $row['cate_idx']; ?>">
+            <input type="hidden" name="cate_name" value="<?php echo $row['cate_name']; ?>">
+            <p>정말 삭제하시겠습니까?</p>
+            <button type="submit" class="btn btn-red">삭제</button>
+            <button type="button" id="closeDeleteModal" class="btn btn-outline">취소</button>
+        </form>
+    </div>
+    <div class="modal edit-modal">
+        <form method="post" action="menu_category_edit.php">
+            <input type="hidden" name="cate_userid" value="<?php echo $_SESSION['user_id']; ?>" >
+            <input type="hidden" name="store_idx" value="<?php echo $row_store['store_idx']; ?>">
+            <input type="hidden" name="cate_idx" value="<?php echo $row['cate_idx']; ?>">
+            <label for="cate_name">카테고리명</label>
+                <input type="text" id="cate_name" name="cate_name" value="">
+                <button type="submit">수정</button>
+                <button type="button" id="closeEditModal">닫기</button>
         </form>
     </div>
 </body>
@@ -109,6 +134,33 @@ $row_num = mysqli_num_rows($result);
     });
     document.getElementById("closeModal").addEventListener("click", function () {
         document.querySelector(".modal").style.display = "none";
+    });
+
+    document.querySelectorAll(".openEditModal").forEach(button => {
+        button.addEventListener("click", function () {
+            const cateId = this.getAttribute("data-cate-id");
+            const cateName = this.getAttribute("data-cate-name");
+
+            document.querySelector(".edit-modal input[name='cate_idx']").value = cateId;
+            document.querySelector(".edit-modal input[name='cate_name']").value = cateName;
+
+            document.querySelector(".edit-modal").style.display = "flex";
+        });
+    });
+    document.getElementById("closeEditModal").addEventListener("click", function () {
+        document.querySelector(".edit-modal").style.display = "none";
+    });
+    
+    document.querySelectorAll(".openDeleteModal").forEach(button => {
+        button.addEventListener("click", function () {
+            const cateId = this.getAttribute("data-cate-id");
+            document.querySelector(".delete-modal input[name='cate_idx']").value = cateId;
+            document.querySelector(".delete-modal").style.display = "flex";
+        });
+    });
+
+    document.getElementById("closeDeleteModal").addEventListener("click", function () {
+        document.querySelector(".delete-modal").style.display = "none";
     });
 </script>
 
